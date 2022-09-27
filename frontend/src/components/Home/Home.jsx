@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllFoods } from "../Redux/thunks/foodsThunks";
+import { fetchAllFoods } from "../../Redux/thunks/foodsThunks.js";
+import FoodList from "../FoodList/FoodList.jsx";
+import s from './Home.module.scss'
 
 const Home = () => {
 
@@ -8,7 +10,6 @@ const Home = () => {
 
     const { foods } = useSelector((state) => state.foods)
 
-    console.log(foods)
 
     useEffect(() => {
         if (foods.length === 0) {
@@ -17,8 +18,9 @@ const Home = () => {
       }, [dispatch]);
 
     return(
-        <>
-        </>
+        <div className={s.container}>
+            <FoodList foods={foods}/>
+        </div>
     )
 }
 

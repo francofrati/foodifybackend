@@ -67,6 +67,18 @@ const getFoods = async (req, res) => {
 }
 
 
+const getFoodById = async (req, res) => {
+    const { idFood } = req.params
+
+    try {
+        const food = await Food.findById(idFood)  //Posiblemente falten cambios a esta ruta
+        return res.status(200).json({ food: food })
+    } catch (error) {
+        return res.status(500).json({ error: error })
+    }
+}
+
+
 const postFood = async (req, res) => {
     const food = req.body
     const { idRestaurant } = req.params
@@ -138,9 +150,15 @@ const deleteFood = async (req, res) => {
                 }
             })
 
-            const userDeleteRelation = await User.findByIdAndUpdate
+            const restaurantDeleteRelation = await User.findByIdAndUpdate(idRestaurant, {
+                $pull: {
+                    selling_foods: idFood
+                }
+            })
+
+            return res.status(201).json({ foodDeleted: 'Relationship deleted' })
         } catch (error) {
-            
+            return res.status(500).json({ error: error })
         }
     }
 }

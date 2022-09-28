@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken')
+
 
 const User = require("../models/User")
-const { createToken } = require("../lib/user.controller.helper")
+const { createToken, validateToken } = require("../lib/user.controller.helper")
 
 
 
@@ -72,7 +72,22 @@ const login = async (req, res) => {
     }
 
 }
+
+const getCreds =async(req,res)=>{
+    const {token} = req.body
+    console.log(token)
+    try {
+        const decodedToken = validateToken(token)
+        return res.send(decodedToken)
+    } catch (error) {
+        return res.status(400).send({
+            Codigo:400,
+            Error: error.message
+        })
+    }
+}
 module.exports = {
     signUp,
-    login
+    login,
+    getCreds
 }

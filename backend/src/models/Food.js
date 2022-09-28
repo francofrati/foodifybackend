@@ -27,6 +27,16 @@ const foodSchema = new Schema(
         rating: {
             type: Number
         },
+        seller: {
+            type: Schema.Types.ObjectId,
+            ref: "Restaurant"
+        },
+        buyer: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
+        ],
         deleted: {
             type: Boolean,
             default: false

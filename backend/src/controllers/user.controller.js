@@ -116,10 +116,14 @@ const signUp = async (req, res) => {
             email,
             username,
             name,
-            hashPassword:password
+            hashPassword: password
         })
 
-        const token = createToken(newUser)
+        const token = createToken({
+            email,
+            name,
+            type: 'user'
+        })
 
         return res.status(201).send({
             created_user: newUser,
@@ -157,7 +161,11 @@ const login = async (req, res) => {
         // }
 
         //Si coincide email con contraseña entonces creo jwt y la envio.
-        const token = createToken(currentUser)
+        const token = createToken({
+            ...currentUser,
+            type: 'user'
+        })
+
         return res.status(201).json({
             logged_user: currentUser,
             token
@@ -171,12 +179,15 @@ const login = async (req, res) => {
     }
 }
 
-const getCreds = async (req, res) => {
+const getAuth = async (req, res) => {
     const { token } = req.body
-    console.log(token)
+    
     try {
+
         const decodedToken = validateToken(token)
+
         return res.send(decodedToken)
+
     } catch (error) {
         return res.status(400).send({
             Codigo: 400,
@@ -188,7 +199,7 @@ const getCreds = async (req, res) => {
 module.exports = {
     signUp,
     login,
-    getCreds,
+    getAuth,
     getUsers,
     deleteUser,
     putUserFood,

@@ -8,6 +8,7 @@ import CustomInput from './CustomInput';
 import { loginURL, signUpURL } from '../../assets/endpoints';
 import { fetchCreds } from '../../Redux/thunks/userThunks';
 import s from './login.module.css'
+import useAuth from '../../hooks/useAuth';
 
 //LOS ESTILOS HAY QUE CAMBIARLOS, NO DEJARLOS INLINE.
 
@@ -15,9 +16,13 @@ export const Login = () => {
 
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.user)
+
+    useAuth()
+
     useEffect(() => {
         console.log(user)
     }, [user])
+
     const onSubmit = async (values) => {
 
         const call = await axios.post(loginURL, values)
@@ -25,6 +30,8 @@ export const Login = () => {
         const { token } = call.data
 
         window.localStorage.setItem('token', token)
+
+        
     }
 
     return (

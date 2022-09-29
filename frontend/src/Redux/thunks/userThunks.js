@@ -10,7 +10,6 @@ const fetchCreds = (token) => (dispatch) => {
     axios.post(credsURL, body)
         .then((response) => {
             dispatch(getUserCreds(response.data))
-            console.log(response.data)
         })
         .catch((error) => console.log(error))
 }

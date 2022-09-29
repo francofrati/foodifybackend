@@ -18,11 +18,13 @@ const getByEmail = ({ users, email }) => {
 }
 
 const createToken = (user) => {
-    const { id, name, email } = user
+    const { id, name, email, type } = user
+    console.log(id, type)
     const payload = {
         id,
         name,
-        email
+        email,
+        type
     }
     return jwt.sign(payload, SECRET, { expiresIn: '3d' })
 }
@@ -30,12 +32,16 @@ const createToken = (user) => {
 const validateToken = (token) => {
     try {
         const decodedToken = jwt.verify(token, SECRET)
+
         return decodedToken
+
     } catch (error) {
+
         console.log(error)
         return {
             error: error.message
         }
+        
     }
 
 }

@@ -2,7 +2,7 @@ const Restaurant = require('../models/Restaurant')
 
 const createRestaurant = async (req, res) => {
     const { username, name, email, password, image, country } = req.body
-    console.log(req.body)
+    
     try {
         const checkEmail = await Restaurant.findOne({ email: email })
 

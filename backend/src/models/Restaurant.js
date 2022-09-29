@@ -7,6 +7,9 @@ const restaurantSchema = new Schema(
             unique: true,
             require: true
         },
+        image:{
+            type:String
+        },
         name: {
             type: String,
             require: true,

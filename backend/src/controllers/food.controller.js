@@ -165,5 +165,6 @@ const deleteFood = async (req, res) => {
 
 module.exports = {
     dataApi,
-    getFoods
+    getFoods,
+    postFood
 }

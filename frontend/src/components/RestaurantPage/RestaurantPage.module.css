@@ -1,0 +1,52 @@
+.container{
+    background: rgba(255, 255, 255, 0.63);
+    border-radius: 9px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2.8px);
+    -webkit-backdrop-filter: blur(2.8px);
+    padding: 3rem;
+    margin-right: 3rem;
+    margin-left: 3rem;
+}
+.head{
+    display: flex;
+    justify-content: space-between;
+    padding: 5rem;
+    padding-right: 9rem;
+}
+.title{
+    font-size: 5rem;
+}
+.logo{
+    width: 500px;    
+    border-radius: 15px;
+}
+.food{
+    width: 240px;
+    height: 240px;
+}
+.food_card{
+    border: 4px solid black;
+    width: 240px;
+    background-color: #e1dad8;
+    overflow: hidden;
+    border-radius: 9px;
+    font-family: monospace;
+}
+.food_container{
+    display: flex;
+    justify-content: flex-end;
+    gap: 3rem;
+}
+.name{
+    font-size: 2rem;
+    font-weight: bold;
+}
+.price{
+    /* border: 1px solid black; */
+    font-size: 1.4rem;
+}
+.catalog_cont{
+    display: flex;
+    justify-content: space-between;
+}

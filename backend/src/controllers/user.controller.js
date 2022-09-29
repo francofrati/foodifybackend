@@ -116,7 +116,7 @@ const signUp = async (req, res) => {
             email,
             username,
             name,
-            password
+            hashPassword:password
         })
 
         const token = createToken(newUser)

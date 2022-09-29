@@ -86,6 +86,7 @@ const getCreds =async(req,res)=>{
         })
     }
 }
+
 module.exports = {
     signUp,
     login,

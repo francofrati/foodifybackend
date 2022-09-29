@@ -1,8 +1,8 @@
+const bcrypt = require("bcrypt");
 
 const User = require("../models/User.js")
 const Food = require("../models/Food.js")
-const { getByName, getByEmail } = require("../lib/user.controller.helper")
-const bcrypt = require("bcrypt");
+const { getByName, getByEmail, createToken, validateToken } = require("../lib/user.controller.helper")
 
 
 const getUsers = async (req, res) => {
@@ -27,9 +27,9 @@ const getUserById = async (req, res) => {
 
     try {
         const user = await User.findById(idUser)
-            
+
         return res.status(500).json({ user: user })
-        
+
     } catch (error) {
         return res.status(500).json({ error: error })
     }
@@ -45,32 +45,32 @@ const putUser = async (req, res) => {
 
     let actualUser;
     hashPassword ?
-    (actualUser = {
-        username: username,
-        name: name,
-        email: email,
-        hashPassword: await bcrypt.hash(hashPassword, 10),
-        country: country
-    }):
         (actualUser = {
             username: username,
             name: name,
-            email: email, 
+            email: email,
+            hashPassword: await bcrypt.hash(hashPassword, 10),
+            country: country
+        }) :
+        (actualUser = {
+            username: username,
+            name: name,
+            email: email,
             country: country
         });
 
-        await user.updateOne(actualUser)
+    await user.updateOne(actualUser)
 
-        return res.status(200).json({
-            status: 'User updated'
-        })
+    return res.status(200).json({
+        status: 'User updated'
+    })
 }
 
 
 
 //NOTA MENTAL: También se le podría pasar el idRestaurnt pero creo que no es necesario de momento ya que su referencia es a las comidas que ha hecho
 const putUserFood = async (req, res) => {
-    const {idFood, idUser} = req.params
+    const { idFood, idUser } = req.params
 
     const FoodPurch = await Food.findById(idFood)
 
@@ -80,7 +80,7 @@ const putUserFood = async (req, res) => {
 
     const foodUpdated = await Food.findByIdAndUpdate(idFood, {
         $push: { buyer: idUser }
-    }) 
+    })
 
     res.status(200).json({
         status: sellingFoodsUpdate,
@@ -90,7 +90,7 @@ const putUserFood = async (req, res) => {
 
 
 const deleteUser = async (req, res) => {
-    const {idUser} = req.params
+    const { idUser } = req.params
     try {
         await User.findByIdAndUpdate(idUser, { deleted: true })
         return res.status(200).json({ status: 'User deleted' })
@@ -101,10 +101,6 @@ const deleteUser = async (req, res) => {
 
 
 //Aún falta la ruta para la compra de comidas
-
-
-
-const { createToken, validateToken } = require("../lib/user.controller.helper")
 
 
 
@@ -162,9 +158,9 @@ const login = async (req, res) => {
 
         //Si coincide email con contraseña entonces creo jwt y la envio.
         const token = createToken(currentUser)
-        return res.status(201).json({ 
+        return res.status(201).json({
             logged_user: currentUser,
-            token 
+            token
         })
 
     } catch (error) {
@@ -173,18 +169,17 @@ const login = async (req, res) => {
             Error: error.message
         })
     }
-
 }
 
-const getCreds =async(req,res)=>{
-    const {token} = req.body
+const getCreds = async (req, res) => {
+    const { token } = req.body
     console.log(token)
     try {
         const decodedToken = validateToken(token)
         return res.send(decodedToken)
     } catch (error) {
         return res.status(400).send({
-            Codigo:400,
+            Codigo: 400,
             Error: error.message
         })
     }
@@ -193,6 +188,11 @@ const getCreds =async(req,res)=>{
 module.exports = {
     signUp,
     login,
-    getCreds
+    getCreds,
+    getUsers,
+    deleteUser,
+    putUserFood,
+    putUser,
+    getUserById
 }
 

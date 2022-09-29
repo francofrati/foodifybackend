@@ -43,7 +43,7 @@ const Home = () => {
                     name={r.name}
                     country={r.country}
                     img={r.image}
-                    key={r.id}
+                    key={r.name}
                   />
                 )
               })}

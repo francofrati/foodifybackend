@@ -42,7 +42,7 @@ const restaurantSchema = new Schema(
 )
 
 
-userSchema.set("toJSON", {
+restaurantSchema.set("toJSON", {
     transform: (document, returnedObject) => {
       returnedObject.id = returnedObject._id;
       delete returnedObject._id;

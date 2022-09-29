@@ -5,7 +5,7 @@ export const restaurantes = [
         email: "fraticelli48@gmail.com",
         hashPasword: "1234",
         country: "Argentina",
-        image: "https://assets.stickpng.com/images/584298b4a6515b1e0ad75adb.png"
+        image: "https://www.mcdonalds.com.ar/images/layout/mcdonalds-logo-bg-red.png"
     },
     {
         username: "Danny Hermoso",

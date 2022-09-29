@@ -93,7 +93,7 @@ export const Register = () => {
 
         window.localStorage.setItem('token', token)
 
-        dispatch(dispatch(fetchCreds(window.localStorage.getItem('token'))))
+        dispatch(fetchCreds(window.localStorage.getItem('token')))
     }
 
     return (

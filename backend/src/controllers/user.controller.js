@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 
 const User = require("../models/User.js")
 const Food = require("../models/Food.js")
-const { getByName, getByEmail, createToken, validateToken } = require("../lib/user.controller.helper")
+const { getByName, getByEmail, createToken, validateToken, sendEmail } = require("../lib/user.controller.helper")
 
 
 const getUsers = async (req, res) => {
@@ -124,6 +124,9 @@ const signUp = async (req, res) => {
             name,
             type: 'user'
         })
+        
+        //Mail de bienvenida
+        sendEmail(newUser.email,newUser.name)
 
         return res.status(201).send({
             created_user: newUser,
@@ -162,7 +165,8 @@ const login = async (req, res) => {
 
         //Si coincide email con contraseña entonces creo jwt y la envio.
         const token = createToken({
-            ...currentUser,
+            name:currentUser.name,
+            email,
             type: 'user'
         })
 

@@ -31,6 +31,7 @@ export const Login = () => {
 
         window.localStorage.setItem('token', token)
 
+        dispatch(fetchCreds(token))
         
     }
 

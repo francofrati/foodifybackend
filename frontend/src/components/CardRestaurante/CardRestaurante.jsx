@@ -1,9 +1,14 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
+import {MdDeliveryDining} from 'react-icons/md'
+import {FaCreditCard} from 'react-icons/fa'
+import {AiOutlineClockCircle} from 'react-icons/ai'
 
 import s from './CardRestaurante.module.css'
+import foodifypluslogo from '../../assets/foodify-plus.png'
+import borrar from '../../assets/borrar.png'
 
-const CardRestaurante = ({img,name,country,id}) => {
+const CardRestaurante = ({name,image}) => {
 
   const navigate = useNavigate()
 
@@ -12,20 +17,33 @@ const CardRestaurante = ({img,name,country,id}) => {
   }
 
   return (
-    <div className={s.container}>
-        <div 
-        style={{'backgroundColor':'grey','cursor':'pointer'}} 
-        onClick={()=>redirectToRestaurantPage(id)}>
-            <img src={img} alt={name} style={{'width':'130px','height':'100%'}}/>
+    <div className={s.cont}>
+      <div>
+        <div className={s.logo_cont}>
+          <img className={s.logo} src={image} alt={name} />
         </div>
-        <div style={{'display':'flex','justifyContent':'space-evenly','flexDirection':'column','marginLeft':'10px','alignItems':'flex-start'}}>
-                <p 
-                className={s.name} 
-                onClick={()=>redirectToRestaurantPage(id)}
-                >{name}</p>                      
-                <p style={{'margin':'0'}}>Acepta pagos online ✨</p>
-                <p style={{'margin':'0'}}>🚩{country}🚩</p>            
+      </div>
+      <div className={s.description_cont}>
+        <div className={s.title_cont}>
+          <span className={s.title}>{name}</span>
+          <img className={s.plus_logo} src={foodifypluslogo} alt={'plus'} />
         </div>
+        <div className={s.options_foodimg_cont}>
+          <div className={s.options_cont}>
+            <span className={s.options}><FaCreditCard style={{'color':'#20B5E5','fontSize':'1.5rem'}}/>Pagos Online</span>
+            <span className={s.options}><MdDeliveryDining style={{'color':'#20B5E5','fontSize':'1.5rem'}}/>Delivery</span>
+            <span className={s.options}><AiOutlineClockCircle style={{'color':'#20B5E5','fontSize':'1.5rem'}}/>Demora: 25-30min</span>
+          </div>
+          <div className={s.rest_foods_img_cont}>
+            <div>
+              <img className={s.rest_foods_img} src={borrar} alt={"borrar"} />
+            </div>
+            <div>
+              <img className={s.rest_foods_img} src={borrar} alt={"borrar"} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

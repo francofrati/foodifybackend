@@ -97,7 +97,7 @@ const postFood = async (req, res) => {
 
             const foodRelation = await Food.findByIdAndUpdate(
                 foodAdded._id,
-                { $push: { sellers: idRestaurant } },
+                { $push: { seller: idRestaurant } },
                 { new: true, useFindAndModify: false }
             )
 
@@ -106,6 +106,7 @@ const postFood = async (req, res) => {
                 { $push: { selling_foods: foodAdded._id } },
                 { new: true, useFindAndModify: false }
             )
+            
             return res.status(201).json({ foodAdded: "Food added and relationship" })
         } catch (error) {
             return res.status(500).json({ error: error })

@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
 
 const { SECRET } = process.env
@@ -46,9 +47,36 @@ const validateToken = (token) => {
 
 }
 
+
+//------------------------------------------------CONFIG DE MAILS----
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // upgrade later with STARTTLS
+    auth: {
+        user: "francofraticelli41@gmail.com",
+        pass: "ajnrwmsloiismihj",
+    },
+})
+
+const sendEmail = async(email,firstName)=>{
+    await transporter.sendMail({
+        from: '"😎Foodify😎" <francofraticelli41@gmail.com>', // sender address
+        to: email, // list of receivers
+        subject: "Bienvenido a Foodify", // Subject line
+        html: `<b>Hola ${firstName}👽 Gracias por registrarte. Ingresa al siguiente link para confirmar tu cuenta: helloworld.com </b>`, // html body
+      })
+}
+
+transporter.verify()
+    .then(() => {
+        console.log('nodemailer is ready')
+    })
+//---------------------------------------------------FIN CONFIG DE MAILS----
 module.exports = {
     createToken,
     validateToken,
     getByName,
-    getByEmail
+    getByEmail,
+    sendEmail
 }

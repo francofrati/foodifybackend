@@ -7,7 +7,7 @@ import CardRestaurante from '../CardRestaurante/CardRestaurante'
 import s from './Restaurants.module.css'
 const Restaurants = () => {
 
-    const { restaurants } = useSelector((state) => state.restaurants)
+    const { renderedRestaurants } = useSelector((state) => state.restaurants)
 
     const dispatch = useDispatch()
 
@@ -17,12 +17,15 @@ const Restaurants = () => {
 
     return (
         <div className={s.cont}>
-            {restaurants.length
-                ? restaurants.map((r) => {
+            {renderedRestaurants.length
+                ? renderedRestaurants.map((r) => {
                     return <CardRestaurante
                         name={r.name}
                         image={r.image}
                         key={r.email}
+                        plus={r.plus}
+                        delivery={r.delivery}
+                        online={r.online_payment}
                     />
                 })
                 : <>Cargando..</>

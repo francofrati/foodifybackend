@@ -32,7 +32,7 @@
     align-items: flex-start;
 }
 .filt_title {
-    margin-left: 5rem;
+    margin-left: 3rem;
     font-size: 1.4rem;
     margin-bottom: .5rem;
     margin-top: .5rem;
@@ -42,7 +42,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-left: 7rem;
+    margin-left: 4.5rem;
     font-size: .9rem;
     font-weight: 100
 }
@@ -52,6 +52,7 @@
     align-items: center;
     gap: 17px;
     position: relative;
+    cursor: pointer;
 }
 
 .input {
@@ -60,7 +61,7 @@
     height: 10px;
     border-radius: 9999px;
     position: absolute;
-    
+    cursor: pointer;    
 }
 
 .active_input {
@@ -69,4 +70,5 @@
 }
 .label{
     margin-left: 15px;
+    cursor: pointer;
 }

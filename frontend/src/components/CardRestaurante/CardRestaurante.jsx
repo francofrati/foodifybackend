@@ -8,7 +8,7 @@ import s from './CardRestaurante.module.css'
 import foodifypluslogo from '../../assets/foodify-plus.png'
 import borrar from '../../assets/borrar.png'
 
-const CardRestaurante = ({name,image}) => {
+const CardRestaurante = ({name,image,plus,online,delivery}) => {
 
   const navigate = useNavigate()
 
@@ -26,12 +26,12 @@ const CardRestaurante = ({name,image}) => {
       <div className={s.description_cont}>
         <div className={s.title_cont}>
           <span className={s.title}>{name}</span>
-          <img className={s.plus_logo} src={foodifypluslogo} alt={'plus'} />
+          {plus?<img className={s.plus_logo} src={foodifypluslogo} alt={'plus'} />:<></>}
         </div>
         <div className={s.options_foodimg_cont}>
           <div className={s.options_cont}>
-            <span className={s.options}><FaCreditCard style={{'color':'#20B5E5','fontSize':'1.5rem'}}/>Pagos Online</span>
-            <span className={s.options}><MdDeliveryDining style={{'color':'#20B5E5','fontSize':'1.5rem'}}/>Delivery</span>
+            {online?<span className={s.options}><FaCreditCard style={{'color':'#20B5E5','fontSize':'1.5rem'}}/>Pagos Online</span>:<></>}
+            {delivery?<span className={s.options}><MdDeliveryDining style={{'color':'#20B5E5','fontSize':'1.5rem'}}/>Delivery</span>:<></>}
             <span className={s.options}><AiOutlineClockCircle style={{'color':'#20B5E5','fontSize':'1.5rem'}}/>Demora: 25-30min</span>
           </div>
           <div className={s.rest_foods_img_cont}>

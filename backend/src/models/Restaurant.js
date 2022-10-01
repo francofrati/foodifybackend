@@ -34,6 +34,15 @@ const restaurantSchema = new Schema(
                 ref: "Food"
             }
         ],
+        online_payment:{
+            type: Boolean,
+        },
+        delivery:{
+            type:Boolean
+        },
+        plus:{
+            type:Boolean
+        },
         localStorageToken: {
             type: String
         },

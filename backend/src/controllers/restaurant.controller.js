@@ -1,7 +1,7 @@
 const Restaurant = require('../models/Restaurant')
 
 const createRestaurant = async (req, res) => {
-    const { username, name, email, password, image, country } = req.body
+    const { username, name, email, password, image, country,plus,delivery,online_payment } = req.body
     
     try {
         const checkEmail = await Restaurant.findOne({ email: email })
@@ -14,7 +14,10 @@ const createRestaurant = async (req, res) => {
             email,
             hashPassword: password,
             image,
-            country
+            country,
+            plus,
+            delivery,
+            online_payment
         })
 
         return res.status(200).send(newRestaurant)

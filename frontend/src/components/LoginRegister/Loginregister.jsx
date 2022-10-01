@@ -16,7 +16,7 @@ export const Login = () => {
 
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.user)
-
+    console.log(window.localStorage.getItem('token'))
     useAuth()
 
     useEffect(() => {
@@ -81,7 +81,7 @@ export const Login = () => {
                     console.log(user)
                 }}>log user</button>
 
-                <h1>Email: {user.email !== '' ? user.email : 'Buscando Email'}</h1>
+                <h1>Email: {user? user.email : 'Buscando Email'}</h1>
             </div>
         </div>
     )
@@ -164,7 +164,7 @@ export const Register = () => {
                     console.log(user)
                 }}>log user</button>
 
-                <h1>Email: {user.email !== '' ? user.email : 'Buscando Email'}</h1>
+                <h1>Email: {user? user.email : 'Buscando Email'}</h1>
             </div>
         </div>
     )

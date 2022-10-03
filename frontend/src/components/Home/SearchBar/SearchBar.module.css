@@ -9,6 +9,7 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(2.6px);
     -webkit-backdrop-filter: blur(2.6px);
+    z-index: 3;
 }
 
 .search_greet_cont{
@@ -91,4 +92,38 @@
     font-family: 'Nunito', sans-serif;
     font-size: 1rem;
     color: white;
+}
+.search_preview_cont{
+    background: rgba(4, 4, 4, 0.848);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: flex;
+    flex-direction: column;
+    color:white;
+    font-family: 'Nunito', sans-serif;
+    margin-left: 27px;
+    gap:15px;
+    padding: 20px;
+}
+.search_rest{
+    /* border: 1px solid white; */
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 8px;
+    font-size: 1.4rem;
+    background: rgba(140, 140, 140, 0.63);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2.6px);
+    -webkit-backdrop-filter: blur(2.6px);
+}
+.search_img{
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
 }

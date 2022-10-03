@@ -1,5 +1,4 @@
 import React from 'react'
-import {useNavigate} from 'react-router-dom'
 import {MdDeliveryDining} from 'react-icons/md'
 import {FaCreditCard} from 'react-icons/fa'
 import {AiOutlineClockCircle} from 'react-icons/ai'
@@ -8,16 +7,10 @@ import s from './CardRestaurante.module.css'
 import foodifypluslogo from '../../assets/foodify-plus.png'
 import borrar from '../../assets/borrar.png'
 
-const CardRestaurante = ({name,image,plus,online,delivery}) => {
-
-  const navigate = useNavigate()
-
-  const redirectToRestaurantPage = (id)=>{
-    navigate(`/restaurantes/${id}`)
-  }
+const CardRestaurante = ({name,image,plus,online,delivery,onclick}) => {
 
   return (
-    <div className={s.cont}>
+    <div className={s.cont} onClick={onclick}>
       <div>
         <div className={s.logo_cont}>
           <img className={s.logo} src={image} alt={name} />

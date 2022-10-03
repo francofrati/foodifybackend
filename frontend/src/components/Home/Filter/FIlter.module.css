@@ -10,6 +10,8 @@
     width: 370px;
     height: 530px;
     font-weight: 700;
+    position: sticky;
+    top: 0;
 }
 
 .icon_cont {

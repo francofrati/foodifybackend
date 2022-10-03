@@ -1,12 +1,13 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { FaSlidersH } from 'react-icons/fa'
 
-import {filterRestaurants} from '../../../Redux/slices/restaurantsSlice'
+import { filterRestaurants, setSortMarker } from '../../../Redux/slices/restaurantsSlice'
 import s from './FIlter.module.css'
+import { useEffect } from 'react'
 
-const filterTypesNames = {
+
+export const filterTypesNames = {
     sort_names: [
         {
             name: 'Mejor puntuacion',
@@ -15,45 +16,61 @@ const filterTypesNames = {
         {
             name: 'Menor costo de entrega',
             type: 'DELIVERY_COST'
+        },
+        {
+            name: 'Tiempo de demora',
+            type: 'DELIVERY_TIME'
         }
     ],
     filter_names: [
         {
-            name:'Foodify +',
-            type:'PLUS'
+            name: 'Foodify +',
+            type: 'PLUS'
         },
         {
-            name:'Delivery',
-            type:'DELIVERY'
+            name: 'Delivery',
+            type: 'DELIVERY'
         },
         {
-            name:'Pago Online',
-            type:'ONLINEPAYMENT'
+            name: 'Pago Online',
+            type: 'ONLINEPAYMENT'
         }
 
-        
+
     ]
 }
 
-const CustomRadioInput = ({ name,value }) => {
-    const [activeInput, setActiveInput] = useState(false)
+const CustomRadioInput = ({ name, value, type }) => {
+
     const dispatch = useDispatch()
+
+    const { sortMarker } = useSelector(state => state.restaurants)
+
     const clickInput = () => {
+        dispatch(setSortMarker(value))
         dispatch(filterRestaurants(value))
-        setActiveInput((prevState) => !prevState)
     }
-    return (
-        <div className={s.input_cont} onClick={clickInput} >
-            <div className={activeInput ? s.input + ' ' + s.active_input : s.input} ></div> <label className={s.label}>{name}</label>
-        </div>
-    )
+
+    if (sortMarker.includes(value)) {
+        return <></>
+    } else {
+        return (
+            <div className={s.input_cont} onClick={clickInput} >
+                <label className={s.label}>{name}</label>
+            </div>
+        )
+    }
+
 }
 
 
 
 const Filter = () => {
-
-
+    const { sortMarker } = useSelector(state => state.restaurants)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        console.log(sortMarker)
+    }, [sortMarker])
 
     return (
         <div className={s.cont}>
@@ -64,16 +81,24 @@ const Filter = () => {
                 <div className={s.filt_cont}>
                     <span className={s.filt_title}>Ordenar por:</span>
                     <div className={s.inputs_cont}>
-                        {filterTypesNames.sort_names.map((n) => <CustomRadioInput name={n.name} key={n.name} value={n.type}/>)}
+                        {filterTypesNames.sort_names.map((n) => <CustomRadioInput name={n.name} key={n.name} value={n.type} type={'sort'} />)}
                     </div>
                 </div>
                 <div className={s.filt_cont}>
                     <span className={s.filt_title}>Filtrar por:</span>
                     <div className={s.inputs_cont}>
-                        {filterTypesNames.filter_names.map((n) => <CustomRadioInput name={n.name} key={n.name} value={n.type} />)}
+                        {filterTypesNames.filter_names.map((n) => <CustomRadioInput name={n.name} key={n.name} value={n.type} type={'filter'} />)}
                     </div>
                 </div>
             </div>
+
+            {sortMarker.map(e => <span>{e}</span>)}
+            {sortMarker.length
+                ? <button onClick={() => {
+                    dispatch(setSortMarker('CLEAR'))
+                    dispatch(filterRestaurants('CLEAR'))
+                }}>Restablecer</button>
+                : <></>}
         </div>
     )
 }

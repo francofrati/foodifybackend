@@ -3,12 +3,15 @@ import { Formik, Form } from 'formik';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import CustomInput from './CustomInput';
 import { loginURL, signUpURL } from '../../assets/endpoints';
 import { fetchCreds } from '../../Redux/thunks/userThunks';
 import s from './login.module.css'
 import useAuth from '../../hooks/useAuth';
+import { registrationSchema } from '../../schemas/registrationSchema';
+import { loginSchema } from '../../schemas/loginSchema';
 
 //LOS ESTILOS HAY QUE CAMBIARLOS, NO DEJARLOS INLINE.
 
@@ -19,20 +22,36 @@ export const Login = () => {
     console.log(window.localStorage.getItem('token'))
     useAuth()
 
+
+
+    const navigate = useNavigate()
     useEffect(() => {
         console.log(user)
     }, [user])
 
+    useEffect(()=>{
+        if(user){
+            navigate('/restaurantes')
+        }
+    },[user,navigate])
+
     const onSubmit = async (values) => {
 
-        const call = await axios.post(loginURL, values)
+        try {
+            const call = await axios.post(signUpURL, values)
 
-        const { token } = call.data
+            const { token } = call.data
 
-        window.localStorage.setItem('token', token)
+            window.localStorage.setItem('token', token)
 
-        dispatch(fetchCreds(token))
-        
+            dispatch(fetchCreds(window.localStorage.getItem('token')))
+
+            navigate('/restaurantes')
+        } catch (error) {
+            alert(error.response.data.Error)
+            console.log(error)
+        }
+
     }
 
     return (
@@ -45,6 +64,7 @@ export const Login = () => {
                         password: ''
                     }}
                     onSubmit={onSubmit}
+                    validationSchema={loginSchema}
                 >
                     {(props) => (
                         <Form>
@@ -68,20 +88,6 @@ export const Login = () => {
                     )}
                 </Formik>
 
-                <button onClick={() => {
-                    const token = window.localStorage.getItem('token')
-                    console.log('token: ', token)
-                }}>Get Token</button>
-
-                <button onClick={() => {
-                    return dispatch(fetchCreds(window.localStorage.getItem('token')))
-                }}>Get Encrypted Data</button>
-
-                <button onClick={() => {
-                    console.log(user)
-                }}>log user</button>
-
-                <h1>Email: {user? user.email : 'Buscando Email'}</h1>
             </div>
         </div>
     )
@@ -92,16 +98,30 @@ export const Register = () => {
 
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.user)
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        if(user){
+            navigate('/restaurantes')
+        }
+    },[user,navigate])
+
 
     const onSubmit = async (values) => {
+        try {
+            const call = await axios.post(signUpURL, values)
 
-        const call = await axios.post(signUpURL, values)
+            const { token } = call.data
 
-        const { token } = call.data
+            window.localStorage.setItem('token', token)
 
-        window.localStorage.setItem('token', token)
+            dispatch(fetchCreds(window.localStorage.getItem('token')))
 
-        dispatch(fetchCreds(window.localStorage.getItem('token')))
+            navigate('/restaurantes')
+        } catch (error) {
+            alert(error.response.data.Error)
+            console.log(error)
+        }
     }
 
     return (
@@ -112,10 +132,12 @@ export const Register = () => {
                     initialValues={{
                         email: '',
                         password: '',
+                        confirmPassword: '',
                         name: '',
                         username: ''
                     }}
                     onSubmit={onSubmit}
+                    validationSchema={registrationSchema}
                 >
                     {(props) => (
                         <Form>
@@ -145,36 +167,28 @@ export const Register = () => {
                                     type='password'
                                     placeholder='Foodify%123'
                                 />
+                                <CustomInput
+                                    name='confirmPassword'
+                                    label='Password:'
+                                    type='password'
+                                    placeholder='Foodi1'
+                                />
                                 <button type='submit'>Registrarse</button>
                             </div>
                         </Form>
                     )}
                 </Formik>
 
-                <button onClick={() => {
-                    const token = window.localStorage.getItem('token')
-                    console.log('token: ', token)
-                }}>Get Token</button>
-
-                <button onClick={() => {
-                    return dispatch(fetchCreds(window.localStorage.getItem('token')))
-                }}>Get Encrypted Data</button>
-
-                <button onClick={() => {
-                    console.log(user)
-                }}>log user</button>
-
-                <h1>Email: {user? user.email : 'Buscando Email'}</h1>
             </div>
         </div>
     )
 }
 
-const SignPage = ()=>{
-    return(
-        <div style={{'display':'flex','justifyContent':'space-around'}}>
-            <Login/>
-            <Register/>
+const SignPage = () => {
+    return (
+        <div style={{ 'display': 'flex', 'justifyContent': 'space-around' }}>
+            <Login />
+            <Register />
         </div>
     )
 }

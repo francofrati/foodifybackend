@@ -4,7 +4,7 @@ const restaurantSchema = new Schema(
     {
         username: {
             type: String,
-            unique: true,
+            // unique: true,
             require: true
         },
         image:{
@@ -18,7 +18,7 @@ const restaurantSchema = new Schema(
         email: {
             type: String, 
             require: true,
-            unique: true
+            // unique: true
         },
         hashPassword: {
             type: String,

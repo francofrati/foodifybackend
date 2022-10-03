@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { filterTypesNames } from "../../components/Home/Filter/Filter";
 
 const initialState = {
     restaurants: [],
     renderedRestaurants: [],
-    restaurant: null
+    restaurant: null,
+    sortMarker: []
 }
 
 const restaurantsSlice = createSlice({
@@ -22,6 +24,7 @@ const restaurantsSlice = createSlice({
         },
         //---SORT Y FILTRADO DE RESTAURANTES---
         filterRestaurants(state, { payload }) {
+                
             switch (payload) {
                 case 'RATING':
                     const sorted = state.renderedRestaurants.sort((a, b) => b.rate - a.rate)
@@ -43,13 +46,39 @@ const restaurantsSlice = createSlice({
                     const onlinePaymentRestaurants = state.renderedRestaurants.filter((r) => r.online_payment === true)
                     state.renderedRestaurants = onlinePaymentRestaurants
                     break
-                case typeof payload === 'object':
-                    const filtered = state.renderedRestaurants.filter((r) => r.types.include(payload.diet))
-                    state.renderedRestaurants = filtered
+                case 'CLEAR':
+                    state.renderedRestaurants = state.restaurants
                     break
                 default:
-                    return state.renderedRestaurants
+                    const restaurants = state.renderedRestaurants
+                    state.renderedRestaurants = restaurants
             }
+        },
+        setSortMarker(state, { payload }) {
+            if(payload==='CLEAR'){
+                state.sortMarker = []
+                return
+            }
+            if (state.sortMarker.includes(payload)) {
+                const filterRemoval = state.sortMarker.filter(f => f !== payload)
+                state.sortMarker = filterRemoval
+                return
+            }
+            const sortTypes = ['RATING', 'DELIVERY_TIME', 'DELIVERY_COST']
+            if (sortTypes.includes(payload)) {
+                let resetSort = state.sortMarker
+                for (let i = 0; i < sortTypes.length; i++) {
+                    resetSort = resetSort.filter(e => e !== sortTypes[i])
+                }
+                resetSort.push(payload)
+                state.sortMarker = resetSort
+                return
+            }
+
+            state.sortMarker.push(payload)
+        },
+        searchRestaurant(state,{payload}){
+            state.renderedRestaurants = state.restaurants.filter(r=>r.name.startsWith(payload))
         }
     }
 })
@@ -58,7 +87,9 @@ export const {
     getAllRestaurants,
     getOneRestaurant,
     cleanRestaurantState,
-    filterRestaurants
+    filterRestaurants,
+    setSortMarker,
+    searchRestaurant
 } = restaurantsSlice.actions
 
 export default restaurantsSlice.reducer

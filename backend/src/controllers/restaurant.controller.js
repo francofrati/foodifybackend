@@ -6,7 +6,7 @@ const createRestaurant = async (req, res) => {
     try {
         const checkEmail = await Restaurant.findOne({ email: email })
 
-        if (checkEmail) throw Error(`El email: ${email} ya corresponde a un restaurante.`)
+        // if (checkEmail) throw Error(`El email: ${email} ya corresponde a un restaurante.`)
 
         const newRestaurant = await Restaurant.create({
             username,

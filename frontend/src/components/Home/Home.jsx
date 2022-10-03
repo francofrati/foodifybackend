@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchAllRestaurants } from "../../Redux/thunks/restaurantsThunks.js";
@@ -15,9 +16,26 @@ const Home = () => {
 
   const { restaurants } = useSelector(state => state.restaurants)
 
-  useEffect(() => {
-    dispatch(fetchAllRestaurants())
-  }, [])
+  const [lnlt, setLnlt] = useState(null)
+
+
+  // useEffect(() => {
+  //   console.log(lnlt)
+  // }, [lnlt])
+
+
+  // useEffect(() => {
+  //   dispatch(fetchAllRestaurants())
+  //   window.navigator.geolocation.getCurrentPosition((l) => {
+  //     setLnlt({
+  //       lt: l.coords.latitude,
+  //       ln: l.coords.longitude
+  //     })
+  //   },
+  //     (e) => {
+  //       console.log(e)
+  //     })
+  // }, [])
 
   return (
     <div className={s.container}>

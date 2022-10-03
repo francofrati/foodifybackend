@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllFoods } from "../../Redux/thunks/foodsThunks.js";
 import FoodList from "../FoodList/FoodList.jsx";
-import s from './Home.module.scss'
+import s from './Home.module.css'
 import SearchBar from "../SearchBar/SearchBar.jsx";
+import { restaurantes } from '../../assets/restaurantes.js'
+import CardRestaurante from "../CardRestaurante/CardRestaurante.jsx";
 
 const Home = () => {
 

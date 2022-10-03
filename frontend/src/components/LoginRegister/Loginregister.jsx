@@ -38,7 +38,7 @@ export const Login = () => {
     const onSubmit = async (values) => {
 
         try {
-            const call = await axios.post(signUpURL, values)
+            const call = await axios.post(loginURL, values)
 
             const { token } = call.data
 

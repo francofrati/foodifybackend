@@ -7,6 +7,9 @@ import { fetchOneRestaurant} from '../../Redux/thunks/restaurantsThunks'
 import { cleanRestaurantState } from '../../Redux/slices/restaurantsSlice'
 
 import s from './RestaurantPage.module.css'
+import { fetchAllFoods } from '../../Redux/thunks/foodsThunks'
+import SearchBar from '../SearchBar/SearchBar'
+import FoodList from '../FoodList/FoodList'
 
 const RestaurantPage = () => {
 
@@ -14,6 +17,13 @@ const RestaurantPage = () => {
 
     const dispatch = useDispatch()
     const {restaurant} = useSelector(state=>state.restaurants)
+
+    const { foods } = useSelector((state) => state.foods)
+    useEffect(() => {
+        if (foods.length === 0) {
+          dispatch(fetchAllFoods());
+        }
+      }, [dispatch]);
 
     useEffect(()=>{
         dispatch(fetchOneRestaurant(id))
@@ -32,8 +42,12 @@ const RestaurantPage = () => {
 
     return (
 
+
+        
+
         <div className={s.container}>
             {restaurant&&<>
+            <SearchBar />
             <div className={s.head}>
                 <div>
                     <h1 className={s.title}>{restaurant.name}</h1>
@@ -62,6 +76,7 @@ const RestaurantPage = () => {
                             </div>
                         )
                     })} */}
+                     <FoodList foods={foods}/>
                 </div>
 
             </div>

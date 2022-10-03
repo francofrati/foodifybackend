@@ -12,58 +12,42 @@ import SearchBarR from "./SearchBar/SearchBar.jsx";
 
 const Home = () => {
 
-    const dispatch = useDispatch();
-
-    const { foods } = useSelector((state) => state.foods)
 
 
-    useEffect(() => {
-        if (foods.length === 0) {
-          dispatch(fetchAllFoods());
-        }
-      }, [dispatch]);
+    const dispatch = useDispatch()
 
-    return(
-        <div className={s.container}>
-            <SearchBar />
-            <FoodList foods={foods}/>
-        </div>
-    )
+  const { restaurants } = useSelector(state => state.restaurants)
 
-  //   const dispatch = useDispatch()
-
-  // const { restaurants } = useSelector(state => state.restaurants)
-
-  // const [lnlt, setLnlt] = useState(null)
+  const [lnlt, setLnlt] = useState(null)
 
 
-  // useEffect(() => {
-  //   console.log(lnlt)
-  // }, [lnlt])
+  useEffect(() => {
+    console.log(lnlt)
+  }, [lnlt])
 
 
-  // useEffect(() => {
-  //   dispatch(fetchAllRestaurants())
-  //   window.navigator.geolocation.getCurrentPosition((l) => {
-  //     setLnlt({
-  //       lt: l.coords.latitude,
-  //       ln: l.coords.longitude
-  //     })
-  //   },
-  //     (e) => {
-  //       console.log(e)
-  //     })
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchAllRestaurants())
+    window.navigator.geolocation.getCurrentPosition((l) => {
+      setLnlt({
+        lt: l.coords.latitude,
+        ln: l.coords.longitude
+      })
+    },
+      (e) => {
+        console.log(e)
+      })
+  }, [])
 
-  // return (
-  //   <div className={s.container}>
-  //     <SearchBarR />
-  //     <div className={s.filter_rest_cont}>
-  //       <Filter />
-  //       <Restaurants />
-  //     </div>
-  //   </div>
-  // )
+  return (
+    <div className={s.container}>
+      <SearchBarR />
+      <div className={s.filter_rest_cont}>
+        <Filter />
+        <Restaurants />
+      </div>
+    </div>
+  )
     }
 
 export default Home

@@ -70,8 +70,11 @@ const NavBar = () => {
                     {user?<button onClick={()=>{
                       window.localStorage.removeItem('token')
                       dispatch(fetchCreds(window.localStorage.getItem('token')))
-                      navigate('/login')
-                      }}>Cerrar Sesion</button>:<></>}
+                      navigate('/')
+                      }}>Cerrar Sesion</button>:<>
+                      <button onClick={()=>navigate('/login')}>Iniciar Sesion</button>
+                      <button onClick={()=>navigate('/register')}>Registrarse</button>
+                      </>}
 
                 </div>
             </div>

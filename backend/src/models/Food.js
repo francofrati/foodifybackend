@@ -25,7 +25,8 @@ const foodSchema = new Schema(
             required: true
         },
         rating: {
-            type: Number
+            type: Number,
+            default: 5
         },
         seller: {
             type: Schema.Types.ObjectId,

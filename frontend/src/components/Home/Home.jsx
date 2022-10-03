@@ -1,22 +1,40 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { fetchAllRestaurants } from "../../Redux/thunks/restaurantsThunks.js";
 import Restaurants from "../Restaurants/Restaurants.jsx";
 import Filter from "./Filter/Filter.jsx";
+import { fetchAllFoods } from "../../Redux/thunks/foodsThunks.js";
+import FoodList from "../FoodList/FoodList.jsx";
 import s from './Home.module.css'
-import SearchBar from "./SearchBar/SearchBar.jsx";
-
-
+import SearchBar from "../SearchBar/SearchBar.jsx";
+import SearchBarR from "./SearchBar/SearchBar.jsx";
 
 const Home = () => {
 
-  const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-  const { restaurants } = useSelector(state => state.restaurants)
+    const { foods } = useSelector((state) => state.foods)
 
-  const [lnlt, setLnlt] = useState(null)
+
+    useEffect(() => {
+        if (foods.length === 0) {
+          dispatch(fetchAllFoods());
+        }
+      }, [dispatch]);
+
+    return(
+        <div className={s.container}>
+            <SearchBar />
+            <FoodList foods={foods}/>
+        </div>
+    )
+
+  //   const dispatch = useDispatch()
+
+  // const { restaurants } = useSelector(state => state.restaurants)
+
+  // const [lnlt, setLnlt] = useState(null)
 
 
   // useEffect(() => {
@@ -37,15 +55,15 @@ const Home = () => {
   //     })
   // }, [])
 
-  return (
-    <div className={s.container}>
-      <SearchBar />
-      <div className={s.filter_rest_cont}>
-        <Filter />
-        <Restaurants />
-      </div>
-    </div>
-  )
-}
+  // return (
+  //   <div className={s.container}>
+  //     <SearchBarR />
+  //     <div className={s.filter_rest_cont}>
+  //       <Filter />
+  //       <Restaurants />
+  //     </div>
+  //   </div>
+  // )
+    }
 
 export default Home

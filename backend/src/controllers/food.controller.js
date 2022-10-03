@@ -48,7 +48,7 @@ const getFoods = async (req, res) => {
 
     try {
 
-        const foods = await Food.find({ deleted: false });
+        let foods = await Food.find({ deleted: false });
 
         if (sort) foods = sortNames({ foods, sort });
 
@@ -58,7 +58,7 @@ const getFoods = async (req, res) => {
 
         if (diet) foods = getByDiet({ foods, diet });
 
-        console.log(foods)
+        
         
         return res.status(200).json({ foods })
     } catch (error) {
@@ -164,8 +164,34 @@ const deleteFood = async (req, res) => {
     }
 }
 
+
+const getDiets = async (req, res) => {
+    const diets = [
+        'gluten free',
+        'ketogenic',
+        'vegetarian',
+        'lacto ovo vegetarian',
+        'paleolithic',
+        'primal',
+        'whole 30',
+        'vegan',
+        'dairy free',
+        'fodmap friendly',
+        'pescatarian'
+    ]
+    try {
+        return res.status(200).json({ diets })
+    } catch (error) {
+        return res.status(500).json({ error: error })
+    }
+}
+
 module.exports = {
     dataApi,
     getFoods,
-    postFood
+    getFoodById,
+    postFood,
+    putFood,
+    deleteFood,
+    getDiets
 }

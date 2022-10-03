@@ -100,3 +100,11 @@ const deleteUser = async (req, res) => {
 
 
 //Aún falta la ruta para la compra de comidas
+
+module.exports = {
+    getUsers,
+    getUserById,
+    putUser,
+    putUserFood,
+    deleteUser
+}

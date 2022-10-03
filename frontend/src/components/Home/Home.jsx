@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllFoods } from "../../Redux/thunks/foodsThunks.js";
 import FoodList from "../FoodList/FoodList.jsx";
 import s from './Home.module.scss'
+import SearchBar from "../SearchBar/SearchBar.jsx";
 
 const Home = () => {
 
@@ -19,6 +20,7 @@ const Home = () => {
 
     return(
         <div className={s.container}>
+            <SearchBar />
             <FoodList foods={foods}/>
         </div>
     )

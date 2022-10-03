@@ -1,5 +1,6 @@
-const { Router } = require("express")
-const { signUp, login, getCreds, getUsers, getUserById, putUser, putUserFood, deleteUser } = require("../controllers/user.controller.js")
+const { Router } = require('express')
+
+const { signUp, login, getAuth ,getUsers, getUserById, putUser, putUserFood, deleteUser } = require('../controllers/user.controller')
 
 const router = Router()
 
@@ -9,7 +10,9 @@ router.post("/signup", signUp)
 
 router.post("/login", login)
 
-router.post("/creds", getCreds)
+router.post("/auth", getAuth)
+
+
 
 router.get('/:idUser', getUserById)
 
@@ -24,4 +27,3 @@ module.exports = router
 
 
 
-module.exports = router

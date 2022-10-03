@@ -6,16 +6,21 @@ import CreateFood from './components/RestaurantComponents/CreateFood/CreateFood'
 import LandingPage from './components/LandingPage/LandingPage';
 import Shopping from './components/Shopping/Shopping'
 import  { Login, Register } from './components/LoginRegister/Loginregister';
+import RestaurantPage from './components/RestaurantPage/RestaurantPage';
+import NavBar from './components/NavBar/NavBar';
+
 
 function App() {
   return (
     <div className="App">
+      <NavBar />
       
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />}/>
         <Route path='/register' element={<Register/>} />
         <Route path='/restaurantes' element={<Home/>}/>
+        <Route path='/restaurantes/:id' element={<RestaurantPage/>}/>
         <Route path='landingPage' element={<LandingPage />}/>
         <Route path='/newFood' element={<CreateFood />} />
         <Route path='shopping' element={<Shopping />}/>

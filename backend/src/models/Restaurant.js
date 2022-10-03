@@ -4,8 +4,11 @@ const restaurantSchema = new Schema(
     {
         username: {
             type: String,
-            unique: true,
+            // unique: true,
             require: true
+        },
+        image:{
+            type:String
         },
         name: {
             type: String,
@@ -15,7 +18,7 @@ const restaurantSchema = new Schema(
         email: {
             type: String, 
             require: true,
-            unique: true
+            // unique: true
         },
         hashPassword: {
             type: String,
@@ -31,6 +34,15 @@ const restaurantSchema = new Schema(
                 ref: "Food"
             }
         ],
+        online_payment:{
+            type: Boolean,
+        },
+        delivery:{
+            type:Boolean
+        },
+        plus:{
+            type:Boolean
+        },
         localStorageToken: {
             type: String
         },

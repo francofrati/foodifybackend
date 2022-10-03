@@ -1,0 +1,11 @@
+.cont{
+    position: relative;
+}
+.error{
+    border: 2px solid red;
+}
+.error_text{
+    position: absolute;
+    top: 20px;
+    color:red;
+}

@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 
 const foodSchema = new Schema(
     {
-        idApi: {
+        id: {
             type: String
         }, 
         title: {
@@ -17,7 +17,7 @@ const foodSchema = new Schema(
         diets: [
             {
                 type: Schema.Types.String,
-                required: true
+                required: false
             }
         ],
         price: {

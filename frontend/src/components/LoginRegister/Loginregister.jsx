@@ -1,24 +1,27 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from 'formik';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import CustomInput from './CustomInput';
-import { loginURL, signUpURL } from '../../assets/endpoints';
-import { fetchCreds } from '../../Redux/thunks/userThunks';
-import s from './login.module.css'
 import useAuth from '../../hooks/useAuth';
 import { registrationSchema } from '../../schemas/registrationSchema';
 import { loginSchema } from '../../schemas/loginSchema';
+import CustomInput from './CustomInput';
+import { fetchCreds } from '../../Redux/thunks/userThunks';
+import { fetchCredsRest } from '../../Redux/thunks/restaurantsThunks';
+import { loginRestaurantURL, signUpURL } from '../../assets/endpoints';
+
+import s from './login.module.css'
 
 //LOS ESTILOS HAY QUE CAMBIARLOS, NO DEJARLOS INLINE.
 
-export const Login = () => {
+
+
+export const RestaurantLogin = () => {
 
     const dispatch = useDispatch()
-    const { user } = useSelector(state => state.user)
+    const { userRest } = useSelector(state => state.restaurants)
     console.log(window.localStorage.getItem('token'))
     useAuth()
 
@@ -26,27 +29,27 @@ export const Login = () => {
 
     const navigate = useNavigate()
     useEffect(() => {
-        console.log(user)
-    }, [user])
+        console.log(userRest)
+    }, [userRest])
 
     useEffect(()=>{
-        if(user){
-            navigate('/restaurantes')
+        if(userRest){
+            navigate(`/restaurantes/${userRest.id}`)
         }
-    },[user,navigate])
+    },[userRest,navigate])
 
     const onSubmit = async (values) => {
 
         try {
-            const call = await axios.post(loginURL, values)
+            const call = await axios.post(loginRestaurantURL, values)
 
             const { token } = call.data
 
             window.localStorage.setItem('token', token)
 
-            dispatch(fetchCreds(window.localStorage.getItem('token')))
+            dispatch(fetchCredsRest(window.localStorage.getItem('token')))
 
-            navigate('/restaurantes')
+            navigate(`/restaurantes/${userRest.id}`)
         } catch (error) {
             alert(error.response.data.Error)
             console.log(error)
@@ -57,7 +60,7 @@ export const Login = () => {
     return (
         <div style={{ 'padding': '3rem' }}>
             <div className={s.glass}>
-                <h1 style={{ 'color': 'white' }}>Log In Demo</h1>
+                <h1 style={{ 'color': 'white' }}>Inicia sesion</h1>
                 <Formik
                     initialValues={{
                         email: '',
@@ -94,7 +97,8 @@ export const Login = () => {
 }
 
 
-export const Register = () => {
+
+export const RegisterRestaurant = () => {
 
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.user)
@@ -127,14 +131,15 @@ export const Register = () => {
     return (
         <div style={{ 'padding': '3rem' }}>
             <div className={s.glass}>
-                <h1 style={{ 'color': 'white' }}>Log In Demo</h1>
+                <h1 style={{ 'color': 'white' }}>Registra tu negocio:</h1>
                 <Formik
                     initialValues={{
                         email: '',
                         password: '',
                         confirmPassword: '',
                         name: '',
-                        username: ''
+                        image:'',
+                        country:''
                     }}
                     onSubmit={onSubmit}
                     validationSchema={registrationSchema}
@@ -150,16 +155,22 @@ export const Register = () => {
                                     placeholder='Food Foodify'
                                 />
                                 <CustomInput
-                                    name='username'
-                                    label='Elegi un nombre de usuario:'
-                                    type='text'
-                                    placeholder='foodify'
-                                />
-                                <CustomInput
                                     name='email'
                                     label='Email:'
                                     type='text'
                                     placeholder='foodify@foodify.com'
+                                />
+                                <CustomInput
+                                    name='image'
+                                    label='Elegi la imagen de tu negocio:'
+                                    type='text'
+                                    placeholder='https://foodi.png'
+                                />
+                                <CustomInput
+                                    name='country'
+                                    label='Pais:'
+                                    type='text'
+                                    placeholder='Pais'
                                 />
                                 <CustomInput
                                     name='password'
@@ -184,13 +195,3 @@ export const Register = () => {
     )
 }
 
-const SignPage = () => {
-    return (
-        <div style={{ 'display': 'flex', 'justifyContent': 'space-around' }}>
-            <Login />
-            <Register />
-        </div>
-    )
-}
-
-export default SignPage

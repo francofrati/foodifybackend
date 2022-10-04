@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { jarallax, jarallaxElement } from 'jarallax'
 
-import './LandingPage.scss'
 import restaurant from '../../assets/restaurant.jpg'
-import { jarallax, jarallaxElement} from 'jarallax'
+import './LandingPage.scss'
 import './Jarallax.css'
 
 const LandingPage = () => {
@@ -12,26 +12,26 @@ const LandingPage = () => {
 
     useEffect(() => {
 
-    jarallaxElement();
+        jarallaxElement();
 
-    jarallax(document.querySelectorAll("[data-jarallax-element]"));
+        jarallax(document.querySelectorAll("[data-jarallax-element]"));
 
-    jarallax(document.querySelectorAll('.jarallax'), {
-        speed: 0.5,
-      });
+        jarallax(document.querySelectorAll('.jarallax'), {
+            speed: 0.5,
+        });
 
-    }, [jarallaxElement])
+    }, [])
 
-    
 
-    return(
-        <div className='body1' onClick={()=>navigate('/restaurantes')}>
+
+    return (
+        <div className='body1' onClick={() => navigate('/restaurantes')}>
             <section>
                 <div className='box1'>
                     <h2 data-jarallax-element="0 -200">Landing page</h2>
                     <div className='container1'>
                         <div className='imgBx1 jarallax'>
-                            <img src={restaurant} className="jarallax-img"/>
+                            <img src={restaurant} alt='demo_img' className="jarallax-img" />
                         </div>
                         <div className='content1' data-jarallax-element="-200 0">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam quas ducimus itaque? Quam suscipit illum labore nihil quod molestias eius unde nemo ratione fuga fugiat hic, incidunt quibusdam earum fugit.</p>
@@ -45,7 +45,7 @@ const LandingPage = () => {
                     <h2 data-jarallax-element="0 200">Landing page</h2>
                     <div className='container1'>
                         <div className='imgBx1 jarallax'>
-                            <img src={restaurant} className="jarallax-img"/>
+                            <img src={restaurant} alt='demo_img' className="jarallax-img" />
                         </div>
                         <div className='content1' data-jarallax-element="-200 0">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam quas ducimus itaque? Quam suscipit illum labore nihil quod molestias eius unde nemo ratione fuga fugiat hic, incidunt quibusdam earum fugit.</p>
@@ -59,7 +59,7 @@ const LandingPage = () => {
                     <h2 data-jarallax-element="0 -200">Landing page</h2>
                     <div className='container1'>
                         <div className='imgBx1 jarallax'>
-                            <img src={restaurant} className="jarallax-img"/>
+                            <img src={restaurant} alt='demo_img' className="jarallax-img" />
                         </div>
                         <div className='content1' data-jarallax-element="-200 0">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam quas ducimus itaque? Quam suscipit illum labore nihil quod molestias eius unde nemo ratione fuga fugiat hic, incidunt quibusdam earum fugit.</p>
@@ -73,7 +73,7 @@ const LandingPage = () => {
                     <h2 data-jarallax-element="0 200">Landing page</h2>
                     <div className='container1'>
                         <div className='imgBx1 jarallax'>
-                            <img src={restaurant} className="jarallax-img"/>
+                            <img src={restaurant} alt='demo_img' className="jarallax-img" />
                         </div>
                         <div className='content1' data-jarallax-element="-200 0">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam quas ducimus itaque? Quam suscipit illum labore nihil quod molestias eius unde nemo ratione fuga fugiat hic, incidunt quibusdam earum fugit.</p>

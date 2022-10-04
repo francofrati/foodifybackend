@@ -3,9 +3,10 @@ import {MdDeliveryDining} from 'react-icons/md'
 import {FaCreditCard} from 'react-icons/fa'
 import {AiOutlineClockCircle} from 'react-icons/ai'
 
-import s from './CardRestaurante.module.css'
 import foodifypluslogo from '../../assets/foodify-plus.png'
-import borrar from '../../assets/borrar.png'
+import borrar from '../../assets/borrar.png'//imagen de mono donde irian las dos comidas mejor vendidas
+
+import s from './CardRestaurante.module.css'
 
 const CardRestaurante = ({name,image,plus,online,delivery,onclick}) => {
 

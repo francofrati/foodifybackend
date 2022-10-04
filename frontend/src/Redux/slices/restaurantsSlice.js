@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { filterTypesNames } from "../../components/Home/Filter/Filter";
 
 const initialState = {
     restaurants: [],
     renderedRestaurants: [],
     restaurant: null,
-    sortMarker: []
+    sortMarker: [],
+    userRest: null
 }
 
 const restaurantsSlice = createSlice({
@@ -22,19 +22,26 @@ const restaurantsSlice = createSlice({
         cleanRestaurantState(state) {
             state.restaurant = null
         },
+        getRestCreds(state, { payload }) {
+            state.userRest = payload
+        },
         //---SORT Y FILTRADO DE RESTAURANTES---
         filterRestaurants(state, { payload }) {
-                
+
             switch (payload) {
-                case 'RATING':
-                    const sorted = state.renderedRestaurants.sort((a, b) => b.rate - a.rate)
+                case 'Mejor puntuacion':
+                    const sorted = state.renderedRestaurants.sort((a, b) => b.rating - a.rating)
                     state.renderedRestaurants = sorted
                     break
-                case 'PLUS':
+                case 'Tiempo de demora':
+                    const delSorted = state.renderedRestaurants.sort((a, b) => b.delivery_time - a.delivery_time)
+                    state.renderedRestaurants = delSorted
+                    break
+                case 'Foodify +':
                     const plusRestaurants = state.renderedRestaurants.filter((r) => r.plus === true)
                     state.renderedRestaurants = plusRestaurants
                     break
-                case 'DELIVERY':
+                case 'Delivery':
                     const deliveryRestaurants = state.renderedRestaurants.filter((r) => r.delivery === true)
                     state.renderedRestaurants = deliveryRestaurants
                     break
@@ -42,7 +49,7 @@ const restaurantsSlice = createSlice({
                     //CALCULAR DISTANCIA DE USUARIO ACTUAL CON UBICACION DE RESTAURANTE Y DEVOLVER
                     //SERIA UN SORT
                     break
-                case 'ONLINEPAYMENT':
+                case 'Pago Online':
                     const onlinePaymentRestaurants = state.renderedRestaurants.filter((r) => r.online_payment === true)
                     state.renderedRestaurants = onlinePaymentRestaurants
                     break
@@ -55,7 +62,7 @@ const restaurantsSlice = createSlice({
             }
         },
         setSortMarker(state, { payload }) {
-            if(payload==='CLEAR'){
+            if (payload === 'CLEAR') {
                 state.sortMarker = []
                 return
             }
@@ -64,7 +71,7 @@ const restaurantsSlice = createSlice({
                 state.sortMarker = filterRemoval
                 return
             }
-            const sortTypes = ['RATING', 'DELIVERY_TIME', 'DELIVERY_COST']
+            const sortTypes = ['Mejor puntuacion', 'Tiempo de demora', 'Menor costo de entrega']
             if (sortTypes.includes(payload)) {
                 let resetSort = state.sortMarker
                 for (let i = 0; i < sortTypes.length; i++) {
@@ -77,8 +84,8 @@ const restaurantsSlice = createSlice({
 
             state.sortMarker.push(payload)
         },
-        searchRestaurant(state,{payload}){
-            state.renderedRestaurants = state.restaurants.filter(r=>r.name.startsWith(payload))
+        searchRestaurant(state, { payload }) {
+            state.renderedRestaurants = state.restaurants.filter(r => r.name.toLowerCase().startsWith(payload.toLowerCase()))
         }
     }
 })
@@ -89,7 +96,8 @@ export const {
     cleanRestaurantState,
     filterRestaurants,
     setSortMarker,
-    searchRestaurant
+    searchRestaurant,
+    getRestCreds
 } = restaurantsSlice.actions
 
 export default restaurantsSlice.reducer

@@ -1,20 +1,23 @@
 import React from 'react';
-import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import Home from './components/Home/Home.jsx';
-import CreateFood from './components/RestaurantComponents/CreateFood/CreateFood';
-import LandingPage from './components/LandingPage/LandingPage';
-import Shopping from './components/Shopping/Shopping'
-import  { Login, Register } from './components/LoginRegister/Loginregister';
-import RestaurantPage from './components/RestaurantPage/RestaurantPage';
+
+import './App.css';
+
 import NavBar from './components/NavBar/NavBar';
+import LandingPage from './pages/LandingPage/LandingPage';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
+import Home from './pages/Home/Home';
+import RestaurantPage from './pages/RestaurantPage/RestaurantPage';
+import CreateFood from './components/RestaurantComponents/CreateFood/CreateFood';
+import Shopping from './components/Shopping/Shopping'
+
 
 
 function App() {
   return (
     <div className="App">
-      <NavBar />
-      
+      <NavBar />      
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />}/>

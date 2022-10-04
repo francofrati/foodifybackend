@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import swal from 'sweetalert'
+
 import { fetchFoodsByTitle, fetchAllFoods} from '../../Redux/thunks/foodsThunks'
 import { resetSearch } from '../../Redux/slices/foodSlice'
+
 import s from './SearchBar.module.scss'
 
 const SearchBar = () => {

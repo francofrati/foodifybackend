@@ -1,5 +1,15 @@
 const { Router } = require("express")
-const { dataApi, getFoods, getFoodById, postFood, putFood, deleteFood, getDiets } = require("../controllers/food.controller.js")
+
+const {
+    dataApi,
+    getFoods,
+    getFoodById,
+    postFood,
+    putFood,
+    deleteFood,
+    getDiets
+} = require("../controllers/food.controller.js")
+
 
 const router = Router();
 

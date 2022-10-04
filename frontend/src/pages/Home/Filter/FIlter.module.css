@@ -74,3 +74,33 @@
     margin-left: 15px;
     cursor: pointer;
 }
+.active_filters_cont{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.active_filters{
+    background: rgba(4, 4, 4, 0.597);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-radius: 999px;
+    color: white;
+    width: 200px;
+    font-weight: 100;
+}
+.btn_reset{
+    background-color: #B65151;
+    border-radius: 999px;
+    color:white;
+    border: none;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+}
+.btn_reset:hover{
+    background-color: #b43232;
+}

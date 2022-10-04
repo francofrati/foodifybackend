@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import s from './Card.module.scss'
 import VanillaTilt from 'vanilla-tilt'
+
 import { addToCart } from '../../Redux/slices/shoppingSlice'
+
+import s from './Card.module.scss'
+
 
 const Card = ({ id, title, image, price, rating, food }) => {
 	const dispatch = useDispatch()

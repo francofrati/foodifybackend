@@ -1,13 +1,13 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSlidersH } from 'react-icons/fa'
 
 import { filterRestaurants, setSortMarker } from '../../../Redux/slices/restaurantsSlice'
+
 import s from './FIlter.module.css'
-import { useEffect } from 'react'
 
 
-export const filterTypesNames = {
+const filterTypesNames = {
     sort_names: [
         {
             name: 'Mejor puntuacion',
@@ -40,7 +40,7 @@ export const filterTypesNames = {
     ]
 }
 
-const CustomRadioInput = ({ name, value, type }) => {
+const CustomFilterInput = ({ name, value }) => {
 
     const dispatch = useDispatch()
 
@@ -81,24 +81,26 @@ const Filter = () => {
                 <div className={s.filt_cont}>
                     <span className={s.filt_title}>Ordenar por:</span>
                     <div className={s.inputs_cont}>
-                        {filterTypesNames.sort_names.map((n) => <CustomRadioInput name={n.name} key={n.name} value={n.type} type={'sort'} />)}
+                        {filterTypesNames.sort_names.map((n) => <CustomFilterInput name={n.name} key={n.name} value={n.name} type={'sort'} />)}
                     </div>
                 </div>
                 <div className={s.filt_cont}>
                     <span className={s.filt_title}>Filtrar por:</span>
                     <div className={s.inputs_cont}>
-                        {filterTypesNames.filter_names.map((n) => <CustomRadioInput name={n.name} key={n.name} value={n.type} type={'filter'} />)}
+                        {filterTypesNames.filter_names.map((n) => <CustomFilterInput name={n.name} key={n.name} value={n.name} type={'filter'} />)}
                     </div>
                 </div>
             </div>
+            <div className={s.active_filters_cont}>
 
-            {sortMarker.map(e => <span>{e}</span>)}
+            {sortMarker.map(e => <span className={s.active_filters} key={e}>{e}</span>)}
             {sortMarker.length
-                ? <button onClick={() => {
+                ? <button className={s.btn_reset} onClick={() => {
                     dispatch(setSortMarker('CLEAR'))
                     dispatch(filterRestaurants('CLEAR'))
                 }}>Restablecer</button>
                 : <></>}
+            </div>
         </div>
     )
 }

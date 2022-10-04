@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-import { getAllRestaurants, getOneRestaurant } from '../slices/restaurantsSlice'
-import { allRestaurantsURL, oneRestaurantURL } from '../../assets/endpoints'
+import { getAllRestaurants, getOneRestaurant, getRestCreds } from '../slices/restaurantsSlice'
+import { allRestaurantsURL, credsRestURL, oneRestaurantURL } from '../../assets/endpoints'
 
 const fetchAllRestaurants = () => (dispatch) => {
     axios.get(allRestaurantsURL)
@@ -19,7 +19,27 @@ const fetchOneRestaurant = (id) => (dispatch) => {
         .catch((error) => console.log(error))
 }
 
+const fetchCredsRest = (token) => (dispatch) => {
+    const body = {
+        token
+    }
+    axios.post(credsRestURL, body)
+        .then((response) => {
+            if(response.data.error){
+                dispatch(getRestCreds(null))
+                return
+            }
+            dispatch(getRestCreds(response.data))
+            console.log('biennnnn',response.data)
+        })
+        .catch((error) => {
+            console.log(error)
+            console.log('errrror',error)
+        })
+}
+
 export {
     fetchAllRestaurants,
-    fetchOneRestaurant
+    fetchOneRestaurant,
+    fetchCredsRest
 }

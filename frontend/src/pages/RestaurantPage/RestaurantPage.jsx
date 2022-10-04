@@ -8,8 +8,8 @@ import { cleanRestaurantState } from '../../Redux/slices/restaurantsSlice'
 
 import s from './RestaurantPage.module.css'
 import { fetchAllFoods } from '../../Redux/thunks/foodsThunks'
-import SearchBar from '../SearchBar/SearchBar'
-import FoodList from '../FoodList/FoodList'
+import SearchBar from '../../components/SearchBar/SearchBar'
+import FoodList from '../../components/FoodList/FoodList'
 
 const RestaurantPage = () => {
 
@@ -23,17 +23,17 @@ const RestaurantPage = () => {
         if (foods.length === 0) {
           dispatch(fetchAllFoods());
         }
-      }, [dispatch]);
+      }, [dispatch,foods]);
 
     useEffect(()=>{
         dispatch(fetchOneRestaurant(id))
-    },[])
+    },[dispatch,id])
 
     useEffect(()=>{
         return ()=>{
             dispatch(cleanRestaurantState())
         }
-    },[])
+    },[dispatch])
 
     if(restaurant) {
         document.title =`${restaurant.name} - Foodify`

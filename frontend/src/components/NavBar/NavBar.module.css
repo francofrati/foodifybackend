@@ -14,6 +14,7 @@
     justify-content: space-between;
     align-items: center;
     font-family: 'Nunito', sans-serif;
+    overflow-y: hidden;
 }
 .menu_logo_cont{
     display: flex;
@@ -37,7 +38,22 @@
 .avatar{
     height: 2.1rem;
     width: 2.1rem;
-    padding-top:.4rem ;
-    border-radius: 999px;
+    margin-top:.4rem ;
+    border-radius: 9999px;
     margin-right: 10px;
+    
+}
+.btn_session{
+    height: 2rem;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    background-color: transparent;
+    border: none;
+    margin: auto 0;
+    margin-right:10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn_session:hover{
+    color:#20B5E5;
 }

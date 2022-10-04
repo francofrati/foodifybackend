@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {Formik, Form,  Field, ErrorMessage} from 'formik'
 import axios from 'axios'
 import swal from 'sweetalert'
-import style from './CreateFood.module.scss'
-import {useNavigate} from "react-router-dom";
+
 import { fetchAllFoods, fetchAllDiets } from "../../../Redux/thunks/foodsThunks";
+
+import style from './CreateFood.module.scss'
 
 
 const CreateFood = () => {
@@ -149,6 +151,7 @@ const CreateFood = () => {
                         
                                 <>
                                 <img src={values.image}  
+                                alt='imgFood'
                                 onerror="this.src='../../assets/imgs/example.jpg';" className={style.portada}></img>
                                 <Field
                                 type="file"

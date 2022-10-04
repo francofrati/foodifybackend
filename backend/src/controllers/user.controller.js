@@ -2,10 +2,18 @@ const bcrypt = require("bcrypt");
 
 const User = require("../models/User.js")
 const Food = require("../models/Food.js")
-const { getByName, getByEmail, createToken, validateToken, sendEmail } = require("../lib/user.controller.helper")
+
+const {
+    getByName,
+    getByEmail,
+    createToken,
+    validateToken,
+    sendEmail
+} = require("../lib/user.controller.helper")
 
 
 const getUsers = async (req, res) => {
+
     const { name, email } = req.query
     try {
         const users = await User.find({})
@@ -112,11 +120,14 @@ const signUp = async (req, res) => {
 
         if (currentUser) throw Error(`El email: ${email} ya corresponde a un usuario`)
 
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
         const newUser = await User.create({
             email,
             username,
             name,
-            hashPassword: password
+            password: hash
         })
 
         const token = createToken({
@@ -124,9 +135,9 @@ const signUp = async (req, res) => {
             name,
             type: 'user'
         })
-        
+
         //Mail de bienvenida
-        sendEmail(newUser.email,newUser.name)
+        sendEmail(newUser.email, newUser.name)
 
         return res.status(201).send({
             created_user: newUser,
@@ -146,7 +157,6 @@ const login = async (req, res) => {
     try {
 
         const currentUser = await User.findOne({ email: email })
-        console.log(currentUser.hashPassword)
 
         if (!currentUser) {
             throw Error(`El email: ${email} no corresponde a ningun usuario.`)
@@ -154,18 +164,15 @@ const login = async (req, res) => {
 
         //RESOLVER POR QUE NO TRAE LA CONTRASEÑNA DESDE LA DB
 
-        // const isCorrectPassword = currentUser.hashPassword === password
-        //     ? true
-        //     : false
+        const isCorrectPassword = await bcrypt.compare(password, currentUser.password)
 
-
-        // if (currentUser && !isCorrectPassword) {
-        //     throw Error('Contraseña incorrecta')
-        // }
+        if (currentUser && !isCorrectPassword) {
+            throw Error('Contraseña incorrecta')
+        }
 
         //Si coincide email con contraseña entonces creo jwt y la envio.
         const token = createToken({
-            name:currentUser.name,
+            name: currentUser.name,
             email,
             type: 'user'
         })
@@ -184,8 +191,9 @@ const login = async (req, res) => {
 }
 
 const getAuth = async (req, res) => {
+
     const { token } = req.body
-    
+
     try {
 
         const decodedToken = validateToken(token)

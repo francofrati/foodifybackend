@@ -37,8 +37,7 @@ const validateToken = (token) => {
         return decodedToken
 
     } catch (error) {
-
-        console.log(error)
+      
         return {
             error: error.message
         }

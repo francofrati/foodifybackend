@@ -1,14 +1,15 @@
-import React from 'react'
-import { useState } from 'react'
+import React,{ useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaSearch } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 
 import useAuth from '../../../hooks/useAuth'
-import categories from '../../../assets/categories'
-import s from './SearchBar.module.css'
 import { searchRestaurant } from '../../../Redux/slices/restaurantsSlice'
+
+import categories from '../../../assets/categories'
 import foodifypluslogo from '../../../assets/foodify-plus.png'
+
+import s from './SearchBar.module.css'
 
 const SearchBar = () => {
 

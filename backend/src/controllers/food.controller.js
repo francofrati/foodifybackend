@@ -1,8 +1,11 @@
+require("dotenv").config();
+
+const axios = require("axios")
+
 const Food = require("../models/Food.js")
 const User = require("../models/User.js")
 const Restaurant = require("../models/Restaurant.js")
-const axios = require("axios")
-require("dotenv").config();
+
 const {
     paginate,
     sortNames,
@@ -10,6 +13,7 @@ const {
     getByDiet,
     getByTitle
 } = require("../lib/food.controller.helper.js")
+
 
 const dataApi = async (req, res) => {
     try {

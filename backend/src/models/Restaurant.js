@@ -2,11 +2,6 @@ const { Schema, model } = require("mongoose")
 
 const restaurantSchema = new Schema(
     {
-        username: {
-            type: String,
-            // unique: true,
-            require: true
-        },
         image:{
             type:String
         },
@@ -20,7 +15,7 @@ const restaurantSchema = new Schema(
             require: true,
             // unique: true
         },
-        hashPassword: {
+        password: {
             type: String,
             require: true
         },
@@ -36,12 +31,15 @@ const restaurantSchema = new Schema(
         ],
         online_payment:{
             type: Boolean,
+            default: true
         },
         delivery:{
-            type:Boolean
+            type:Boolean,
+            default: true
         },
         plus:{
-            type:Boolean
+            type:Boolean,
+            default:true
         },
         localStorageToken: {
             type: String
@@ -49,6 +47,14 @@ const restaurantSchema = new Schema(
         deleted: {
             type: Boolean,
             default: false
+        },
+        rating:{
+            type:Number,
+            default: 3
+        },
+        delivery_time:{
+            type:Number,
+            default: 20
         }
     }
 )

@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+
 import Card from '../Card/Card'
-import s from './FoodList.module.scss'
 import Pagination from '../Pagination/Pagination'
+
+import s from './FoodList.module.scss'
+
 
 const FoodList = ({ foods }) => {
     const [currentPage, setCurrentPage] = useState(1)

@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from 'formik';
@@ -32,11 +32,11 @@ export const RestaurantLogin = () => {
         console.log(userRest)
     }, [userRest])
 
-    useEffect(()=>{
-        if(userRest){
+    useEffect(() => {
+        if (userRest) {
             navigate(`/restaurantes/${userRest.id}`)
         }
-    },[userRest,navigate])
+    }, [userRest, navigate])
 
     const onSubmit = async (values) => {
 
@@ -104,11 +104,11 @@ export const RegisterRestaurant = () => {
     const { user } = useSelector(state => state.user)
     const navigate = useNavigate()
 
-    useEffect(()=>{
-        if(user){
+    useEffect(() => {
+        if (user) {
             navigate('/restaurantes')
         }
-    },[user,navigate])
+    }, [user, navigate])
 
 
     const onSubmit = async (values) => {
@@ -138,8 +138,8 @@ export const RegisterRestaurant = () => {
                         password: '',
                         confirmPassword: '',
                         name: '',
-                        image:'',
-                        country:''
+                        image: '',
+                        country: ''
                     }}
                     onSubmit={onSubmit}
                     validationSchema={registrationSchema}

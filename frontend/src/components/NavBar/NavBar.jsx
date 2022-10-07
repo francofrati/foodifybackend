@@ -5,6 +5,8 @@ import axios from 'axios'
 import { TiThMenu } from 'react-icons/ti'
 import { MdLocationOn } from 'react-icons/md'
 
+import Modal from '../Modal/Modal'
+import LoginRegisterPopUp from '../LoginRegisterPopUp/LoginRegisterPopUp'
 import { fetchCreds } from '../../Redux/thunks/userThunks'
 import useAuth from '../../hooks/useAuth'
 
@@ -29,7 +31,6 @@ const NavBar = () => {
 
   //ACOMODAR Y REFACCIONAR ESTO-------------
   useEffect(() => {
-
     if (lnlt) {
       axios.get(`http://api.positionstack.com/v1/reverse?access_key=4a9dc4f7e168903b6d3612fd4f67dffe&query=${lnlt.lt},${lnlt.ln}`)
         .then(r => setLocation(`${r.data.data[0].region}, ${r.data.data[0].country}`))
@@ -48,7 +49,32 @@ const NavBar = () => {
       })
   }, [])
   //----------------
+
+  const [activeLogin, setActiveLogin] = useState(false)
+
+  const toggleLogin = ()=>{
+    setActiveLogin(prevState=>!prevState)
+  }
+
+  useEffect(()=>{
+    if(user){
+      setActiveLogin(false)
+    }
+  },[user])
+
+  useEffect(()=>{
+    if(activeLogin){
+      document.body.style.overflow='hidden'
+    }
+    if(!activeLogin){
+      document.body.style.overflow='unset'
+    }
+  },[activeLogin])
+  
+
+
   return (
+    <div >
     <div className={s.cont}>
       <div className={s.menu_logo_cont}>
         <div><TiThMenu style={{ 'color': '#20B5E5', 'fontSize': '1.7rem', 'paddingTop': '5px' }} /></div>
@@ -73,12 +99,17 @@ const NavBar = () => {
             dispatch(fetchCreds(window.localStorage.getItem('token')))
             navigate('/')
           }}>Cerrar Sesion</button> : <>
-            <button className={s.btn_session} onClick={() => navigate('/login')}>Iniciar Sesion</button>
-            <button className={s.btn_session} onClick={() => navigate('/register')}>Registrarse</button>
+            <button className={s.btn_session} onClick={() => {setActiveLogin(state=>!state)}}>Empezar</button>
           </>}
 
         </div>
       </div>
+    </div>
+    <div style={{'position':'absolute','top':0,'left':0,'width':'100%'}}>
+      <Modal active={activeLogin} toggle={toggleLogin} id='modal'>
+        <LoginRegisterPopUp />
+      </Modal>
+    </div>
     </div>
   )
 }

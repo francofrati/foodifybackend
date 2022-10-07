@@ -7,6 +7,6 @@ export const loginSchema = yup.object().shape({
     password: yup
         .string()
         .min(6, 'La contraseña debe ser de 6 o mas caracteres')
-        .matches(passwordRules, 'La contraseña debe contener una minuscula, una mayuscula y un numero')
+        .matches(passwordRules, 'Debe contener una minuscula, una mayuscula y un numero')
         .required('Requerido')
 })

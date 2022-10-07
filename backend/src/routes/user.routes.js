@@ -8,7 +8,10 @@ const {
     getUserById,
     putUser,
     putUserFood,
-    deleteUser
+    deleteUser,
+    googleAuth,
+    getVerification,
+    isUserVerificated
 } = require('../controllers/user.controller')
 
 
@@ -18,9 +21,13 @@ router.get('/', getUsers)
 
 router.post("/signup", signUp)
 
+router.post("/google",googleAuth)
+
 router.post("/login", login)
 
-router.post("/auth", getAuth)
+router.post("/verify", getVerification)
+
+router.get("/verify/:userId",isUserVerificated)
 
 router.get('/:idUser', getUserById)
 

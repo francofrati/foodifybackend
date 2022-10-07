@@ -2,11 +2,6 @@ const { Schema, model } = require("mongoose")
 
 const userSchema = new Schema(
     {
-        username: {
-            type: String,
-            require: true,
-            unique: true
-        },
         name: {
             type: String,
             require: true,
@@ -19,7 +14,6 @@ const userSchema = new Schema(
         },
         password: {
             type: String,
-            require: true
         },
         admin: {
             type: Boolean,
@@ -41,6 +35,14 @@ const userSchema = new Schema(
         localStorageToken: {
             type: String
         },
+        verification_code:{
+            type: String,
+
+        },
+        account_verified: {
+            type: Boolean,
+            default: false
+        },
         available_money: {
             type: Number,
             default: 0,
@@ -60,12 +62,12 @@ const userSchema = new Schema(
 
 userSchema.set("toJSON", {
     transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id;
-      delete returnedObject._id;
-      delete returnedObject._v;
-      delete returnedObject.hashPassword;
+        returnedObject.id = returnedObject._id;
+        delete returnedObject._id;
+        delete returnedObject._v;
+        delete returnedObject.hashPassword;
     },
-  });
+});
 
 
-  module.exports = model("User", userSchema)
+module.exports = model("User", userSchema)

@@ -9,6 +9,7 @@ import Modal from '../Modal/Modal'
 import LoginRegisterPopUp from '../LoginRegisterPopUp/LoginRegisterPopUp'
 import { fetchCreds } from '../../Redux/thunks/userThunks'
 import useAuth from '../../hooks/useAuth'
+import SideBar from './SideBar/SideBar'
 
 import foodify_logo from '../../assets/foodify_logo.png'
 
@@ -74,17 +75,17 @@ const NavBar = () => {
     }
   },[activeLogin])
   
-  
+  const [isVisible, setIsVisible]=useState(false)
   
   if(path.includes('negocios') || path.includes('verify')){
     return <></>
   }else{
-
     return (
       <div >
+        <SideBar isVisible={isVisible} setIsVisible={()=>{setIsVisible(state=>!state)}}/>
       <div className={s.cont}>
         <div className={s.menu_logo_cont}>
-          <div><TiThMenu style={{ 'color': '#20B5E5', 'fontSize': '1.7rem', 'paddingTop': '5px' }} /></div>
+          <div onClick={()=>{setIsVisible(state=>!state)}}><TiThMenu style={{ 'color': '#20B5E5', 'fontSize': '1.7rem', 'paddingTop': '5px' }} /></div>
           <div>
             <img className={s.logo} onClick={() => navigate('restaurantes')} src={foodify_logo} alt={'foodify'} />
           </div>

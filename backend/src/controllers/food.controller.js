@@ -17,8 +17,9 @@ const {
 
 const dataApi = async (req, res) => {
     try {
-        const info = await axios.get("https://api.spoonacular.com/recipes/complexSearch?apiKey=3c0bc46ea185416c9f31e066115651fb&addRecipeInformation=true&number=150")
-
+        // const info = await axios.get("https://api.spoonacular.com/recipes/complexSearch?apiKey=3c0bc46ea185416c9f31e066115651fb&addRecipeInformation=true&number=150")
+        const info = await axios.get("https://api.spoonacular.com/recipes/complexSearch?apiKey=3c0bc46ea185416c9f31e066115651fb&addRecipeInformation=true&number=25&offset=75")
+        
         const infoTotal = info.data.results
 
         infoTotal.forEach((el) => {
@@ -28,7 +29,8 @@ const dataApi = async (req, res) => {
                 image: el.image,
                 diets: el.diets.map((current) => current),
                 price: el.pricePerServing,
-                rating: (el.healthScore * 0.1)
+                rating: (el.healthScore * 0.1),
+                seller: '633b1e34953ac3c0810b4438'
             })
         })
 

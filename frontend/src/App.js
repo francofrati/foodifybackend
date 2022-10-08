@@ -11,14 +11,15 @@ import Home from './pages/Home/Home';
 import RestaurantPage from './pages/RestaurantPage/RestaurantPage';
 import CreateFood from './components/RestaurantComponents/CreateFood/CreateFood';
 import Shopping from './components/Shopping/Shopping'
-
+import Dashboard from './components/Admin/Dashoard';
 
 
 function App() {
   return (
     <div className="App">
-      <NavBar />      
+          
       <Routes>
+      <Route path="/" element={<NavBar />}>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />}/>
         <Route path='/register' element={<Register/>} />
@@ -26,6 +27,8 @@ function App() {
         <Route path='/restaurantes/:id' element={<RestaurantPage/>}/>
         <Route path='/restaurantes/:id/newFood' element={<CreateFood />} />
         <Route path='shopping' element={<Shopping />}/>
+        </Route>
+        <Route path="/admin" element={<Dashboard />} />
       </Routes>
     </div>
   );

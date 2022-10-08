@@ -19,10 +19,6 @@ const Shop = () => {
         // if (user===null || user.type !== 'restaurant') navigate('/restaurantes')
     }, [])
 
-    useEffect(()=>{
-        console.log('aaaaa',user)
-    },[user])
-
     
         return (
             <div>

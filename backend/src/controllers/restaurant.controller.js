@@ -46,12 +46,16 @@ const registerRestaurant = async (req, res) => {
 
     try {
         const code = randomCode()
+
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
         const restaurant = await Restaurant.findOneAndUpdate(
             {
                 email: email
             },
             {
-                password: password,
+                password: hash,
                 image: image,
                 verification_code: code
             },
@@ -90,8 +94,6 @@ const loginRestaurant = async (req, res) => {
             throw Error(`El email: ${email} no corresponde a ningun negocio.`)
         }
 
-
-
         const isCorrectPassword = await bcrypt.compare(password, currentRestaurant.password)
 
         if (currentRestaurant && !isCorrectPassword) {
@@ -106,15 +108,16 @@ const loginRestaurant = async (req, res) => {
             type: 'restaurant'
         })
 
-        return res.status(201).json({
-            logged_restaurant: currentRestaurant,
-            token
+        return res.status(201).send({
+            status:true,
+            token,
+            msg:'Usuario loggeado correctamente'
         })
 
     } catch (error) {
         return res.status(404).send({
-            Codigo: 404,
-            Error: error.message
+            status: false,
+            msg: error.message
         })
     }
 }

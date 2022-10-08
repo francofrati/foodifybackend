@@ -11,23 +11,29 @@ import CreateFood from './components/RestaurantComponents/CreateFood/CreateFood'
 import Shopping from './components/Shopping/Shopping'
 import Shop from './pages/Shop/Shop'
 import AccountVerification from './pages/AccountVerification/AccountVerification'
+import ShopsLogin from './pages/ShopsLogin/ShopsLogin';
+import ShopsRegister from './pages/ShopsRegister/ShopsRegister';
+import ShopVerification from './pages/ShopVerification/ShopVerification';
 
 
 
 
 function App() {
 
-  
+
   return (
     <div className="App">
-      <NavBar />      
+      <NavBar />
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/restaurantes' element={<Home/>}/>
-        <Route path='/restaurantes/:id' element={<RestaurantPage/>}/>
+        <Route path='/restaurantes' element={<Home />} />
+        <Route path='/restaurantes/:id' element={<RestaurantPage />} />
         <Route path='/restaurantes/:id/newFood' element={<CreateFood />} />
-        <Route path='shopping' element={<Shopping />}/>
-        <Route path='/Negocios/:id' element={<Shop />} />
+        <Route path='shopping' element={<Shopping />} />
+        <Route path='/negocios' element={<ShopsLogin />} />
+        <Route path='/negocios/registro' element={<ShopsRegister />} />
+        <Route path='/negocios/:id' element={<Shop />} />
+        <Route path='/negocios/verifyAccount/:id' element={<ShopVerification />} />
         <Route path='/verifyAccount/:id' element={<AccountVerification />} />
       </Routes>
     </div>

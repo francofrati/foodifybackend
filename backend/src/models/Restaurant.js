@@ -5,23 +5,38 @@ const restaurantSchema = new Schema(
         image:{
             type:String
         },
-        name: {
+        name:{
+            type:String
+        },
+        owner_name: {
             type: String,
             require: true,
             trim: true
         },
+        phone:{
+            type:String,
+        },
         email: {
             type: String, 
             require: true,
-            // unique: true
+            unique: true
         },
         password: {
             type: String,
-            require: true
+            // require: true
         },
         country: {
             type: String,
-            require: true
+            // require: true
+        },
+        state:{
+            type: String
+        },
+        city:{
+            type:String
+        },
+        coordinates:{
+            type:Array
         },
         selling_foods: [
             {
@@ -55,6 +70,13 @@ const restaurantSchema = new Schema(
         delivery_time:{
             type:Number,
             default: 20
+        },
+        verified:{
+            type:Boolean,
+            default:false
+        },
+        verification_code:{
+            type:String
         }
     }
 )

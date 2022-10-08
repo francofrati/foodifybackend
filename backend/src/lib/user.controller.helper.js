@@ -93,6 +93,17 @@ const sendVerificationEmail = async (email, name, link, code) => {
 
 }
 
+const sendVerificationEmailtoRestaurant = async (email, name, link, code) => {
+
+    await transporter.sendMail({
+        from: '"😎Foodify😎" <francofraticelli41@gmail.com>', // sender address
+        to: email, // list of receivers
+        subject: "Bienvenidos a Foodify", // Subject line
+        html: `<b>Hola ${name}👽,Para verificar la cuenta de tu negocio ingresa este codigo:${code} en siguiente link: ${link} </b>`,
+    })
+
+}
+
 
 module.exports = {
     createToken,
@@ -101,5 +112,6 @@ module.exports = {
     getByEmail,
     sendEmail,
     sendVerificationEmail,
-    randomCode
+    randomCode,
+    sendVerificationEmailtoRestaurant
 }

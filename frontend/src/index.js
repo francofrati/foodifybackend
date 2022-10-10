@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import axios from "axios";
 import store from './Redux/store/store'
 
+
 axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

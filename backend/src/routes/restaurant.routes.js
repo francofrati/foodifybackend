@@ -1,10 +1,13 @@
 const { Router } = require('express')
 
 const {
-    createRestaurant,
+    registerRestaurant,
     getAllRestaurants,
     getOneRestaurant, getAuth,
-    loginRestaurant
+    loginRestaurant,
+    verifyAndPreRegisterRestaurant,
+    getVerification,
+    isRestaurantVerificated
 } = require('../controllers/restaurant.controller')
 
 
@@ -14,7 +17,13 @@ router.get("/", getAllRestaurants)
 
 router.get("/:id", getOneRestaurant)
 
-router.post("/register", createRestaurant)
+router.post("/register/verify", verifyAndPreRegisterRestaurant)
+
+router.post("/verify", getVerification)
+
+router.get("/verify/:restaurantId",isRestaurantVerificated)
+
+router.post("/register", registerRestaurant)
 
 router.post("/login", loginRestaurant)
 

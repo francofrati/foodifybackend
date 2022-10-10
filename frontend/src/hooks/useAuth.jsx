@@ -8,7 +8,7 @@ const useAuth = () => {
     const dispatch = useDispatch()
     const token = window.localStorage.getItem('token')
     
-    useEffect(() => {
+     return useEffect(() => {
         dispatch(fetchCreds(token))
     }, [dispatch, token])
 

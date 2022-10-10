@@ -12,23 +12,27 @@ import RestaurantPage from './pages/RestaurantPage/RestaurantPage';
 import CreateFood from './components/RestaurantComponents/CreateFood/CreateFood';
 import Shopping from './components/Shopping/Shopping'
 import Dashboard from './components/Admin/Dashoard';
+import Summary from './components/Admin/Summary'
+import { ToastContainer } from 'react-toastify'
 
 
 function App() {
   return (
     <div className="App">
+      <ToastContainer />
+      <NavBar />
           
       <Routes>
-      <Route path="/" element={<NavBar />}>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />}/>
         <Route path='/register' element={<Register/>} />
         <Route path='/restaurantes' element={<Home/>}/>
         <Route path='/restaurantes/:id' element={<RestaurantPage/>}/>
         <Route path='/restaurantes/:id/newFood' element={<CreateFood />} />
-        <Route path='shopping' element={<Shopping />}/>
+        <Route path='/shopping' element={<Shopping />}/>
+        <Route path="/admin" element={<Dashboard />}>
+          <Route path="summary" element={<Summary />}/>
         </Route>
-        <Route path="/admin" element={<Dashboard />} />
       </Routes>
     </div>
   );

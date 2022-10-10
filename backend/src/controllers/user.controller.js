@@ -174,6 +174,7 @@ const login = async (req, res) => {
         const token = createToken({
             name: currentUser.name,
             email,
+            id: currentUser.id,
             type: 'user'
         })
 

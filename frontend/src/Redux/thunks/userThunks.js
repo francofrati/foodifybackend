@@ -14,11 +14,9 @@ const fetchCreds = (token) => (dispatch) => {
                 return
             }
             dispatch(getUserCreds(response.data))
-            console.log('biennnnn',response.data)
         })
         .catch((error) => {
             console.log(error)
-            console.log('errrror',error)
         })
 }
 
@@ -33,12 +31,11 @@ const fetchAllUsers = () => (dispatch) => {
   };
   
   const fetchUserById = (id) => (dispatch) => {
-    //console.log(id)
     axios
-      .get(`/users/${id}`)
+      .get(`/user?id=${id}`)
       .then((response) => {
-        //console.log(response.data)
-        dispatch(getUserById(response.data.userrrs));
+        console.log(response.data)
+        dispatch(getUserById(response.data.users));
       })
       .catch((error) => console.log(error));
   };

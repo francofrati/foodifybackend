@@ -48,6 +48,10 @@ const NavBar = () => {
       })
   }, [])
   //----------------
+
+  if(window.location.pathname.includes('admin')){
+    return(<></>)
+  }
   return (
     <div className={s.cont}>
       <div className={s.menu_logo_cont}>

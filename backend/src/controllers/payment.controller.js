@@ -1,11 +1,42 @@
 require("dotenv").config();
 const axios = require("axios")
-const PAYPAL_API = process.env.PAYPAL_API
-const PAYPAL_API_CLIENT = process.env.PAYPAL_API_CLIENT
-const PAYPAL_API_SECRET = process.env.PAYPAL_API_SECRET
 const endpointSecret = process.env.ENDPOINTSECRET;
 const Stripe = require("stripe")
 const stripe = Stripe(process.env.STRIPE_KEY)
+const Order = require("../models/Order")
+
+
+
+const createOrder = async (customer, data) => {
+
+  console.log(customer)
+
+  try {
+    await Order.create({
+      user_id_stripe: customer.id,
+      user_name: data.customer_details.name,
+      user_email: customer.email,
+      user_phone: customer.phone,
+      address: {
+        city: data.customer_details.address.city,
+        country: data.customer_details.address.country,
+        address_line_1: data.customer_details.address.line1,
+        postal_code: data.customer_details.address.postal_code
+      },
+      products: data.data.map(item => {
+        return ({
+          title: item.description,
+          cartQuantity: item.quantity,
+          subtotal_price: item.amount_total
+        })
+      }),
+      payment_status: data.payment_status,
+      total_price: data.amount
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 
 const payment = async (req, res) => {
@@ -21,7 +52,7 @@ const payment = async (req, res) => {
       price_data: {
         currency: "usd",
         product_data: {
-          name: item.name,
+          name: item.title,
           images: [item.image],
           // description: item.desc,
           metadata: {
@@ -121,5 +152,6 @@ const handleWebHook = async (request, response) => {
 }
 
 module.exports = {
-  handleWebHook
+  handleWebHook,
+  payment 
 }

@@ -1,10 +1,12 @@
 const { Router } = require("express")
 const { 
-    handleWebHook
+    handleWebHook,
+    payment 
 } = require("../controllers/payment.controller")
 
 const router = Router()
 
-router.get("/webhook", handleWebHook)
+router.post("/webhook", handleWebHook)
+router.post("/create-checkout-session", payment);
 
 module.exports = router

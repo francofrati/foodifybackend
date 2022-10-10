@@ -1,19 +1,39 @@
+import React, { useEffect } from 'react'
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 import { Outlet, NavLink, Link, useNavigate } from "react-router-dom";
+import { fetchUserById } from '../../Redux/thunks/userThunks'
+import './Dashboard.css'
+import jwt_decode from "jwt-decode"
 
 const Dashboard = () => {
 
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleClick = () => {
     navigate("/")
     window.location.reload()
     localStorage.clear()
-    
-
   }
 
-  //if (!auth.isAdmin) return <p>Access denied. Not an Admin!</p>;
+  console.log(jwt_decode(window.localStorage.token))
+
+
+  useEffect(() => {
+    if (window.localStorage.token) {
+      let info = jwt_decode(window.localStorage.token);
+      let id = info.id
+      dispatch(fetchUserById(id));
+    }
+
+
+  }, []);
+
+  const { userById } = useSelector((state) => state.user);
+  
+
+  // if (!userById.isAdmin) return <p>Access denied. Not an Admin!</p>;
 
   return (
     <StyledDashboard>

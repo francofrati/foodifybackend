@@ -13,6 +13,7 @@ import { fetchCreds } from '../../Redux/thunks/userThunks'
 import { FiLock } from 'react-icons/fi'
 import { MdOutlineEmail } from 'react-icons/md'
 import foodify_logo from '../../assets/foodify_logo.png'
+import {loginSchema} from '../../schemas/loginSchema'
 
 
 
@@ -75,6 +76,7 @@ const ShopsLogin = () => {
                         password: ''
                     }}
                     onSubmit={handleLogin}
+                    validationSchema={loginSchema}
                 >
                     <Form className={s.login_form}>
                         <CustomInput

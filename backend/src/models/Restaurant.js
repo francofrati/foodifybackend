@@ -38,6 +38,9 @@ const restaurantSchema = new Schema(
         coordinates:{
             type:Array
         },
+        address:{
+            type:String
+        },
         selling_foods: [
             {
                 type: Schema.Types.ObjectId,

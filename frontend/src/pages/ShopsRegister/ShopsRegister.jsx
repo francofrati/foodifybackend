@@ -8,6 +8,7 @@ import { Form, Formik } from "formik"
 import CustomInput from './CustomInput/CustomInput'
 import { preVerifyRestaurantRegistrationURL, registerRestaurantURL } from '../../assets/endpoints'
 import { useState } from 'react'
+import { restaurantRegistrationSchema, restaurantRegistrationSchemaStepTwo } from '../../schemas/restaurantRegistrationSchema'
 
 
 
@@ -48,6 +49,7 @@ const FirstStep = ({ changeForm, globalValue }) => {
         phone: ''
       }}
       onSubmit={handleSubmit}
+      validationSchema={restaurantRegistrationSchema}
     >
       <Form style={{ backgroundColor: 'white' }}>
         <CustomInput
@@ -103,7 +105,7 @@ const SecondStep = ({ globalValue, prevValues }) => {
       image: values.brandLogo,
       email: prevValues.email
     }
-    console.log(body)
+
     axios.post(registerRestaurantURL,body)
     .then((r)=>{
       if(r.data.status){
@@ -120,6 +122,7 @@ const SecondStep = ({ globalValue, prevValues }) => {
         confirmPassword: ''
       }}
       onSubmit={handleSubmit}
+      validationSchema={restaurantRegistrationSchemaStepTwo}
     >
       <Form>
         <CustomInput

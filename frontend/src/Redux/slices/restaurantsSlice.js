@@ -5,7 +5,6 @@ const initialState = {
     renderedRestaurants: [],
     restaurant: null,
     sortMarker: [],
-    userRest: null
 }
 
 const restaurantsSlice = createSlice({
@@ -22,9 +21,7 @@ const restaurantsSlice = createSlice({
         cleanRestaurantState(state) {
             state.restaurant = null
         },
-        getRestCreds(state, { payload }) {
-            state.userRest = payload
-        },
+        
         //---SORT Y FILTRADO DE RESTAURANTES---
         filterRestaurants(state, { payload }) {
 

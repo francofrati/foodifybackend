@@ -8,7 +8,8 @@ const {
     getByEmail,
     createToken,
     validateToken,
-    sendEmail
+    sendEmail,
+    randomCode
 } = require("../lib/user.controller.helper")
 
 
@@ -36,10 +37,12 @@ const getUserById = async (req, res) => {
     try {
         const user = await User.findById(idUser)
 
-        return res.status(500).json({ user: user })
+        return res.status(200).json({ user: user })
 
     } catch (error) {
-        return res.status(500).json({ error: error })
+        return res.status(500).json({
+            error: error
+        })
     }
 }
 
@@ -123,11 +126,14 @@ const signUp = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
 
+        const code = randomCode()
+
         const newUser = await User.create({
             email,
             username,
             name,
-            password: hash
+            password: hash,
+            verification_code: code
         })
 
         const token = createToken({
@@ -137,7 +143,10 @@ const signUp = async (req, res) => {
         })
 
         //Mail de bienvenida
-        sendEmail(newUser.email, newUser.name)
+
+        const temporalVerificationLink = `http://localhost:3000/verifyAccount/${newUser.id}`
+
+        await sendEmail(newUser.email, newUser.name, temporalVerificationLink, code)
 
         return res.status(201).send({
             created_user: newUser,
@@ -209,6 +218,120 @@ const getAuth = async (req, res) => {
     }
 }
 
+const googleAuth = async (req, res) => {
+
+    const { email, name } = req.body
+
+    console.log(email, name)
+
+    try {
+        const isUser = await User.findOne({ email: email })
+
+        if (isUser) {
+            const token = createToken({
+                name: isUser.name,
+                email: isUser.email,
+                type: 'user'
+            })
+
+            return res.status(201).send({
+                token
+            })
+        }
+
+        const code = randomCode()
+
+        const createUserWithGoogle = await User.create({
+            email,
+            name,
+            verification_code: code
+        })
+
+        const token = createToken({
+            name: createUserWithGoogle.name,
+            email: createUserWithGoogle.email,
+            type: 'user'
+        })
+        const temporalVerificationLink = `http://localhost:3000/verifyAccount/${createUserWithGoogle.id}`
+
+        await sendEmail(createUserWithGoogle.email, createUserWithGoogle.name, temporalVerificationLink, code)
+
+        return res.status(201).send({
+            token
+        })
+
+
+    } catch (error) {
+        return res.status(400).send({
+            Codigo: `400 Error en autorizacion con google`,
+            Error: error.message
+        })
+    }
+}
+
+const getVerification = async (req, res) => {
+    const { userId, code } = req.body
+
+
+    try {
+        const user = await User.findOne({ id: userId })
+        console.log(user.id)
+        if (!user) {
+            throw Error(`No tienes los permisos necesarios para estar en esta pagina`)
+        }
+
+        const correctCode = code === user.verification_code ? true : false
+
+        if (correctCode) {
+
+            await User.findByIdAndUpdate(
+                { _id: userId },
+                { account_verified: true },
+                { new: true })
+
+            return res.status(200).send({
+                status: true,
+                msg: 'Codigo correcto'
+            })
+        }
+
+        throw Error('Codigo incorrecto intenta de nuevo')
+
+    } catch (error) {
+        return res.send({
+            status: false,
+            msg: error.message
+        })
+    }
+}
+
+const isUserVerificated = async (req, res) => {
+    const { userId } = req.params
+
+    try {
+        const user = await User.findOne({ id: userId })
+
+        if (!user) {
+            throw Error(`El id: ${userId} no pertenece a ningun usuario`)
+        }
+
+        if (user.account_verified) {
+            throw Error(`El usuario con id: ${userId} ya verifico su cuenta`)
+        }
+
+        return res.status(200).send({
+            status: true,
+            msg: 'El Usuario debe verificar su cuenta'
+        })
+
+    } catch (error) {
+        return res.status(200).send({
+            status: false,
+            msg: error.message
+        })
+    }
+}
+
 module.exports = {
     signUp,
     login,
@@ -217,5 +340,8 @@ module.exports = {
     deleteUser,
     putUserFood,
     putUser,
-    getUserById
+    getUserById,
+    googleAuth,
+    getVerification,
+    isUserVerificated
 }

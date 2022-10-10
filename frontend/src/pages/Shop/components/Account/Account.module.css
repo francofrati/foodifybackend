@@ -1,0 +1,13 @@
+.cont{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    /* border: 1px solid blue; */
+}
+.option_cont{
+    width: 300px;
+    border: 1px solid black;
+}
+.label{
+    border-bottom: 1px solid black;
+}

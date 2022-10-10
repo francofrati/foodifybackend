@@ -1,0 +1,69 @@
+.cont{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(197, 197, 197);
+    display:flex;
+}
+.foodify_logo{
+    width: 80px;
+    height: 80px;
+}
+.options_cont{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    /* height: 100%; */
+    background-color: rgb(112, 112, 112);
+    border-top:2px solid black ;
+    border-right: 2px solid black;
+
+}
+.panel_cont{
+    width: 400px;
+    height: 100%;
+}
+.foody_cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(112, 112, 112);
+    border-right: 1px solid black;
+}
+.content_cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.options_info_cont{
+    border-left: 1px solid black;
+    width: 100%;
+    height: 100%;
+}
+.shop_name_cont{
+    background-color: rgb(112, 112, 112);
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: monospace;
+    width: 100%;
+    height: 80px;
+    border-left: 1px solid black;
+    border-bottom: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Opciones */
+
+.option_cont{
+    width: 100%;
+    /* height: 30px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(43, 43, 43);
+    font-size: 3rem;
+    cursor: pointer;
+}

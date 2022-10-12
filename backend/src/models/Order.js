@@ -28,6 +28,10 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
+    ready:{
+        type: Boolean,
+        default:false
+    },
     delivery_status: { type: String, default: "pending" },
 },
     {

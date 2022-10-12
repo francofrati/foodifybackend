@@ -9,6 +9,7 @@ import foodify_logo from '../../assets/foodify_logo.png'
 import Orders from './components/Orders/Orders'
 import Products from './components/Products/Products'
 import Account from './components/Account/Account'
+import { useState } from 'react'
 
 const optionsConfig = [
     { name: 'Pedidos' },
@@ -19,9 +20,10 @@ const optionsConfig = [
     { name: 'Cerrar sesion' },
 ]
 
-const Options = ({ name }) => {
+const Options = ({ name, changeOption, active }) => {
+
     return (
-        <div className={s.option_cont}>
+        <div onClick={changeOption} className={active===name?`${s.option_cont} ${s.active_option}`:s.option_cont}>
             {name}
         </div>
     )
@@ -30,11 +32,30 @@ const Options = ({ name }) => {
 
 const Shop = () => {
 
+    const handleOptions = (state) => {
+        switch (state) {
+            case 'Pedidos':
+                return <Orders />
+            case 'Cuenta':
+                return <Account />
+            case 'Productos':
+                return <Products />
+            default:
+                return <></>
+        }
+    }
+
+    const [option, setOption] = useState('')
+
     const navigate = useNavigate()
 
     const { user } = useSelector(state => state.user)
 
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        console.log(option)
+    }, [option])
 
     useEffect(() => {
         const token = window.localStorage.getItem('token')
@@ -58,7 +79,7 @@ const Shop = () => {
                             <img className={s.foodify_logo} src={foodify_logo} alt="foodify" />
                         </div>
                         <div className={s.options_cont}>
-                            {optionsConfig.map(e => <Options name={e.name} />)}
+                            {optionsConfig.map(e => <Options active={option} changeOption={() => setOption(e.name)} name={e.name} key={e.name} />)}
                         </div>
                     </div>
                     <div className={s.content_cont}>
@@ -66,9 +87,7 @@ const Shop = () => {
                             {user.name}
                         </div>
                         <div className={s.options_info_cont}>
-                            {/* <Orders /> */}
-                            {/* <Products /> */}
-                            <Account />
+                            {handleOptions(option)}
                         </div>
                     </div>
                 </div>

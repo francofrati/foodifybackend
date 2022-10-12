@@ -18,3 +18,16 @@
     font-size: 2rem;
     font-weight: bold;
 }
+.orders_cont{
+    display: flex;
+    flex-direction: column;
+    gap :5px
+}
+
+/* Card de Order */
+
+.cont_card{
+    width: 100%;
+    /* height: 40px; */
+    background-color: brown;
+}

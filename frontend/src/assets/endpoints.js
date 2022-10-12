@@ -11,3 +11,4 @@ export const googleAuthURL = 'http://localhost:3001/user/google'
 export const accountVerificationURL = 'http://localhost:3001/user/verify'
 export const restaurantVerificationURL = 'http://localhost:3001/restaurant/verify'
 export const preVerifyRestaurantRegistrationURL ='http://localhost:3001/restaurant/register/verify'
+export const getOrdersByRestId = (id)=>`http://localhost:3001/orders/ordenes?restId=${id}`

@@ -116,7 +116,7 @@ const deleteUser = async (req, res) => {
 
 
 const signUp = async (req, res) => {
-    const { email, username, name, password } = req.body
+    const { email, name, password } = req.body
 
     try {
         const currentUser = await User.findOne({ email: email })
@@ -130,7 +130,6 @@ const signUp = async (req, res) => {
 
         const newUser = await User.create({
             email,
-            username,
             name,
             password: hash,
             verification_code: code

@@ -27,7 +27,8 @@ const createOrder = async (customer, data) => {
         return ({
           title: item.description,
           cartQuantity: item.quantity,
-          subtotal_price: item.amount_total
+          subtotal_price: item.amount_total,
+          id_food: item.id
         })
       }),
       payment_status: data.payment_status,
@@ -40,13 +41,16 @@ const createOrder = async (customer, data) => {
 
 
 const payment = async (req, res) => {
+  console.log("ITEM: " + req.body)
+
   // const { } = cartItems
-  const customer = await stripe.customers.create({
+  try{const customer = await stripe.customers.create({
     metadata: {
-      userId: req.body.userId,
+      userId: req.body.userId.id,
       // cart: JSON.stringify(req.body.cartItems)
     },
   });
+
   const line_items = req.body.cartItems.map((item) => {
     return {
       price_data: {
@@ -59,7 +63,7 @@ const payment = async (req, res) => {
             id: item.id,
           },
         },
-        unit_amount: item.price * 100,
+        unit_amount: item.price,
       },
       quantity: item.cartQuantity,
     };
@@ -104,7 +108,15 @@ const payment = async (req, res) => {
     cancel_url: `${process.env.CLIENT_URL}/shopping`,
   });
 
-  res.status(200).send({ url: session.url });
+  console.log(session)
+  res.status(200).send({ url: session.url });}
+  catch(error){
+    console.log(error)
+    console.log("CUSTOMER: ")
+    console.log(req.body.userId)
+
+
+  }
 }
 
 

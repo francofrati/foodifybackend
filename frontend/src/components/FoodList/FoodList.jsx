@@ -19,7 +19,6 @@ const FoodList = ({ foods }) => {
         setCurrentPage(pageNumber)
     }
 
-    console.log(foods)
 
     return(
         <div className={s.container}>
@@ -31,7 +30,7 @@ const FoodList = ({ foods }) => {
 
             <div className={s.foods}>
                 {currentFoods.map((food) => {
-                    return <Card id={food._id} title={food.title} image={food.image} price={food.price} rating={food.rating} key={food._id} food={food}/>
+                    return <Card id={food._id} title={food.title} image={food.image} price={food.price} rating={food.rating} key={food._id} food={food} className={s.tarjeta}/>
                 })}
             </div>
             <div className={s.pagination}>

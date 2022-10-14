@@ -22,7 +22,7 @@ const shoppingSlice = createSlice({
             else {
                 const tempProduct = {...action.payload, cartQuantity: 1}
                 state.cartItems.push(tempProduct)
-                toast.success(`${action.payload.name} added to cart`, {position: "bottom-left"})
+                toast.success(`${action.payload.title} added to cart`, {position: "bottom-left"})
             }
 
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
@@ -84,7 +84,7 @@ const shoppingSlice = createSlice({
                 total: 0,
                 quantity: 0
             })
-
+            total = Math.floor(total)
             state.cartTotalQuantity = quantity
             state.cartTotalAmount = total
         }

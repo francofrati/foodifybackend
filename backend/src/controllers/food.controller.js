@@ -5,6 +5,7 @@ const axios = require("axios")
 const Food = require("../models/Food.js")
 const User = require("../models/User.js")
 const Restaurant = require("../models/Restaurant.js")
+var mongoose = require("mongoose")
 
 const {
     paginate,
@@ -20,6 +21,8 @@ const dataApi = async (req, res) => {
         // const info = await axios.get("https://api.spoonacular.com/recipes/complexSearch?apiKey=3c0bc46ea185416c9f31e066115651fb&addRecipeInformation=true&number=150")
         const info = await axios.get("https://api.spoonacular.com/recipes/complexSearch?apiKey=3c0bc46ea185416c9f31e066115651fb&addRecipeInformation=true&number=25&offset=75")
         
+        
+
         const infoTotal = info.data.results
 
         infoTotal.forEach((el) => {
@@ -73,8 +76,24 @@ const getFoods = async (req, res) => {
 }
 
 
+const getFoodsRestaurant = async (req, res) => {
+
+    const { idRestaurant } = req.params
+
+    let objectId = mongoose.Types.ObjectId(idRestaurant)
+
+    try {
+        let foods = await Food.find({ seller: idRestaurant })
+        return res.status(200).json({ foods: foods})
+    } catch (error) {
+        return res.status(500).json({ error: error })
+    }
+}
+
+
 const getFoodById = async (req, res) => {
     const { idFood } = req.params
+    console.log(idFood)
 
     try {
         const food = await Food.findById(idFood)  //Posiblemente falten cambios a esta ruta
@@ -199,5 +218,6 @@ module.exports = {
     postFood,
     putFood,
     deleteFood,
-    getDiets
+    getDiets,
+    getFoodsRestaurant
 }

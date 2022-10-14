@@ -18,7 +18,6 @@ const PayButton = ({ cartItems, userInfo, cartInfo}) => {
         const token1 = window.localStorage.getItem('token')
     }, [])
 
-    console.log(userInfo)
 
 
     const handleCheckout = () => {

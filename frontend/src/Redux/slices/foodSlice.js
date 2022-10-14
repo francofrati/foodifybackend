@@ -4,7 +4,8 @@ const initialState = {
     foods: [],
     foodsCopy: [],
     diets: [],
-    searchEmpty: false
+    searchEmpty: false,
+    foodsRestaurant: []
 }
 
 const foodSlice = createSlice({
@@ -14,9 +15,14 @@ const foodSlice = createSlice({
         getFoods(state, action) {
             state.foods = action.payload
             state.foodsCopy = action.payload
+            
         },
         getDiets(state, action) {
             state.diets = action.payload
+        },
+        getFoodsRestaurant(state, action){
+            state.foodsCopy = action.payload
+            state.foodsRestaurant = action.payload
         },
         searchFood(state, action) {
             if(action.payload.length === 0) {
@@ -40,7 +46,8 @@ export const {
     getFoods,
     getDiets,
     searchFood,
-    resetSearch
+    resetSearch,
+    getFoodsRestaurant
  } = foodSlice.actions
 
 export default foodSlice.reducer

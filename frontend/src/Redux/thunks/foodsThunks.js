@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getFoods, getDiets, searchFood } from '../slices/foodSlice'
+import { getFoods, getDiets, searchFood, getFoodsRestaurant } from '../slices/foodSlice'
 
 const fetchAllFoods = () => (dispatch) => {
     axios.get("/foods")
@@ -25,8 +25,18 @@ const fetchFoodsByTitle = (title) => (dispatch) => {
     .catch((error) => console.log(error))
 } 
 
+
+const fetchFoodsRestaurant = (idRestaurant) => (dispatch) => {
+    axios.get(`/foods/foodsRestaurant/${idRestaurant}`)
+    .then((response) => {
+        dispatch(getFoodsRestaurant(response.data.foods))
+    })
+    .catch((error) => console.log(error))
+}
+
 export {
     fetchAllFoods,
     fetchAllDiets,
-    fetchFoodsByTitle
+    fetchFoodsByTitle,
+    fetchFoodsRestaurant
 }

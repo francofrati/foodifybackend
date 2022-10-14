@@ -7,7 +7,8 @@ const {
     postFood,
     putFood,
     deleteFood,
-    getDiets
+    getDiets,
+    getFoodsRestaurant
 } = require("../controllers/food.controller.js")
 
 
@@ -23,6 +24,8 @@ router.get('/diets', getDiets)
 
 router.post('/', postFood)
 
+//
+router.get('/foodsRestaurant/:idRestaurant', getFoodsRestaurant)
 
 //Get de una comida con id de la comida
 router.get('/:idFood', getFoodById)

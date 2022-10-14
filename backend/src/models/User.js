@@ -32,6 +32,12 @@ const userSchema = new Schema(
                 ref: "Food"
             }
         ],
+        orders_foods: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Order"
+            }
+        ],
         login_Google: {
             type: Boolean,
             default: false

@@ -19,8 +19,7 @@ const Shopping = () => {
         dispatch(getTotals())
     }, [cart])
 
-    const userById = useSelector((state) => state.users);
-    console.log(userById)
+    const userById = useSelector((state) => state.user);
 
 
     useEffect(() =>{
@@ -36,6 +35,7 @@ const Shopping = () => {
     }, [])
 
     const user = useSelector((state) => state.user.user)
+    console.log("USERRR: " + userById)
 
 
     const handleRemoveFromCart = (cartItem) => {

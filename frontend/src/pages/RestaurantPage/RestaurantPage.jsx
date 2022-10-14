@@ -7,9 +7,10 @@ import { fetchOneRestaurant} from '../../Redux/thunks/restaurantsThunks'
 import { cleanRestaurantState } from '../../Redux/slices/restaurantsSlice'
 
 import s from './RestaurantPage.module.css'
-import { fetchAllFoods } from '../../Redux/thunks/foodsThunks'
+import { fetchAllFoods, fetchFoodsRestaurant } from '../../Redux/thunks/foodsThunks'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import FoodList from '../../components/FoodList/FoodList'
+import { getFoodsRestaurant } from '../../Redux/slices/foodSlice'
 
 const RestaurantPage = () => {
 
@@ -18,12 +19,14 @@ const RestaurantPage = () => {
     const dispatch = useDispatch()
     const {restaurant} = useSelector(state=>state.restaurants)
 
-    const { foods } = useSelector((state) => state.foods)
+    const { foods, foodsRestaurant } = useSelector((state) => state.foods)
     useEffect(() => {
         if (foods.length === 0) {
           dispatch(fetchAllFoods());
         }
       }, [dispatch,foods]);
+
+      
 
     useEffect(()=>{
         dispatch(fetchOneRestaurant(id))
@@ -35,9 +38,19 @@ const RestaurantPage = () => {
         }
     },[dispatch])
 
+
+
+
+    useEffect(() => {
+        if(foodsRestaurant.length === 0){
+            dispatch(fetchFoodsRestaurant(id))
+        }
+      }, [dispatch, foodsRestaurant, id])
+
+    console.log(foodsRestaurant)
+
     if(restaurant) {
         document.title =`${restaurant.name} - Foodify`
-        console.log(restaurant.email)
     }
 
     return (
@@ -57,11 +70,11 @@ const RestaurantPage = () => {
                 </div>
             </div>
             <div className={s.catalog_cont}>
-                <div style={{'border':'1px solid black','width':'500px'}}>
+                {/* <div style={{'border':'1px solid black','width':'500px'}}>
                     <div style={{'width':'100%','border':'1px solid black'}}>Pedido</div>
                     <div style={{'width':'100%','border':'1px solid black'}}>Productos</div>
                     <div style={{'width':'100%','border':'1px solid black'}}>Precio total</div>
-                </div>
+                </div> */}
                 <div className={s.food_container} >
                     {/* {products.map(p => {
                         return (
@@ -76,7 +89,7 @@ const RestaurantPage = () => {
                             </div>
                         )
                     })} */}
-                     <FoodList foods={foods}/>
+                     <FoodList foods={foodsRestaurant}/>
                 </div>
 
             </div>

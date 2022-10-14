@@ -86,7 +86,7 @@ export default Dashboard;
 
 const StyledDashboard = styled.div`
   display: flex;
-  min-height: 100vh;
+  min-height: 120vh;
   background-color: white !important;
 `;
 
@@ -95,7 +95,7 @@ const SideNav = styled.div`
   height: calc(100vh - 70px);
   position: fixed;
   overflow-y: auto;
-  width: 200px;
+  width: 150px;
   display: flex;
   flex-direction: column;
   padding: 2rem;

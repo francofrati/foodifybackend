@@ -1,10 +1,11 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { jarallax, jarallaxElement } from 'jarallax'
-
+import Footer from '../Footer/Footer.jsx'
 import restaurant from '../../assets/restaurant.jpg'
 import './LandingPage.scss'
 import './Jarallax.css'
+import HeaderLandingPage from "./HeaderLandingPage.jsx"
 
 const LandingPage = () => {
 
@@ -25,6 +26,8 @@ const LandingPage = () => {
 
 
     return (
+        <div>
+        < HeaderLandingPage/>
         <div className='body1' onClick={() => navigate('/restaurantes')}>
             <section>
                 <div className='box1'>
@@ -81,6 +84,8 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
+        </div>
+        <Footer />
         </div>
     )
 }

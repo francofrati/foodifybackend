@@ -47,6 +47,12 @@ const restaurantSchema = new Schema(
                 ref: "Food"
             }
         ],
+        orders_selled: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Order"
+            }
+        ],
         online_payment:{
             type: Boolean,
             default: true

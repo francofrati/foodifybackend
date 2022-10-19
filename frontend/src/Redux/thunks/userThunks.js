@@ -23,7 +23,7 @@ const fetchCreds = (token) => (dispatch) => {
 
 const fetchAllUsers = () => (dispatch) => {
     axios
-      .get("/users")
+      .get("/user")
       .then((response) => {
         dispatch(getUsers(response.data.users));
       })
@@ -32,17 +32,16 @@ const fetchAllUsers = () => (dispatch) => {
   
   const fetchUserById = (id) => (dispatch) => {
     axios
-      .get(`/user?id=${id}`)
+      .get(`/user/${id}`)
       .then((response) => {
-        console.log(response.data)
-        dispatch(getUserById(response.data.users));
+        dispatch(getUserById(response.data.user));
       })
       .catch((error) => console.log(error));
   };
   
   const fetchDeleteUser = (id) => (dispatch) => {
     axios
-      .delete(`/users/${id}`)
+      .delete(`/user/${id}`)
       .then(dispatch(fetchAllUsers()))
       .catch((error) => console.log(error));
   };

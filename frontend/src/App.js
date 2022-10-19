@@ -20,8 +20,13 @@ import ShopsRegister from './pages/ShopsRegister/ShopsRegister';
 import ShopVerification from './pages/ShopVerification/ShopVerification';
 import FoodsList from './components/Admin/list/FoodsList'
 import UsersList from './components/Admin/list/UsersList'
+import RestaurantsList from './components/Admin/list/RestaurantsList'
+import ProductsRestaurantsList from './components/Admin/list/ProductsRestaurantList';
 import CheckoutSuccess from './components/Shopping/CheckOutSuccess'
 import CheckoutForm from './components/Stripe/CheckoutForm'
+import User from './components/User/User'
+import Purchases from './components/User/Purchases/Purchases.jsx'
+import RestaurantOrdersList from './components/Admin/list/restaurantOrders/RestaurantOrdersList'
 
 
 
@@ -40,13 +45,19 @@ function App() {
         <Route path='/restaurantes/:id/newFood' element={<CreateFood />} />
         <Route path='/shopping' element={<Shopping />}/>
         <Route path='/check' element={<CheckoutForm />}/>
+        <Route path='/user' element={<User />}/>
+        <Route path='/user/purchases' element={<Purchases />}/>
 
         <Route path="/admin" element={<Dashboard />}>
           <Route path="summary" element={<Summary />}/>
           <Route path="products-list" element={<FoodsList />} />
           <Route path="users" element={<UsersList />}/>
+          <Route path="restaurants" element={<RestaurantsList />}/>
+          <Route path="productsRestaurant/:id" element={<ProductsRestaurantsList />}/>
+          <Route path='orders' element={<RestaurantOrdersList />}/>
+          <Route />
         </Route>
-        <Route path='shopping' element={<Shopping />} />
+        <Route path='shopping/:id' element={<Shopping />} />
         <Route path='checkout-success' element={<CheckoutSuccess />} />
         <Route path='/negocios' element={<ShopsLogin />} />
         <Route path='/negocios/registro' element={<ShopsRegister />} />

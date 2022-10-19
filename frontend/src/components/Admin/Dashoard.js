@@ -17,8 +17,6 @@ const Dashboard = () => {
     localStorage.clear()
   }
 
-  console.log(jwt_decode(window.localStorage.token))
-
 
   useEffect(() => {
     if (window.localStorage.token) {
@@ -62,6 +60,14 @@ const Dashboard = () => {
           to="/admin/orders"
         >
           Orders
+        </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "link-active" : "link-inactive"
+          }
+          to="/admin/restaurants"
+        >
+          Restaurants
         </NavLink>
         <NavLink
           className={({ isActive }) =>

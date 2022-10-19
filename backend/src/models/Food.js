@@ -1,9 +1,8 @@
 const { Schema, model } = require("mongoose")
-const mongoose = require("mongoose")
 
 const foodSchema = new Schema(
     {
-        idApi: {
+        id: {
             type: String
         }, 
         title: {
@@ -17,7 +16,7 @@ const foodSchema = new Schema(
         diets: [
             {
                 type: Schema.Types.String,
-                required: true
+                required: false
             }
         ],
         price: {
@@ -25,11 +24,25 @@ const foodSchema = new Schema(
             required: true
         },
         rating: {
-            type: Number
+            type: Number,
+            default: 5
         },
+        seller: {
+            type: Schema.Types.ObjectId,
+            ref: "Restaurant"
+        },
+        buyer: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
+        ],
         deleted: {
             type: Boolean,
             default: false
+        },
+        description:{
+            type:String,
         }
     },
     {

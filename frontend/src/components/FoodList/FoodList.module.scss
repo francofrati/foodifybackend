@@ -1,3 +1,10 @@
+.foods{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
 .pagination {
   ul {
     display: flex;

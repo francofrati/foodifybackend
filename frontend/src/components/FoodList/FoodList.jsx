@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+
 import Card from '../Card/Card'
-import s from './FoodList.module.scss'
 import Pagination from '../Pagination/Pagination'
+
+import s from './FoodList.module.scss'
+
 
 const FoodList = ({ foods }) => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -16,7 +19,6 @@ const FoodList = ({ foods }) => {
         setCurrentPage(pageNumber)
     }
 
-    console.log(foods)
 
     return(
         <div className={s.container}>
@@ -28,7 +30,7 @@ const FoodList = ({ foods }) => {
 
             <div className={s.foods}>
                 {currentFoods.map((food) => {
-                    return <Card id={food._id} title={food.title} image={food.image} price={food.price} rating={food.rating} key={food._id} food={food}/>
+                    return <Card id={food._id} title={food.title} image={food.image} price={food.price} rating={food.rating} key={food._id} food={food} className={s.tarjeta}/>
                 })}
             </div>
             <div className={s.pagination}>

@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { fetchOneRestaurant} from '../../Redux/thunks/restaurantsThunks'
+import { fetchOneRestaurant } from '../../Redux/thunks/restaurantsThunks'
 import { cleanRestaurantState } from '../../Redux/slices/restaurantsSlice'
 
 import s from './RestaurantPage.module.css'
@@ -11,33 +11,43 @@ import { fetchAllFoods, fetchFoodsRestaurant } from '../../Redux/thunks/foodsThu
 import SearchBar from '../../components/SearchBar/SearchBar'
 import FoodList from '../../components/FoodList/FoodList'
 import { cleanFoodsState } from '../../Redux/slices/foodSlice'
+import Review from '../../components/Review/Review'
+import { fetchCreds } from '../../Redux/thunks/userThunks'
 
 const RestaurantPage = () => {
     const navigate = useNavigate()
 
     const { id } = useParams()
 
+    const { user } = useSelector(state => state.user)
+
     const dispatch = useDispatch()
-    const {restaurant} = useSelector(state=>state.restaurants)
+    const { restaurant } = useSelector(state => state.restaurants)
 
     const { foods, foodsRestaurant } = useSelector((state) => state.foods)
     useEffect(() => {
         if (foods.length === 0) {
-          dispatch(fetchAllFoods());
+            dispatch(fetchAllFoods());
         }
-      }, [dispatch,foods]);
+    }, [dispatch, foods]);
 
-      
 
-    useEffect(()=>{
+    useEffect(() => {
+        const token = window.localStorage.getItem('token')
+        if(token){
+            dispatch(fetchCreds(token))
+        }
+    }, [])
+
+    useEffect(() => {
         dispatch(fetchOneRestaurant(id))
-    },[dispatch,id])
+    }, [dispatch, id])
 
-    useEffect(()=>{
-        return ()=>{
+    useEffect(() => {
+        return () => {
             dispatch(cleanRestaurantState())
         }
-    },[dispatch])
+    }, [dispatch])
 
     useEffect(() => {
         dispatch(cleanFoodsState())
@@ -45,15 +55,15 @@ const RestaurantPage = () => {
 
 
     useEffect(() => {
-        if(foodsRestaurant.length === 0){
+        if (foodsRestaurant.length === 0) {
             dispatch(fetchFoodsRestaurant(id))
-            
+
         }
-      }, [dispatch, foodsRestaurant, id])
+    }, [dispatch, foodsRestaurant, id])
 
 
-    if(restaurant) {
-        document.title =`${restaurant.name} - Foodify`
+    if (restaurant) {
+        document.title = `${restaurant.name} - Foodify`
     }
 
 
@@ -64,27 +74,22 @@ const RestaurantPage = () => {
     return (
 
 
-        
+
 
         <div className={s.container}>
-            {restaurant&&<>
-            <SearchBar />
-            <div className={s.head}>
-                <div>
-                    <h1 className={s.title}>{restaurant.name}</h1>
+            {restaurant && <>
+                <SearchBar />
+                <div className={s.head}>
+                    <div>
+                        <h1 className={s.title}>{restaurant.name}</h1>
+                    </div>
+                    <div>
+                        <img src={restaurant.image} alt={restaurant.name} className={s.logo} />
+                    </div>
                 </div>
-                <div>
-                    <img src={restaurant.image} alt={restaurant.name} className={s.logo} />
-                </div>
-            </div>
-            <div className={s.catalog_cont}>
-                {/* <div style={{'border':'1px solid black','width':'500px'}}>
-                    <div style={{'width':'100%','border':'1px solid black'}}>Pedido</div>
-                    <div style={{'width':'100%','border':'1px solid black'}}>Productos</div>
-                    <div style={{'width':'100%','border':'1px solid black'}}>Precio total</div>
-                </div> */}
-                <div className={s.food_container} >
-                    {/* {products.map(p => {
+                <div className={s.catalog_cont}>
+                    <div className={s.food_container} >
+                        {/* {products.map(p => {
                         return (
                             <div key={id} className={s.food_card}>
                                 <div>
@@ -97,12 +102,15 @@ const RestaurantPage = () => {
                             </div>
                         )
                     })} */}
-                     <FoodList foods={foodsRestaurant}/>
-                </div>
+                        <FoodList foods={foodsRestaurant} />
+                    </div>
 
-            </div>
+                </div>
             </>}
-                     <button onClick={() => handleNavigate(id)}>Proceed to checkout</button>
+            <button onClick={() => handleNavigate(id)}>Proceed to checkout</button>
+
+
+            {user ? <Review /> : <></>}
 
         </div>
     )

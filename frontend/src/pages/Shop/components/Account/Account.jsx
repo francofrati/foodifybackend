@@ -2,16 +2,17 @@ import axios from 'axios'
 import { Field, Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { shopPanelURL, shopPasswordChangeURL } from '../../../../assets/endpoints'
+import { getShopInfoURL, shopPanelURL, shopPasswordChangeURL } from '../../../../assets/endpoints'
 import MapComponent from '../../../../components/Map/MapComponent'
 import { fetchCreds } from '../../../../Redux/thunks/userThunks'
 import shopPasswordSchema from '../../../../schemas/shopPasswordSchema'
 import swal from 'sweetalert'
+import { useParams } from 'react-router-dom'
 
 import s from './Account.module.css'
 
 
-const NegocioCustomInput = ({ info, id, name, property, ...props }) => { //Inputs Para editar Campos de cuenta
+const NegocioCustomInput = ({ info, id, name, property, setwhenupdate, ...props }) => { //Inputs Para editar Campos de cuenta
 
     const [editActive, setEditActive] = useState(false) //Mostrar input de edicion
 
@@ -38,6 +39,7 @@ const NegocioCustomInput = ({ info, id, name, property, ...props }) => { //Input
                     setEditActive(prevState => !prevState)
                     setValue({ [property]: '' })
                 }
+                setwhenupdate()
             })
 
             .catch(e => console.log(e))
@@ -84,37 +86,70 @@ const NegocioSettings = () => { //Settings Relacionados al negocio en si
 
     const { user } = useSelector(state => state.user)
 
-    const config = user
+    const [bdUser, setBdUser] = useState(null)
+
+    const params = useParams()
+
+    const { id } = params
+
+    const setWhenUpdate = () => {
+        axios.get(getShopInfoURL(id))
+            .then(r => {
+                if (r.data.status) {
+                    setBdUser(r.data.shop_info)
+                }
+            })
+            .catch(e => console.log(e))
+    }
+
+    useEffect(() => {
+        axios.get(getShopInfoURL(id))
+            .then(r => {
+                if (r.data.status) {
+                    setBdUser(r.data.shop_info)
+                }
+            })
+            .catch(e => console.log(e))
+    }, [])
+
+    const config = bdUser
         ? [
             {
                 name: 'Nombre de tu negocio: ',
-                info: user.name,
+                info: bdUser.name,
                 property: 'name'
             },
             {
                 name: 'Pais: ',
-                info: user.country,
+                info: bdUser.country,
                 property: 'country'
             },
             {
                 name: 'Estado o Provincia: ',
-                info: user.state,
+                info: bdUser.state,
                 property: 'state'
             },
             {
                 name: 'Ciudad: ',
-                info: user.city,
+                info: bdUser.city,
                 property: 'city'
             },
             {
                 name: 'Direccion: ',
-                info: user.address,
+                info: bdUser.address,
                 property: 'address'
             },
         ]
         : []
 
-    const [coordinates, setCoordinates] = useState(user ? user.coordinates : null)
+
+    useEffect(() => {
+        if (bdUser) {
+            setCoordinates(bdUser.coordinates)
+        }
+    }, [bdUser])
+
+    const [coordinates, setCoordinates] = useState(bdUser ? bdUser.coordinates : null)
 
     const coordinatesToProps = (value) => {
         setCoordinates(value)
@@ -133,6 +168,14 @@ const NegocioSettings = () => { //Settings Relacionados al negocio en si
                 }
             })
             .catch(e => console.log(e))
+
+        axios.get(getShopInfoURL(id))
+            .then(r => {
+                if (r.data.status) {
+                    setBdUser(r.data.shop_info)
+                }
+            })
+            .catch(e => console.log(e))
     }
 
     useEffect(() => {
@@ -144,6 +187,7 @@ const NegocioSettings = () => { //Settings Relacionados al negocio en si
             <div>
                 {config.map((e, i) => (
                     <NegocioCustomInput
+                        setwhenupdate={setWhenUpdate}
                         name={e.name}
                         key={i}
                         id={user.id}
@@ -155,13 +199,18 @@ const NegocioSettings = () => { //Settings Relacionados al negocio en si
                     <div>
                         Marca tu ubicacion en el mapa para que los clientes te encuentran mas facil
                     </div>
-                    <MapComponent
-                        setCoordinates={coordinatesToProps}
-                        coords={user && user.coordinates} />
-                    <button
-                        onClick={submitCoordinates}>
-                        Cambiar ubicacion
-                    </button>
+                    {bdUser
+                        ? <>
+                            <MapComponent
+                                setCoordinates={coordinatesToProps}
+                                coords={bdUser.coordinates} />
+                            <button
+                                onClick={submitCoordinates}>
+                                Cambiar ubicacion
+                            </button>
+                        </>
+                        : <></>
+                    }
                 </div>
             </div>
         </div>
@@ -173,16 +222,42 @@ const AccountSettings = () => { //Settings relacionados a la cuenta del negocio
 
     const { user } = useSelector(state => state.user)
 
-    const config = user
+    const params = useParams()
+
+    const { id } = params
+
+    const [bdUser, setBdUser] = useState(null)
+
+    const setWhenUpdate = () => {
+        axios.get(getShopInfoURL(id))
+            .then(r => {
+                if (r.data.status) {
+                    setBdUser(r.data.shop_info)
+                }
+            })
+            .catch(e => console.log(e))
+    }
+
+    useEffect(() => {
+        axios.get(getShopInfoURL(id))
+            .then(r => {
+                if (r.data.status) {
+                    setBdUser(r.data.shop_info)
+                }
+            })
+            .catch(e => console.log(e))
+    }, [])
+
+    const config = bdUser
         ? [
             {
                 name: 'Email: ',
-                info: user.email,
+                info: bdUser.email,
                 property: 'email'
             },
             {
                 name: 'Numero de telofono: ',
-                info: user.phone,
+                info: bdUser.phone,
                 property: 'phone'
             }
         ]
@@ -231,6 +306,7 @@ const AccountSettings = () => { //Settings relacionados a la cuenta del negocio
                         id={user.id}
                         info={e.info}
                         property={e.property}
+                        setwhenupdate={setWhenUpdate}
                         type={'text'} />
                 ))}
                 <div>
@@ -312,26 +388,61 @@ const ServicioSettings = () => { //Por ahora solo para modificar el delivery
 
     const { user } = useSelector(state => state.user)
 
-    const [value, setValue] = useState(user && user.delivery)
 
-    const handleChange = (e) => {
+
+    const params = useParams()
+
+    const { id } = params
+
+    const [bdUser, setBdUser] = useState(null)
+
+    const [valueDel, setValueDel] = useState()
+    const [valueOnl, setValueOnl] = useState()
+    const setWhenUpdate = () => {
+        axios.get(getShopInfoURL(id))
+            .then(r => {
+                if (r.data.status) {
+                    setBdUser(r.data.shop_info)
+                }
+            })
+            .catch(e => console.log(e))
+    }
+
+    useEffect(() => {
+        if (bdUser) {
+
+            setValueDel(bdUser.delivery)
+            setValueOnl(bdUser.online_payment)
+        }
+    }, [bdUser])
+
+    useEffect(() => {
+        axios.get(getShopInfoURL(id))
+            .then(r => {
+                if (r.data.status) {
+                    setBdUser(r.data.shop_info)
+                }
+            })
+            .catch(e => console.log(e))
+    }, [])
+
+    const handleChange = (e, cb) => {
         if (e.target.value === 'true') {
-            setValue(true)
+            cb(true)
         }
         if (e.target.value === 'false') {
-            setValue(false)
+            cb(false)
         }
     }
 
-    const submitDeliveryChange = () => {
+    const submitDeliveryChange = (shopSetting) => {
         axios.post(shopPanelURL('shopsettings'), {
             restId: user.id,
-            shopSetting: {
-                delivery: value
-            }
+            shopSetting
         })
             .then((r) => {
                 console.log(r.data.msg)
+                setWhenUpdate()
             })
             .catch(e => console.log(e))
     }
@@ -340,12 +451,22 @@ const ServicioSettings = () => { //Por ahora solo para modificar el delivery
         <div>
             <div>
                 Delivery:
-                <select value={value} onChange={handleChange}>
+                <select value={valueDel} onChange={(e) => handleChange(e, setValueDel)}>
                     <option value={true} >Si</option>
                     <option value={false}>No</option>
                 </select>
                 {
-                    user.delivery !== value && <button onClick={submitDeliveryChange}>Cambiar</button>
+                   bdUser? bdUser.delivery !== valueDel && <button onClick={() => submitDeliveryChange({ delivery: valueDel })}>Cambiar</button>:<></>
+                }
+            </div>
+            <div>
+                Pago Online:
+                <select value={valueOnl} onChange={(e) => handleChange(e, setValueOnl)}>
+                    <option value={true} >Si</option>
+                    <option value={false}>No</option>
+                </select>
+                {
+                   bdUser? bdUser.online_payment !== valueOnl && <button onClick={()=>submitDeliveryChange({ online_payment: valueOnl })}>Cambiar</button>:<></>
                 }
             </div>
         </div>

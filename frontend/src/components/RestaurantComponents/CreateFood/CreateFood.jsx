@@ -5,12 +5,13 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import axios from 'axios'
 import swal from 'sweetalert'
 
+import {BsPlusLg} from 'react-icons/bs'
 import { fetchAllFoods, fetchAllDiets } from "../../../Redux/thunks/foodsThunks";
 
 import style from './CreateFood.module.css'
 
 
-const CreateFood = ({ restId }) => {
+const CreateFood = ({ restId, setWhenFoodUpdate }) => {
     const [send, setSend] = useState(false);
     const dispatch = useDispatch()
     let navigate = useNavigate()
@@ -27,6 +28,7 @@ const CreateFood = ({ restId }) => {
 
     return (
         <div className={style.container}>
+            <h1 style={{color:'#20B5E5'}}>Agregar Productos</h1>
             {diets ?
                 <div className={style.formulario}>
 
@@ -102,6 +104,7 @@ const CreateFood = ({ restId }) => {
                                         dispatch(fetchAllFoods());
                                         // navigate('/')
                                     }
+                                    setWhenFoodUpdate()
                                 })
 
                             resetForm();
@@ -115,11 +118,11 @@ const CreateFood = ({ restId }) => {
                     >
                         {({ errors, setFieldValue, values }) => (
                             <Form className={style.form}>
-                                <div style={{display:'flex',justifyContent:'space-around',padding:'20px 200px'}}>
+                                <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start',paddingLeft:50,width:'50%',gap:20}}>
 
-                                    <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start'}}>
+                                    
 
-                                        <div className={style.name_price_cont}>
+                                        
                                             <div>
                                                 <label htmlFor="title">Elegi el nombre de tu producto: </label>
                                                 <Field
@@ -145,7 +148,7 @@ const CreateFood = ({ restId }) => {
                                                 )} />
                                             </div>
 
-                                        </div>
+                                        
                                         <div className={style.desc_cont}>
                                             <label htmlFor="description">Descripcion del producto: </label>
                                             <Field
@@ -208,17 +211,17 @@ const CreateFood = ({ restId }) => {
                                             </>
 
                                         </div>
-                                    </div>
+                                    
+
+                                </div>
+
                                     <div className={style.img_cont}>
                                         <img src={values.image} alt="food" className={style.preview_img} />
                                     </div>
 
-                                </div>
 
-
-
-                                <div>
-                                    <button type="submit">  Agregar producto </button>
+                                <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'25%'}}>
+                                    <button style={{height:'80%',width:'20%'}} type="submit">  <BsPlusLg size={'80%'} color={'#20B5E5'}/> </button>
                                     {send && <p>Producto agragado existosamente</p>}
                                 </div>
                             </Form>

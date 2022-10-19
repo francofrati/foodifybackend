@@ -18,3 +18,7 @@ export const getAllFoodURL = `http://localhost:3001/foods`
 export const getOrdersByUserIdURL = (userId) =>`http://localhost:3001/orders/${userId}`
 export const addFavoriteRestaurantURL = `http://localhost:3001/user/favorite`
 export const getFavoritesRestaurantsURL = (userId)=>`http://localhost:3001/user/favorite/${userId}`
+export const getFoodByRestaurantURL = (restId)=>`http://localhost:3001/foods/foodsRestaurant/${restId}`
+export const foodUpdateRestaurant = `http://localhost:3001/shop/food`
+export const getShopInfoURL = (restId) =>`http://localhost:3001/shop/${restId}`
+export const reviewURL = `http://localhost:3001/reviews`

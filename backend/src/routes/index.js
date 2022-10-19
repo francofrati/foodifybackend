@@ -6,6 +6,7 @@ const FoodRouter = require("./food.routes.js")
 const PaymentRouter = require("./payment.routes.js")
 const OrderRouter = require("./order.routes.js")
 const ShopRouter = require("./shop.routes")
+const ReviewsRouter=require("./reviews.routes")
 
 const { getAuth } = require('../controllers/auth.controllers.js')
 
@@ -25,6 +26,8 @@ router.use("/payment", PaymentRouter)
 router.use("/orders", OrderRouter);
 
 router.post("/authentication", getAuth)
+
+router.use("/reviews",ReviewsRouter)
 
 
 module.exports = router

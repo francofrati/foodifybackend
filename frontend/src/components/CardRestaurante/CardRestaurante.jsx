@@ -7,15 +7,18 @@ import foodifypluslogo from '../../assets/foodify-plus.png'
 import borrar from '../../assets/borrar.png'//imagen de mono donde irian las dos comidas mejor vendidas
 
 import s from './CardRestaurante.module.css'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { addFavoriteRestaurantURL, getFavoritesRestaurantsURL } from '../../assets/endpoints'
 import { useEffect } from 'react'
 import swal from 'sweetalert'
+import { fetchCreds } from '../../Redux/thunks/userThunks'
 
 const CardRestaurante = ({ name, image, plus, online, delivery, onclick, restId, favs, setFav }) => {
 
   const { user } = useSelector(state => state.user)
+
+  const dispatch= useDispatch()
 
   const includedFav = () => {
     if (favs) {
@@ -27,6 +30,13 @@ const CardRestaurante = ({ name, image, plus, online, delivery, onclick, restId,
 
     }
   }
+
+  useEffect(()=>{
+    const token=window.localStorage.getItem('token')
+    if(token){
+      dispatch(fetchCreds(token))
+    }
+  },[])
 
   useEffect(() => {
     console.log(user)

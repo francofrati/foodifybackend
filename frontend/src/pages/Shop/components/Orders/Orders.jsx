@@ -38,12 +38,12 @@ const Order = ({ name, img, status, user_name, address, handleStatus, id, price 
         <div className={s.btn_cont}>
           {status === 'proceso'
             ? <>
-              <button className={s.btn_status} onClick={() => handleStatus(id, 'finalizado')}>Finalizar</button>
+              <button className={s.btn_status} onClick={() => handleStatus(id, 'delivered')}>Finalizar</button>
               <button className={s.btn_status} onClick={() => handleStatus(id, 'pending')}>Pendiente</button>
             </>
             : <></>
           }
-          {status === 'finalizado'
+          {status === 'delivered'
             ? <button className={s.btn_status} onClick={() => handleStatus(id, 'errorProceso')}>En proceso</button>
             : <></>
           }
@@ -70,7 +70,7 @@ const Orders = () => {
 
   const handleStatusChange = (orderId, status) => {
 
-    if (status === 'finalizado') {
+    if (status === 'delivered') {
       swal({
         title: 'Estas seguro que ya esta listo el pedido?',
         icon: 'warning',
@@ -116,7 +116,7 @@ const Orders = () => {
         if (status === 'errorProceso') {
           if (r.data.status) {
             setInProccessOrders(r.data.orders)
-            axios.get(`http://localhost:3001/orders/ordenes?deliveryStatus=finalizado`).then(r => setFinishedOrders(r.data.orders))
+            axios.get(`http://localhost:3001/orders/ordenes?deliveryStatus=delivered`).then(r => setFinishedOrders(r.data.orders))
           }
           return
         }
@@ -136,9 +136,9 @@ const Orders = () => {
   // }, [])
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/orders/ordenes?deliveryStatus=pending`).then(r => setPendingOrders(r.data.orders))
-    axios.get(`http://localhost:3001/orders/ordenes?deliveryStatus=proceso`).then(r => setInProccessOrders(r.data.orders))
-    axios.get(`http://localhost:3001/orders/ordenes?deliveryStatus=finalizado`).then(r => setFinishedOrders(r.data.orders))
+    axios.get(`http://localhost:3001/shop/orders?delivery_status=pending&restId=${id}`).then(r => setPendingOrders(r.data.orders))
+    axios.get(`http://localhost:3001/shop/orders?delivery_status=proceso&restId=${id}`).then(r => setInProccessOrders(r.data.orders))
+    axios.get(`http://localhost:3001/shop/orders?delivery_status=delivered&restId=${id}`).then(r => setFinishedOrders(r.data.orders))
   }, [])
 
   return (

@@ -350,7 +350,6 @@ const addFavoriteRestaurant = async (req, res) => {
     try {
 
         const user = await User.findOne({ email: userEmail }).populate('favorites')
-        console.log('hola', user.favorites[0].id)
 
         const removeFromFavorites = user.favorites.findIndex(r => r.id === restId)
 

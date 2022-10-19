@@ -73,7 +73,11 @@ const userSchema = new Schema(
         },
         coordinates: {
             type: Array
-        }
+        },
+        reviews:[{
+            type: Schema.Types.ObjectId,
+            ref:'Review'
+        }]
     },
     {
         timestamps: true,

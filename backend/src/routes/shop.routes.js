@@ -1,6 +1,9 @@
 const { Router } = require('express')
+const mongoose = require('mongoose')
+
 
 const Order = require('../models/Order')
+const Food = require('../models/Food')
 const Restaurant = require('../models/Restaurant')
 const bcrypt = require('bcrypt')
 
@@ -58,7 +61,7 @@ router.post('/password', async (req, res) => {
 
         const shop = await Restaurant.findOne({ _id: restId })
 
-        if(!shop)throw Error(`El id: ${restId} no corresponde a ningun negocio`)
+        if (!shop) throw Error(`El id: ${restId} no corresponde a ningun negocio`)
 
         const decryptPass = await bcrypt.compare(actualPassword, shop.password)
 
@@ -94,6 +97,93 @@ router.post('/password', async (req, res) => {
             msg: error.message
         })
     }
+})
+
+router.get('/orders', async (req, res) => {
+
+    const { delivery_status, restId } = req.query
+
+    try {
+
+        console.log(delivery_status)
+
+        const orders = await Order.find({
+            restaurant_id_mongo: restId,
+            delivery_status: delivery_status
+        })
+        console.log(orders)
+
+        return res.status(200).send({
+            status: true,
+            msg: `Ordenes enviadas al restaurante: ${restId}`,
+            orders
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(400).send({
+            status: false,
+            msg: error.msg
+        })
+    }
+
+})
+
+router.post('/food', async (req, res) => {
+    const { foodId, restId, attributes } = req.body
+    try {
+        await Food.findByIdAndUpdate(
+            {
+                _id: foodId
+            },
+            attributes
+        )
+
+        return res.status(200).send({
+            status: true,
+            msg: `Se actualizo el producto con id: ${foodId}`
+        })
+    } catch (error) {
+        return res.status(400).send({
+            status: false,
+            msg: error.message
+        })
+    }
+})
+
+router.get('/:restId', async (req, res) => {
+    const { restId } = req.params
+
+    try {
+
+        const shop = await Restaurant.findOne({ _id: restId })
+
+        const { name, country, state, city, coordinates, address, phone, email, delivery, online_payment } = shop
+
+        const shop_info = {
+            name,
+            country,
+            state,
+            city,
+            coordinates,
+            address,
+            phone,
+            email,
+            delivery,
+            online_payment
+        }
+
+        return res.status(200).send({
+            status: true,
+            shop_info,
+            msg: `Informacion de negocio con id: ${restId} enviada exitosamente`
+        })
+    } catch (error) {
+        return res.status(400).send({
+            status: false,
+            msg: error.message
+        })
+    }
+
 })
 
 module.exports = router

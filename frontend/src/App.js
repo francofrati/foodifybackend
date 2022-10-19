@@ -36,25 +36,25 @@ function App() {
   return (
     <div className="App">
       <ToastContainer />
-          
+
       <NavBar />
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/restaurantes' element={<Home />} />
         <Route path='/restaurantes/:id' element={<RestaurantPage />} />
         <Route path='/restaurantes/:id/newFood' element={<CreateFood />} />
-        <Route path='/shopping' element={<Shopping />}/>
-        <Route path='/check' element={<CheckoutForm />}/>
-        <Route path='/user' element={<User />}/>
-        <Route path='/user/purchases' element={<Purchases />}/>
+        <Route path='/shopping' element={<Shopping />} />
+        <Route path='/check' element={<CheckoutForm />} />
+        <Route path='/user' element={<User />} />
+        <Route path='/user/purchases' element={<Purchases />} />
 
         <Route path="/admin" element={<Dashboard />}>
-          <Route path="summary" element={<Summary />}/>
+          <Route path="summary" element={<Summary />} />
           <Route path="products-list" element={<FoodsList />} />
-          <Route path="users" element={<UsersList />}/>
-          <Route path="restaurants" element={<RestaurantsList />}/>
-          <Route path="productsRestaurant/:id" element={<ProductsRestaurantsList />}/>
-          <Route path='orders' element={<RestaurantOrdersList />}/>
+          <Route path="users" element={<UsersList />} />
+          <Route path="restaurants" element={<RestaurantsList />} />
+          <Route path="productsRestaurant/:id" element={<ProductsRestaurantsList />} />
+          <Route path='orders' element={<RestaurantOrdersList />} />
           <Route />
         </Route>
         <Route path='shopping/:id' element={<Shopping />} />

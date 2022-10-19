@@ -17,10 +17,10 @@ const CardRestaurante = ({ name, image, plus, online, delivery, onclick, restId,
 
   const { user } = useSelector(state => state.user)
 
-  const includedFav = ()=>{
-    if(favs){
-      for(let i=0; i<favs.length; i++){
-        if(favs[i].name === name){
+  const includedFav = () => {
+    if (favs) {
+      for (let i = 0; i < favs.length; i++) {
+        if (favs[i].name === name) {
           return true
         }
       }
@@ -28,13 +28,13 @@ const CardRestaurante = ({ name, image, plus, online, delivery, onclick, restId,
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(user)
-  },[user])
+  }, [user])
 
-  const handleFavorite = ()=>{
+  const handleFavorite = () => {
 
-    if(!user) return
+    if (!user) return
 
     const body = {
       restId,
@@ -42,24 +42,24 @@ const CardRestaurante = ({ name, image, plus, online, delivery, onclick, restId,
     }
 
 
-    axios.post(addFavoriteRestaurantURL,body)
-    .then(r=>{
-      if(r.data.status){
-        axios.get(getFavoritesRestaurantsURL(user.id))
-          .then(r=>setFav(r.data.favs))
-          .catch(error=>console.log(error))
-        swal({title:'Se agrego a favoritos', icon:'success'})
+    axios.post(addFavoriteRestaurantURL, body)
+      .then(r => {
+        if (r.data.status) {
+          axios.get(getFavoritesRestaurantsURL(user.id))
+            .then(r => setFav(r.data.favs))
+            .catch(error => console.log(error))
+          swal({ title: r.data.msg, icon: 'success' })
 
-      }
-    })
-    .catch(e =>console.log(e))
+        }
+      })
+      .catch(e => console.log(e))
   }
 
 
 
   return (
     <div className={s.cont} >
-      <div>
+      <div onClick={onclick}>
         <div className={s.logo_cont}>
           <img className={s.logo} src={image} alt={name} />
         </div>
@@ -67,18 +67,18 @@ const CardRestaurante = ({ name, image, plus, online, delivery, onclick, restId,
       <div className={s.description_cont}>
         <div className={s.title_cont}>
           {user && includedFav()
-            ? <AiFillHeart style={{ 'color': '#20B5E5', 'fontSize': '1.5rem'}} />
-            : <div onClick={handleFavorite}><AiOutlineHeart  style={{ 'color': '#20B5E5', 'fontSize': '1.5rem' }}/></div>}
-          <span className={s.title}>{name}</span>
+            ? <div onClick={handleFavorite} style={{zIndex:10}}><AiFillHeart style={{ 'color': '#20B5E5', 'fontSize': '1.5rem' }} /></div>
+            : <div onClick={handleFavorite} style={{zIndex:10}}><AiOutlineHeart style={{ 'color': '#20B5E5', 'fontSize': '1.5rem' }} /></div>}
+          <span className={s.title} onClick={onclick}>{name}</span>
           {plus ? <img className={s.plus_logo} src={foodifypluslogo} alt={'plus'} /> : <></>}
         </div>
-        <div className={s.options_foodimg_cont}>
+        <div onClick={onclick} className={s.options_foodimg_cont}>
           <div className={s.options_cont}>
             {online ? <span className={s.options}><FaCreditCard style={{ 'color': '#20B5E5', 'fontSize': '1.5rem' }} />Pagos Online</span> : <></>}
             {delivery ? <span className={s.options}><MdDeliveryDining style={{ 'color': '#20B5E5', 'fontSize': '1.5rem' }} />Delivery</span> : <></>}
             <span className={s.options}><AiOutlineClockCircle style={{ 'color': '#20B5E5', 'fontSize': '1.5rem' }} />Demora: 25-30min</span>
           </div>
-          <div className={s.rest_foods_img_cont}>
+          <div onClick={onclick} className={s.rest_foods_img_cont}>
             <div>
               <img className={s.rest_foods_img} src={borrar} alt={"borrar"} />
             </div>

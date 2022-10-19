@@ -9,10 +9,6 @@ const ShopRouter = require("./shop.routes")
 
 const { getAuth } = require('../controllers/auth.controllers.js')
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ee0cfd0c88dc33df0f211721cd7d49be4114d782
 
 const router = express.Router()
 

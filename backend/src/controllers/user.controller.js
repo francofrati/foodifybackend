@@ -68,12 +68,12 @@ const putUser = async (req, res) => {
             name: name,
             email: email,
             country: country,
-            
+
         });
     const nuevo = await bcrypt.compare(hashPassword, contraseña)
     console.log(nuevo)
     await user.updateOne(actualUser)
-    
+
     console.log(hashPassword)
 
     return res.status(200).json({
@@ -238,7 +238,7 @@ const googleAuth = async (req, res) => {
                 name: isUser.name,
                 email: isUser.email,
                 type: 'user',
-                id:isUser.id
+                id: isUser.id
             })
 
             return res.status(201).send({
@@ -346,15 +346,44 @@ const isUserVerificated = async (req, res) => {
 const addFavoriteRestaurant = async (req, res) => {
     const { restId, userEmail } = req.body
 
-    console.log(userEmail)
+
     try {
+
+        const user = await User.findOne({ email: userEmail }).populate('favorites')
+        console.log('hola', user.favorites[0].id)
+
+        const removeFromFavorites = user.favorites.findIndex(r => r.id === restId)
+
+        if (removeFromFavorites !== -1) {
+
+            const newFavorites = user.favorites.filter(r => r.id !== restId)
+
+            await User.findOneAndUpdate(
+                {
+                    email: userEmail
+                },
+                {
+                    favorites: newFavorites
+                },
+                {
+                    new: true
+                }
+            )
+            return res.status(200).send({
+                status: true,
+                msg: `Se elimino de favoritos`
+            })
+
+        }
+
+
         const restaurant = await Restaurant.findOne({ _id: restId })
 
         console.log(restaurant)
 
         if (!restaurant) throw Error(`El negocio con id: ${restId} no existe`)
 
-        const user = await User.findOneAndUpdate(
+        const userUpdate = await User.findOneAndUpdate(
             {
                 email: userEmail
             },
@@ -366,10 +395,10 @@ const addFavoriteRestaurant = async (req, res) => {
             }
         )
 
-        console.log(user)
+        console.log(userUpdate)
         return res.status(200).send({
             status: true,
-            msg: ` se agrego el negocio con id: ${restId} a los favoritos del usuario con email: ${userEmail}`
+            msg: `Se agrego a favoritos`,
         })
 
     } catch (error) {
@@ -383,19 +412,19 @@ const addFavoriteRestaurant = async (req, res) => {
 
 const getFavoriteRestaurants = async (req, res) => {
     const { userId } = req.params
-    console.log(userId)
+    // console.log(userId)
     try {
         const user = await User.findOne({
             _id: userId
         }).populate('favorites')
 
         return res.status(200).send({
-            status:true,
+            status: true,
             favs: user.favorites
         })
 
     } catch (error) {
-        
+
         return res.send({
             status: false,
             msg: error.message

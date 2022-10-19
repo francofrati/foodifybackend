@@ -4,21 +4,21 @@ import { useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchDeleteUser, fetchAllUsers } from '../../../Redux/thunks/userThunks'
+import { fetchAllRestaurants } from '../../../Redux/thunks/restaurantsThunks'
 import { useNavigate } from 'react-router-dom'
 // import { booksDelete } from '../../../Redux/slices/bookSlice'
 import axios from 'axios'
 
-const UsersList = () =>{
-    
-
+const RestaurantsList = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const { users } = useSelector((state) => state.user)
 
+    const { renderedRestaurants }  = useSelector((state) => state.restaurants)
+
     const [reload, setReload] = useState(false)
    
-    console.log(users)
 
   function reloading(){
     
@@ -30,20 +30,29 @@ const UsersList = () =>{
     }
 }
   
-
     useEffect(() => {
-        if(users.length === 0){
-        dispatch(fetchAllUsers())}
-    }, [dispatch, users, reload])
+        if(renderedRestaurants.length === 0) {
+            dispatch(fetchAllRestaurants())
+        }
+    }, [dispatch, renderedRestaurants, reload])
+
+    console.log(renderedRestaurants)
+
+
+    // useEffect(() => {
+    //     if(users.length === 0){
+    //     dispatch(fetchAllUsers())}
+    // }, [dispatch, users, reload])
 
     
 
-    const rows = users && users.map(user => {
+    const rows = renderedRestaurants && renderedRestaurants.map(renderedRestaurants => {
         return {
-            id: user.id,
-            uName: user.name,
-            uEmail: user.email,
-            isAdmin: user.admin,
+            id: renderedRestaurants.id,
+            uName: renderedRestaurants.name,
+            uEmail: renderedRestaurants.email,
+            city: renderedRestaurants.city,
+            phone: renderedRestaurants.phone
         }
     })
 
@@ -51,6 +60,8 @@ const UsersList = () =>{
         { field: "id", headerName: "ID", width: 220 },
         { field: "uName", headerName: "Name", width:150,},
         { field: "uEmail", headerName: "Email", width: 200},
+        { field: "city", headerName: "City", width: 200},
+
         { 
             field: "isAdmin", 
             headerName: "Role", 
@@ -76,7 +87,7 @@ const UsersList = () =>{
                 return (
                     <Actions>
                         <Delete onClick={() => handleDelete(params.row.id)}>Delete</Delete>
-                        
+                        <View onClick={() => navigate(`/admin/productsRestaurant/${params.row.id}`)}>View</View>
                     </Actions>
                 )
             }
@@ -111,10 +122,7 @@ const UsersList = () =>{
     )
 }
 
-export default UsersList
-
-
-
+export default RestaurantsList
 
 const Actions = styled.div`
     width: 100%;

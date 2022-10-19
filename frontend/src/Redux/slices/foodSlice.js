@@ -5,7 +5,8 @@ const initialState = {
     foodsCopy: [],
     diets: [],
     searchEmpty: false,
-    foodsRestaurant: []
+    foodsRestaurant: [],
+    filterObject: {}
 }
 
 const foodSlice = createSlice({
@@ -28,16 +29,34 @@ const foodSlice = createSlice({
             if(action.payload.length === 0) {
 
                 state.searchEmpty = true;
-                state.foods = action.payload
+                state.foodsRestaurant = action.payload
             }
             else {
                 state.searchEmpty = false;
-                state.foods = action.payload
+                state.foodsRestaurant = action.payload
             }
         },
         resetSearch(state, action) {
-            state.foods = state.foodsCopy
+            state.foodsRestaurant = state.foodsCopy
             state.searchEmpty = false
+        },
+        cleanFoodsState(state, action) {
+            state.foodsRestaurant = []
+        },
+        resetFilters(state, action) {
+            state.foods = state.foodsCopy
+            state.foodsRestaurant = state.foodsCopy
+            state.searchEmpty = false
+            state.filterObject = {}
+        },
+        saveFilterObject(state, action) {
+            state.filterObject[action.payload.key] = action.payload.value
+        },
+        resetObjectFilter(state, action) {
+            state.filterObject = {}
+        },
+        getFoodById(state, action) {
+            state.foodById = action.payload
         }
     }
 })
@@ -47,7 +66,12 @@ export const {
     getDiets,
     searchFood,
     resetSearch,
-    getFoodsRestaurant
+    getFoodsRestaurant,
+    cleanFoodsState,
+    resetFilters,
+    saveFilterObject,
+    resetObjectFilter,
+    getFoodById
  } = foodSlice.actions
 
 export default foodSlice.reducer

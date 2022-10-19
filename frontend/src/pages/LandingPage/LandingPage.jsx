@@ -6,6 +6,7 @@ import restaurant from '../../assets/restaurant.jpg'
 import './LandingPage.scss'
 import './Jarallax.css'
 import HeaderLandingPage from "./HeaderLandingPage.jsx"
+import {Slideshow, Slide, TextoSlide} from '../../components/Slider/Slider'
 
 const LandingPage = () => {
 
@@ -28,6 +29,43 @@ const LandingPage = () => {
     return (
         <div>
         < HeaderLandingPage/>
+        <div className="slidermargin">
+                <Slideshow controles={true} autoplay={true} velocidad="6000" intervalo="5000">
+				<Slide>
+					
+						<img src={restaurant} alt=""/>
+					
+					<TextoSlide>
+					{/* <TextoSlide colorFondo="navy"> */}
+						<p>15% descuento</p>
+					</TextoSlide>
+				</Slide>
+				<Slide>
+					
+						<img src={restaurant} alt=""/>
+					
+					<TextoSlide>
+						<p>15% descuento</p>
+					</TextoSlide>
+				</Slide>
+                <Slide>
+					
+						<img src={restaurant} alt=""/>
+					
+					<TextoSlide>
+						<p>15% descuento</p>
+					</TextoSlide>
+				</Slide>
+                <Slide>
+					
+						<img src={restaurant} alt=""/>
+					
+					<TextoSlide>
+						<p>15% descuento</p>
+					</TextoSlide>
+				</Slide>
+			</Slideshow>
+                </div>
         <div className='body1' onClick={() => navigate('/restaurantes')}>
             <section>
                 <div className='box1'>

@@ -8,7 +8,8 @@ const {
     putFood,
     deleteFood,
     getDiets,
-    getFoodsRestaurant
+    getFoodsRestaurant,
+    foodsIdInRestaurant
 } = require("../controllers/food.controller.js")
 
 
@@ -16,6 +17,10 @@ const router = Router();
 
 //PARA LLENAR LA BASE DE DATOS
 // router.get('/data', dataApi)
+
+
+//PARA RELACIONAR COMIDAS Y RESTAURANTES
+// router.get('/infoid', foodsIdInRestaurant)
 
 
 router.get('/', getFoods)

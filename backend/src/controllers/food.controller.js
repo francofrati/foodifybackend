@@ -19,9 +19,9 @@ const {
 const dataApi = async (req, res) => {
     try {
         // const info = await axios.get("https://api.spoonacular.com/recipes/complexSearch?apiKey=3c0bc46ea185416c9f31e066115651fb&addRecipeInformation=true&number=150")
-        const info = await axios.get("https://api.spoonacular.com/recipes/complexSearch?apiKey=3c0bc46ea185416c9f31e066115651fb&addRecipeInformation=true&number=25&offset=75")
+        const info = await axios.get("https://api.spoonacular.com/recipes/complexSearch?apiKey=3c0bc46ea185416c9f31e066115651fb&addRecipeInformation=true&number=25&offset=100")
         
-        
+        const idRestaurant = '6349cfd42335e2e1d2004c4c'
 
         const infoTotal = info.data.results
 
@@ -31,17 +31,55 @@ const dataApi = async (req, res) => {
                 title: el.title,
                 image: el.image,
                 diets: el.diets.map((current) => current),
-                price: el.pricePerServing,
+                price: Math.ceil(el.pricePerServing),
                 rating: (el.healthScore * 0.1),
-                seller: '633b1e34953ac3c0810b4438'
+                seller: '6349cfd42335e2e1d2004c4c'
             })
-        })
+        },
+            
+        )
+
+
+       
+
+        
 
         res.status(200).json({ msg: "Foods added succesfully" })
     } catch (error) {
         return res.status(400).json({ error: error });
     }
 }
+
+
+const foodsIdInRestaurant = async (req, res) => {
+    try{
+        const array = []
+
+        const arr2 = []
+
+        const idRestaurant = '6349cfd42335e2e1d2004c4c'
+
+        const infoFoods = await Food.find({})
+
+        infoFoods.forEach((el) =>{
+            array.push((el._id))
+        })
+
+        const newArr = array.slice(75, 100)
+
+        await Restaurant.findByIdAndUpdate(idRestaurant,
+            {$push: {selling_foods: newArr}}
+            )
+
+        return res.status(200).json({ array: newArr })
+
+    } catch(error) {
+        console.log(error)
+    }
+}
+
+
+
 
 const getFoods = async (req, res) => {
 
@@ -78,12 +116,29 @@ const getFoods = async (req, res) => {
 
 const getFoodsRestaurant = async (req, res) => {
 
+    const { title } = req.query
+
+    const { diet } = req.query
+
+    const { sort } = req.query
+
+    const { limit, page } = req.query;
+
+    const { price } = req.query;
+
     const { idRestaurant } = req.params
 
     let objectId = mongoose.Types.ObjectId(idRestaurant)
 
     try {
         let foods = await Food.find({ seller: idRestaurant })
+        if (sort) foods = sortNames({ foods, sort });
+
+        if (price) foods = sortPrices({ foods, sort });
+
+        if (title) foods = getByTitle({ foods, title });
+
+        if (diet) foods = getByDiet({ foods, diet });
         return res.status(200).json({ foods: foods})
     } catch (error) {
         return res.status(500).json({ error: error })
@@ -93,7 +148,6 @@ const getFoodsRestaurant = async (req, res) => {
 
 const getFoodById = async (req, res) => {
     const { idFood } = req.params
-    console.log(idFood)
 
     try {
         const food = await Food.findById(idFood)  //Posiblemente falten cambios a esta ruta
@@ -219,5 +273,6 @@ module.exports = {
     putFood,
     deleteFood,
     getDiets,
-    getFoodsRestaurant
+    getFoodsRestaurant,
+    foodsIdInRestaurant
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { fetchOneRestaurant} from '../../Redux/thunks/restaurantsThunks'
 import { cleanRestaurantState } from '../../Redux/slices/restaurantsSlice'
@@ -10,9 +10,10 @@ import s from './RestaurantPage.module.css'
 import { fetchAllFoods, fetchFoodsRestaurant } from '../../Redux/thunks/foodsThunks'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import FoodList from '../../components/FoodList/FoodList'
-import { getFoodsRestaurant } from '../../Redux/slices/foodSlice'
+import { cleanFoodsState } from '../../Redux/slices/foodSlice'
 
 const RestaurantPage = () => {
+    const navigate = useNavigate()
 
     const { id } = useParams()
 
@@ -38,19 +39,26 @@ const RestaurantPage = () => {
         }
     },[dispatch])
 
-
+    useEffect(() => {
+        dispatch(cleanFoodsState())
+    }, [])
 
 
     useEffect(() => {
         if(foodsRestaurant.length === 0){
             dispatch(fetchFoodsRestaurant(id))
+            
         }
       }, [dispatch, foodsRestaurant, id])
 
-    console.log(foodsRestaurant)
 
     if(restaurant) {
         document.title =`${restaurant.name} - Foodify`
+    }
+
+
+    const handleNavigate = (id) => {
+        navigate(`/shopping/${id}`)
     }
 
     return (
@@ -94,6 +102,8 @@ const RestaurantPage = () => {
 
             </div>
             </>}
+                     <button onClick={() => handleNavigate(id)}>Proceed to checkout</button>
+
         </div>
     )
 }

@@ -82,7 +82,7 @@ const Login = ({ toggle }) => {
                 <h5 style={{ fontSize: '1rem' }}>Continuar con:</h5>
                 <div className={s.btn_container}>
                     <button className={s.btn_google} style={{ backgroundColor: '#fb4343' }} onClick={googleLogin}><BsGoogle />GOOGLE</button>
-                    <button className={s.btn_google} style={{ backgroundColor: '#3b5998' }}><BsFacebook />FACEBOOK</button>
+                    <button className={s.btn_google} style={{ backgroundColor: '#3b5998' }} onClick={(e)=>console.log(e.target)}><BsFacebook />FACEBOOK</button>
                 </div>
                 <h5 style={{ fontSize: '1rem' }}>o</h5>
                 <Formik

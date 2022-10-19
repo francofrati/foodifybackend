@@ -10,6 +10,8 @@ import Orders from './components/Orders/Orders'
 import Products from './components/Products/Products'
 import Account from './components/Account/Account'
 import { useState } from 'react'
+import {BiLogOut} from 'react-icons/bi'
+import { getUserCreds } from '../../Redux/slices/userSlice'
 
 const optionsConfig = [
     { name: 'Pedidos' },
@@ -17,7 +19,6 @@ const optionsConfig = [
     { name: 'Ventas' },
     { name: 'Opiniones' },
     { name: 'Cuenta' },
-    { name: 'Cerrar sesion' },
 ]
 
 const Options = ({ name, changeOption, active }) => {
@@ -32,14 +33,26 @@ const Options = ({ name, changeOption, active }) => {
 
 const Shop = () => {
 
+    const { user } = useSelector(state => state.user)
+
+    useEffect(() => {
+        const token = window.localStorage.getItem('token')
+        if (token) {
+            dispatch(fetchCreds(token))
+        }        
+    }, [])
+
+
+    
+
     const handleOptions = (state) => {
         switch (state) {
             case 'Pedidos':
                 return <Orders />
             case 'Cuenta':
-                return <Account />
+                return <Account name={user&&user.name}/>
             case 'Productos':
-                return <Products />
+                return <Products restId={user&&user.id}/>
             default:
                 return <></>
         }
@@ -49,8 +62,6 @@ const Shop = () => {
 
     const navigate = useNavigate()
 
-    const { user } = useSelector(state => state.user)
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -58,17 +69,21 @@ const Shop = () => {
     }, [option])
 
     useEffect(() => {
-        const token = window.localStorage.getItem('token')
-        if (token) {
-            dispatch(fetchCreds(token))
-        }
-    }, [])
-    useEffect(() => {
         if (user && user.type !== 'restaurant') {
             navigate('/')
         }
+        if(!user){
+            navigate('/')
+        }
+        
     }, [user])
 
+    const logOut = ()=>{
+        window.localStorage.removeItem('token')
+        dispatch(getUserCreds(null))
+        navigate('/negocios')
+    }
+    console.log(user)
 
     return (
         <>
@@ -77,14 +92,18 @@ const Shop = () => {
                     <div className={s.panel_cont}>
                         <div className={s.foody_cont}>
                             <img className={s.foodify_logo} src={foodify_logo} alt="foodify" />
+                            
                         </div>
                         <div className={s.options_cont}>
                             {optionsConfig.map(e => <Options active={option} changeOption={() => setOption(e.name)} name={e.name} key={e.name} />)}
+                            <button onClick={logOut}><BiLogOut size={'5rem'}/></button>
                         </div>
                     </div>
                     <div className={s.content_cont}>
                         <div className={s.shop_name_cont}>
+                        <img src={user.image} className={s.foodify_logo} alt={s.name} />
                             {user.name}
+
                         </div>
                         <div className={s.options_info_cont}>
                             {handleOptions(option)}

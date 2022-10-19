@@ -22,7 +22,7 @@
 .progress_cont {
     display: flex;
     gap: 50px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     position: absolute;
     top:50px
 }

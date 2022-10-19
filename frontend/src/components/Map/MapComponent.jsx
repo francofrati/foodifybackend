@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux'
 import { getCoordinates } from '../../Redux/slices/shopSlice'
 
 
-const MapComponent = ({setCoordinates}) => {
+const MapComponent = ({setCoordinates,coords}) => {
 
     const [position, setPosition] = useState([])
 
@@ -26,7 +26,7 @@ const MapComponent = ({setCoordinates}) => {
     }, [])
 
 
-    const [markerPosition, setMarkerPosition] = useState(null)
+    const [markerPosition, setMarkerPosition] = useState(coords.length?coords:null)
 
     useEffect(()=>{
         setCoordinates(markerPosition)
@@ -62,7 +62,7 @@ const MapComponent = ({setCoordinates}) => {
         <div style={{ margin: 'auto', width: '800px', height: '600px' }}>
             {position.length &&
 
-                <MapContainer style={{ height: '100%', width: '100%' }} center={position} zoom={14} scrollWheelZoom={true} >
+                <MapContainer style={{ height: '100%', width: '100%' }} center={coords&&coords.length?coords:position} zoom={14} scrollWheelZoom={true} >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

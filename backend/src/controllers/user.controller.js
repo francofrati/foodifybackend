@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 
 const User = require("../models/User.js")
 const Food = require("../models/Food.js")
+const Restaurant = require("../models/Restaurant.js");
 
 const {
     getByName,
@@ -10,7 +11,7 @@ const {
     validateToken,
     sendEmail,
     randomCode
-} = require("../lib/user.controller.helper")
+} = require("../lib/user.controller.helper");
 
 
 const getUsers = async (req, res) => {
@@ -116,7 +117,7 @@ const deleteUser = async (req, res) => {
 
 
 const signUp = async (req, res) => {
-    const { email, username, name, password } = req.body
+    const { email, name, password } = req.body
 
     try {
         const currentUser = await User.findOne({ email: email })
@@ -130,16 +131,17 @@ const signUp = async (req, res) => {
 
         const newUser = await User.create({
             email,
-            username,
             name,
             password: hash,
             verification_code: code
         })
 
         const token = createToken({
+            id: newUser.id,
             email,
             name,
-            type: 'user'
+            type: 'user',
+            favorites: newUser.favorites
         })
 
         //Mail de bienvenida
@@ -184,7 +186,8 @@ const login = async (req, res) => {
             name: currentUser.name,
             email,
             id: currentUser.id,
-            type: 'user'
+            type: 'user',
+            favorites: currentUser.favorites
         })
 
         return res.status(201).json({
@@ -231,7 +234,8 @@ const googleAuth = async (req, res) => {
             const token = createToken({
                 name: isUser.name,
                 email: isUser.email,
-                type: 'user'
+                type: 'user',
+                id:isUser.id
             })
 
             return res.status(201).send({
@@ -239,22 +243,24 @@ const googleAuth = async (req, res) => {
             })
         }
 
-        const code = randomCode()
+        // const code = randomCode()
 
         const createUserWithGoogle = await User.create({
             email,
             name,
-            verification_code: code
+            account_verified: true
         })
 
         const token = createToken({
             name: createUserWithGoogle.name,
             email: createUserWithGoogle.email,
-            type: 'user'
+            favorites: createUserWithGoogle.favorites,
+            type: 'user',
+            id: createUserWithGoogle.id
         })
-        const temporalVerificationLink = `http://localhost:3000/verifyAccount/${createUserWithGoogle.id}`
+        // const temporalVerificationLink = `http://localhost:3000/verifyAccount/${createUserWithGoogle.id}`
 
-        await sendEmail(createUserWithGoogle.email, createUserWithGoogle.name, temporalVerificationLink, code)
+        // await sendEmail(createUserWithGoogle.email, createUserWithGoogle.name, temporalVerificationLink, code)
 
         return res.status(201).send({
             token
@@ -274,13 +280,15 @@ const getVerification = async (req, res) => {
 
 
     try {
-        const user = await User.findOne({ id: userId })
-        console.log(user.id)
+        const user = await User.findOne({ _id: userId })
+
         if (!user) {
             throw Error(`No tienes los permisos necesarios para estar en esta pagina`)
         }
 
-        const correctCode = code === user.verification_code ? true : false
+        const correctCode = code === user.verification_code
+            ? true
+            : false
 
         if (correctCode) {
 
@@ -309,7 +317,7 @@ const isUserVerificated = async (req, res) => {
     const { userId } = req.params
 
     try {
-        const user = await User.findOne({ id: userId })
+        const user = await User.findOne({ _id: userId })
 
         if (!user) {
             throw Error(`El id: ${userId} no pertenece a ningun usuario`)
@@ -332,6 +340,66 @@ const isUserVerificated = async (req, res) => {
     }
 }
 
+const addFavoriteRestaurant = async (req, res) => {
+    const { restId, userEmail } = req.body
+
+    console.log(userEmail)
+    try {
+        const restaurant = await Restaurant.findOne({ _id: restId })
+
+        console.log(restaurant)
+
+        if (!restaurant) throw Error(`El negocio con id: ${restId} no existe`)
+
+        const user = await User.findOneAndUpdate(
+            {
+                email: userEmail
+            },
+            {
+                $push: { favorites: restaurant._id }
+            },
+            {
+                new: true
+            }
+        )
+
+        console.log(user)
+        return res.status(200).send({
+            status: true,
+            msg: ` se agrego el negocio con id: ${restId} a los favoritos del usuario con email: ${userEmail}`
+        })
+
+    } catch (error) {
+
+        return res.status(400).send({
+            status: false,
+            msg: error.message
+        })
+    }
+}
+
+const getFavoriteRestaurants = async (req, res) => {
+    const { userId } = req.params
+    console.log(userId)
+    try {
+        const user = await User.findOne({
+            _id: userId
+        }).populate('favorites')
+
+        return res.status(200).send({
+            status:true,
+            favs: user.favorites
+        })
+
+    } catch (error) {
+        
+        return res.send({
+            status: false,
+            msg: error.message
+        })
+    }
+}
+
 module.exports = {
     signUp,
     login,
@@ -343,5 +411,7 @@ module.exports = {
     getUserById,
     googleAuth,
     getVerification,
-    isUserVerificated
+    isUserVerificated,
+    addFavoriteRestaurant,
+    getFavoriteRestaurants
 }

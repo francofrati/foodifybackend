@@ -2,13 +2,14 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import swal from 'sweetalert'
 import { getOrdersByRestId } from '../../../../assets/endpoints'
 
 import s from './Orders.module.css'
 
 
 
-const Order = ({ name, img, status, user_name, address, handleStatus, id }) => {
+const Order = ({ name, img, status, user_name, address, handleStatus, id, price }) => {
 
   console.log(id)
   return (
@@ -17,33 +18,41 @@ const Order = ({ name, img, status, user_name, address, handleStatus, id }) => {
         <img className={s.img} src={img} alt={name} />
       </div> */}
       <div className={s.info_cont}>
-        <div>
-          {name.map((p) => <div key={p.title}>{p.title} Cant:{p.cartQuantity}</div>)}
+        <div className={s.products_cont}>
+          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#187797' }}>Productos:</div>
+          <div className={s.products_info_cont}>{name.map((p, i) => <span className={s.boldText + ' ' + s.group} key={i}>{p.title} <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#187797' }}>Cant:</span>{p.cartQuantity}</span>)}</div>
+
         </div>
-        <div>
-          Para: {user_name}
+        <div className={s.desc}>
+          Para: <span className={s.boldText}>{user_name}</span>
         </div>
-        <div>
-          Direccion:{address}
+        <div className={s.desc}>
+          Direccion:<span className={s.boldText}>{address}</span>
         </div>
-        <div>
-          Estado:{status}
+        <div className={s.desc}>
+          Precio:<span className={s.boldText}>${price}</span>
         </div>
-        {status === 'proceso'
-          ? <>
-            <button onClick={() => handleStatus(id, 'finalizado')}>Finalizar</button>
-            <button onClick={() => handleStatus(id, 'pending')}>Pendiente</button>
-          </>
-          : <></>
-        }
-        {status === 'finalizado'
-          ? <button onClick={() => handleStatus(id, 'errorProceso')}>En proceso</button>
-          : <></>
-        }
-        {status === 'pending'
-          ? <button onClick={() => handleStatus(id, 'proceso')}>En proceso</button>
-          : <></>
-        }
+        <div className={s.desc}>
+          Estado:<span className={s.boldText}>{status}</span>
+        </div>
+        <div className={s.btn_cont}>
+          {status === 'proceso'
+            ? <>
+              <button className={s.btn_status} onClick={() => handleStatus(id, 'finalizado')}>Finalizar</button>
+              <button className={s.btn_status} onClick={() => handleStatus(id, 'pending')}>Pendiente</button>
+            </>
+            : <></>
+          }
+          {status === 'finalizado'
+            ? <button className={s.btn_status} onClick={() => handleStatus(id, 'errorProceso')}>En proceso</button>
+            : <></>
+          }
+          {status === 'pending'
+            ? <button className={s.btn_status} onClick={() => handleStatus(id, 'proceso')}>En proceso</button>
+            : <></>
+          }
+
+        </div>
       </div>
     </div>
   )
@@ -57,7 +66,36 @@ const Orders = () => {
 
   const [finishedOrders, setFinishedOrders] = useState([])
 
+
+
   const handleStatusChange = (orderId, status) => {
+
+    if (status === 'finalizado') {
+      swal({
+        title: 'Estas seguro que ya esta listo el pedido?',
+        icon: 'warning',
+        buttons: true
+      })
+        .then(value => {
+          if (value) {
+            axios.post(`http://localhost:3001/shop?option=status`, { delivery_status: status, orderId: orderId })
+              .then(r => {
+
+                if (r.data.status) {
+                  swal({
+                    title: 'Orden finalizada',
+                    icon: 'success'
+                  }).then(re => {
+                    setFinishedOrders(r.data.orders)
+                    axios.get(`http://localhost:3001/orders/ordenes?deliveryStatus=proceso`).then(r => setInProccessOrders(r.data.orders))
+                  })
+                }
+                return
+              })
+          }
+        })
+    }
+
     axios.post(`http://localhost:3001/shop?option=status`, { delivery_status: status, orderId: orderId })
       .then((r) => {
         if (status === 'proceso') {
@@ -71,13 +109,6 @@ const Orders = () => {
         if (status === 'pending') {
           if (r.data.status) {
             setPendingOrders(r.data.orders)
-            axios.get(`http://localhost:3001/orders/ordenes?deliveryStatus=proceso`).then(r => setInProccessOrders(r.data.orders))
-          }
-          return
-        }
-        if (status === 'finalizado') {
-          if (r.data.status) {
-            setFinishedOrders(r.data.orders)
             axios.get(`http://localhost:3001/orders/ordenes?deliveryStatus=proceso`).then(r => setInProccessOrders(r.data.orders))
           }
           return
@@ -116,7 +147,7 @@ const Orders = () => {
         <div className={s.state}>Pendientes</div>
         <div className={s.orders_cont}>
           {pendingOrders.length
-            ? pendingOrders.map((o, i) => <Order id={o._id} handleStatus={handleStatusChange} key={i} name={o.products} status={o.delivery_status} user_name={o.user_name} address={o.address.address_line_1} />)
+            ? pendingOrders.map((o, i) => <Order id={o._id} handleStatus={handleStatusChange} key={i} name={o.products} status={o.delivery_status} user_name={o.user_name} address={o.address.address_line_1} price={o.total_price} />)
             : <></>
           }
         </div>
@@ -125,7 +156,7 @@ const Orders = () => {
         <div className={s.state}>En proceso</div>
         <div className={s.orders_cont}>
           {inProccessOrders.length
-            ? inProccessOrders.map((o, i) => <Order id={o._id} handleStatus={handleStatusChange} key={i} name={o.products} status={o.delivery_status} user_name={o.user_name} address={o.address.address_line_1} />)
+            ? inProccessOrders.map((o, i) => <Order id={o._id} handleStatus={handleStatusChange} key={i} name={o.products} status={o.delivery_status} user_name={o.user_name} address={o.address.address_line_1} price={o.total_price} />)
             : <></>
           }
         </div>
@@ -134,7 +165,7 @@ const Orders = () => {
         <div className={s.state}>Finalizados</div>
         <div className={s.orders_cont}>
           {finishedOrders.length
-            ? finishedOrders.map((o, i) => <Order id={o._id} handleStatus={handleStatusChange} key={i} name={o.products} status={o.delivery_status} user_name={o.user_name} address={o.address.address_line_1}/>)
+            ? finishedOrders.map((o, i) => <Order id={o._id} handleStatus={handleStatusChange} key={i} name={o.products} status={o.delivery_status} user_name={o.user_name} address={o.address.address_line_1} price={o.total_price} />)
             : <></>
           }
         </div>

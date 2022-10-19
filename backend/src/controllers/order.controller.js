@@ -1,6 +1,6 @@
 const Order = require('../models/Order.js')
 const moment = require('moment')
-const router = require('express').Router()
+
 
 //GET ORDERS
 
@@ -168,6 +168,29 @@ const statusOrder = async (req, res) => {
 }
 
 
+const ordersByUserId = async (req, res) => {
+  const { userId } = req.params
+
+  try {
+    if (!userId) throw Error('Se necesita el id del usuario')
+
+    const orders = await Order.find(/**{user_id:userId}**/)
+
+    if(!orders)throw Error(`El id:${userId} no corresponde a ningun usuario`)
+
+    return res.status(200).send({
+      status: true,
+      orders: orders,
+      msg: `Ordenes del usuario con id:${userId} obtenidas correctamente`
+    })
+  } catch (error) {
+    return res.status(400).send({
+      status: false,
+      msg: error.message
+    })
+  }
+}
+
 
 module.exports = {
   getOrders,
@@ -175,5 +198,6 @@ module.exports = {
   getIncome,
   getWeek,
   lastOrders,
-  statusOrder
+  statusOrder,
+  ordersByUserId
 }

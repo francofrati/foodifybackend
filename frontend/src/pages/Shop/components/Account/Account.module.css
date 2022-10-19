@@ -32,3 +32,14 @@
     background-color: #20B5E5;
     width:99%
 }
+
+/* Negocio custom input */
+
+.negocio_input_cont{
+    display: flex;
+    width: 90%;
+    border: 1px solid black;
+}
+.negocio_input{
+    width: 100%;
+}

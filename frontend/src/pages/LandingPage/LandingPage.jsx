@@ -5,10 +5,30 @@ import { jarallax, jarallaxElement } from 'jarallax'
 import restaurant from '../../assets/restaurant.jpg'
 import './LandingPage.scss'
 import './Jarallax.css'
+import { useDispatch, useSelector } from "react-redux"
+import { fetchCreds } from "../../Redux/thunks/userThunks"
 
 const LandingPage = () => {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { user } = useSelector((state) => state.user)
+
+    useEffect(() => {
+
+        if (user) {
+            if (user.type === 'restaurant') navigate('/negocios')
+        } else {
+            const token = window.localStorage.getItem('token')
+            if (token) {
+                dispatch(fetchCreds(token))
+            }
+        }
+    }, [user])
+
+    useEffect(()=>{
+        if(user && user.type==='restaurant')navigate('/negocios')
+    },[user])
 
     useEffect(() => {
 

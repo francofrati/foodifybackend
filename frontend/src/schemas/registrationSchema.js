@@ -15,5 +15,6 @@ export const registrationSchema = yup.object().shape({
     .string()
     .min(3)
     .matches(nameRules, 'Solo se pueden usar letras')
-    .required('Requerido')
+    .required('Requerido'),
+    
 });

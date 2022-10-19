@@ -11,7 +11,9 @@ const {
     deleteUser,
     googleAuth,
     getVerification,
-    isUserVerificated
+    isUserVerificated,
+    addFavoriteRestaurant,
+    getFavoriteRestaurants
 } = require('../controllers/user.controller')
 
 
@@ -37,6 +39,9 @@ router.put('/:idUser/:idFood', putUserFood)
 
 router.delete('/:idUser', deleteUser)
 
+router.post('/favorite', addFavoriteRestaurant)
+
+router.get('/favorite/:userId',getFavoriteRestaurants)
 
 module.exports = router
 

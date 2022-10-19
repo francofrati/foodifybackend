@@ -38,6 +38,7 @@ font-family: 'Nunito', sans-serif;
     border: none;
     border-radius: 9999px;
     color: white;
+    cursor: pointer;
     font-family: 'Nunito', sans-serif;
 }
 .btn_google:hover{
@@ -57,4 +58,5 @@ font-family: 'Nunito', sans-serif;
     text-align: right;
     font-family: 'Nunito', sans-serif;
     margin-top: 10px;
+    cursor: pointer;
 }

@@ -34,13 +34,13 @@ const NavBar = () => {
   const { user } = useSelector(state => state.user)
   
   //ACOMODAR Y REFACCIONAR ESTO-------------
+  
   useEffect(() => {
     if (lnlt) {
       axios.get(`http://api.positionstack.com/v1/reverse?access_key=4a9dc4f7e168903b6d3612fd4f67dffe&query=${lnlt.lt},${lnlt.ln}`)
       .then(r => setLocation(`${r.data.data[0].region}, ${r.data.data[0].country}`))
     }
   }, [lnlt])
-  
   useEffect(() => {
     window.navigator.geolocation.getCurrentPosition((l) => {
       setLnlt({
@@ -52,6 +52,7 @@ const NavBar = () => {
       console.log(e)
     })
   }, [])
+  
   //----------------
 
   

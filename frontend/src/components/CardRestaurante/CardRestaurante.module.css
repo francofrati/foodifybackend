@@ -30,13 +30,14 @@
     font-family: 'Nunito', sans-serif;
     font-weight: 700;
     font-size: 1.6rem;
+    text-align: center;
 }
 
 .title_cont {
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 60%;
     padding-left: 80px;
 }
 

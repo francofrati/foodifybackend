@@ -15,9 +15,9 @@ const userSchema = new Schema(
         password: {
             type: String,
         },
-        plus:{
-            type:Boolean,
-            default:false
+        plus: {
+            type: Boolean,
+            default: false
         },
         admin: {
             type: Boolean,
@@ -32,6 +32,12 @@ const userSchema = new Schema(
                 ref: "Food"
             }
         ],
+        favorites: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Restaurant"
+            }
+        ],
         login_Google: {
             type: Boolean,
             default: false
@@ -39,7 +45,7 @@ const userSchema = new Schema(
         localStorageToken: {
             type: String
         },
-        verification_code:{
+        verification_code: {
             type: String,
 
         },
@@ -55,6 +61,12 @@ const userSchema = new Schema(
         deleted: {
             type: Boolean,
             default: false
+        },
+        address: {
+            type: Array
+        },
+        coordinates: {
+            type: Array
         }
     },
     {

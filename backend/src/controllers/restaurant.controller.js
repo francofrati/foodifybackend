@@ -102,16 +102,25 @@ const loginRestaurant = async (req, res) => {
 
 
         const token = createToken({
-            name: currentRestaurant.name,
             id: currentRestaurant.id,
-            email,
-            type: 'restaurant'
+            name: currentRestaurant.name,
+            email: currentRestaurant.email,
+            type: 'restaurant',
+            phone: currentRestaurant.phone,
+            coordinates: currentRestaurant.coordinates,
+            country: currentRestaurant.country,
+            state: currentRestaurant.state,
+            city: currentRestaurant.city,
+            address: currentRestaurant.address,
+            delivery: currentRestaurant.delivery,
+            plus: currentRestaurant.plus,
+            image: currentRestaurant.image
         })
 
         return res.status(201).send({
-            status:true,
+            status: true,
             token,
-            msg:'Usuario loggeado correctamente'
+            msg: 'Usuario loggeado correctamente'
         })
 
     } catch (error) {
@@ -184,7 +193,7 @@ const getVerification = async (req, res) => {
 
             await Restaurant.findByIdAndUpdate(
                 { _id: restaurantId },
-                { verified:true },
+                { verified: true },
                 { new: true })
 
 
@@ -192,7 +201,15 @@ const getVerification = async (req, res) => {
                 id: restaurant.id,
                 name: restaurant.name,
                 email: restaurant.email,
-                type: 'restaurant'
+                type: 'restaurant',
+                phone: restaurant.phone,
+                coordinates: restaurant.coordinates,
+                country: restaurant.country,
+                state: restaurant.state,
+                city: restaurant.city,
+                address: restaurant.address,
+                delivery: restaurant.delivery,
+                plus: restaurant.plus,
             }
 
             const token = createToken(token_info)

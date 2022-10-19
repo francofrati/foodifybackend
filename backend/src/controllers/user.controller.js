@@ -51,26 +51,29 @@ const getUserById = async (req, res) => {
 const putUser = async (req, res) => {
     const { idUser } = req.params
     const { username, name, email, hashPassword, country } = req.body
-
     const user = User.findById(idUser)
-
+    const contraseña = await bcrypt.hash(hashPassword, 10)
     let actualUser;
     hashPassword ?
         (actualUser = {
             username: username,
             name: name,
             email: email,
-            hashPassword: await bcrypt.hash(hashPassword, 10),
+            password: await bcrypt.hash(hashPassword, 10),
             country: country
         }) :
         (actualUser = {
             username: username,
             name: name,
             email: email,
-            country: country
+            country: country,
+            
         });
-
+    const nuevo = await bcrypt.compare(hashPassword, contraseña)
+    console.log(nuevo)
     await user.updateOne(actualUser)
+    
+    console.log(hashPassword)
 
     return res.status(200).json({
         status: 'User updated'

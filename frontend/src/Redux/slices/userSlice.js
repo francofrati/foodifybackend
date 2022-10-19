@@ -14,8 +14,8 @@ const userSlice = createSlice({
             state.users = action.payload;
           },
           getUserById (state, action) {
-            console.log(action.payload)
-            state.userById = action.payload[0];
+            // state.userById = action.payload[0];
+            state.userById = action.payload;
             localStorage.setItem("usuario", JSON.stringify(state.userById))
           },
         getUserCreds(state, action) {

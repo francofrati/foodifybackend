@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { addToCart, removeFromCart, decreaseCart, clearCart, getTotals } from '../../Redux/slices/shoppingSlice'
 import styles from './Shopping.module.scss'
-import jwt_decode from "jwt-decode"
 import './CartContainer.scss'
 import PayButton from './PayButton.jsx'
 import { fetchCreds, fetchUserById } from '../../Redux/thunks/userThunks'
+import jwt_decode from 'jwt-decode'
 
 const Shopping = () => {
 
+    const { id } = useParams()
+
+    console.log('Params: ' + id)
+
+    
     const cart = useSelector((state) => state.shopping)
     const dispatch = useDispatch()
-    // let info = jwt_decode(window.localStorage.getItem('token'));
+    let info = jwt_decode(window.localStorage.getItem('token'));
     // const { userById } = useSelector((state) => state.users);
 
     useEffect(() => {
         dispatch(getTotals())
     }, [cart])
 
-    const userById = useSelector((state) => state.users);
-    console.log(userById)
+    const userById = useSelector((state) => state.user);
 
 
     useEffect(() =>{
@@ -28,14 +32,22 @@ const Shopping = () => {
       // dispatch(fetchUserById(info.id));
     }, [cart])
 
+    const {user} = useSelector((state) => state.user)
     
     useEffect(() => {
       if(window.localStorage.getItem('token')){
         dispatch(fetchCreds(window.localStorage.getItem('token')))
       }
+
+    console.log('Usuario: ' + JSON.parse(JSON.stringify(info)))
+
     }, [])
 
-    const user = useSelector((state) => state.user.user)
+
+
+    const infoIdMongo = {
+      idRestaurant: id
+    }
 
 
     const handleRemoveFromCart = (cartItem) => {
@@ -186,7 +198,7 @@ const Shopping = () => {
                   </div>
                   <p>Taxes and shipping calculated at checkout</p>
                   {
-                  user && <PayButton cartItems={cart.cartItems} userInfo={userById} cartInfo={cart}/>
+                  user && <PayButton cartItems={cart.cartItems} userInfo={userById} cartInfo={cart} idRestaurant={id}/>
                     }
                   <div className={styles.continueShopping}>
                     <Link to="/">

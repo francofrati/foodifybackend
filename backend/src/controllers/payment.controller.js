@@ -9,10 +9,14 @@ const Order = require("../models/Order")
 
 const createOrder = async (customer, data) => {
 
-  console.log(customer)
 
   try {
+
+    console.log("DATOSSSS:  " + JSON.stringify(customer))
+
     await Order.create({
+      restaurant_id_mongo: customer.metadata.restaurant_id_mongo,
+      user_id_mongo: customer.metadata.user_id_mongo,
       user_id_stripe: customer.id,
       user_name: data.customer_details.name,
       user_email: customer.email,
@@ -27,7 +31,8 @@ const createOrder = async (customer, data) => {
         return ({
           title: item.description,
           cartQuantity: item.quantity,
-          subtotal_price: item.amount_total
+          subtotal_price: item.amount_total,
+          id_food: item.id
         })
       }),
       payment_status: data.payment_status,
@@ -40,14 +45,27 @@ const createOrder = async (customer, data) => {
 
 
 const payment = async (req, res) => {
+
+  const restaurant_id_mongo = JSON.stringify(req.body.userId.restaurant_id_mongo)
+  const user_id_mongo = JSON.stringify(req.body.userId.user_id_mongo)
+
+
+
   // const { } = cartItems
-  const customer = await stripe.customers.create({
-    metadata: {
-      userId: req.body.userId,
+  try{
+
+
+    const customer = await stripe.customers.create({
+      metadata: {
+      userId: req.body.userId.id,
+      restaurant_id_mongo: req.body.userId.restaurant_id_mongo,
+      user_id_mongo: req.body.userId.user_id_mongo
       // cart: JSON.stringify(req.body.cartItems)
     },
   });
+
   const line_items = req.body.cartItems.map((item) => {
+    
     return {
       price_data: {
         currency: "usd",
@@ -57,6 +75,8 @@ const payment = async (req, res) => {
           // description: item.desc,
           metadata: {
             id: item.id,
+            restaurant_id_mongo: restaurant_id_mongo,
+            user_id_mongo: user_id_mongo
           },
         },
         unit_amount: item.price * 100,
@@ -104,7 +124,15 @@ const payment = async (req, res) => {
     cancel_url: `${process.env.CLIENT_URL}/shopping`,
   });
 
-  res.status(200).send({ url: session.url });
+  console.log(session)
+  res.status(200).send({ url: session.url });}
+  catch(error){
+    console.log(error)
+    console.log("CUSTOMER: ")
+    console.log(req.body.userId)
+
+
+  }
 }
 
 

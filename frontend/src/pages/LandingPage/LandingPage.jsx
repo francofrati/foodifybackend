@@ -1,10 +1,12 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { jarallax, jarallaxElement } from 'jarallax'
-
+import Footer from '../Footer/Footer.jsx'
 import restaurant from '../../assets/restaurant.jpg'
 import './LandingPage.scss'
 import './Jarallax.css'
+import HeaderLandingPage from "./HeaderLandingPage.jsx"
+import {Slideshow, Slide, TextoSlide} from '../../components/Slider/Slider'
 import { useDispatch, useSelector } from "react-redux"
 import { fetchCreds } from "../../Redux/thunks/userThunks"
 
@@ -45,6 +47,45 @@ const LandingPage = () => {
 
 
     return (
+        <div>
+        < HeaderLandingPage/>
+        <div className="slidermargin">
+                <Slideshow controles={true} autoplay={true} velocidad="6000" intervalo="5000">
+				<Slide>
+					
+						<img src={restaurant} alt=""/>
+					
+					<TextoSlide>
+					{/* <TextoSlide colorFondo="navy"> */}
+						<p>15% descuento</p>
+					</TextoSlide>
+				</Slide>
+				<Slide>
+					
+						<img src={restaurant} alt=""/>
+					
+					<TextoSlide>
+						<p>15% descuento</p>
+					</TextoSlide>
+				</Slide>
+                <Slide>
+					
+						<img src={restaurant} alt=""/>
+					
+					<TextoSlide>
+						<p>15% descuento</p>
+					</TextoSlide>
+				</Slide>
+                <Slide>
+					
+						<img src={restaurant} alt=""/>
+					
+					<TextoSlide>
+						<p>15% descuento</p>
+					</TextoSlide>
+				</Slide>
+			</Slideshow>
+                </div>
         <div className='body1' onClick={() => navigate('/restaurantes')}>
             <section>
                 <div className='box1'>
@@ -101,6 +142,8 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
+        </div>
+        <Footer />
         </div>
     )
 }

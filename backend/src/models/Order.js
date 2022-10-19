@@ -1,6 +1,14 @@
 const { Schema, model } = require('mongoose')
 
 const orderSchema = new Schema({
+    user_id_mongo: { 
+        type: Schema.Types.ObjectId,
+        Ref: "User"
+    },
+    restaurant_id_mongo: {
+        type: Schema.Types.ObjectId,
+        Ref: "Restaurant"
+    },
     user_id_stripe: { type: String, required: true },
     user_name: { type: String, required: true },
     user_email: { type: String },
@@ -18,6 +26,7 @@ const orderSchema = new Schema({
             title: { type: String },
             cartQuantity: { type: Number },
             subtotal_price: { type: Number },
+            id_food: { type: String }
         }
     ],
     total_price: {

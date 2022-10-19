@@ -7,7 +7,9 @@ const {
     postFood,
     putFood,
     deleteFood,
-    getDiets
+    getDiets,
+    getFoodsRestaurant,
+    foodsIdInRestaurant
 } = require("../controllers/food.controller.js")
 
 
@@ -17,12 +19,18 @@ const router = Router();
 // router.get('/data', dataApi)
 
 
+//PARA RELACIONAR COMIDAS Y RESTAURANTES
+// router.get('/infoid', foodsIdInRestaurant)
+
+
 router.get('/', getFoods)
 
 router.get('/diets', getDiets)
 
 router.post('/', postFood)
 
+//
+router.get('/foodsRestaurant/:idRestaurant', getFoodsRestaurant)
 
 //Get de una comida con id de la comida
 router.get('/:idFood', getFoodById)

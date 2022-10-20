@@ -149,7 +149,7 @@ const signUp = async (req, res) => {
 
         //Mail de bienvenida
 
-        const temporalVerificationLink = `http://localhost:3000/verifyAccount/${newUser.id}`
+        const temporalVerificationLink = `https://foodifys.vercel.app/verifyAccount/${newUser.id}`
 
         await sendEmail(newUser.email, newUser.name, temporalVerificationLink, code)
 

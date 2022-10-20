@@ -121,8 +121,8 @@ const payment = async (req, res) => {
     line_items,
     mode: "payment",
     customer: customer.id,
-    success_url: `https://foodifyhenry.vercel.app/checkout-success`,
-    cancel_url: `https://foodifyhenry.vercel.app/shopping`,
+    success_url: `https://foodifys.vercel.app/checkout-success`,
+    cancel_url: `https://foodifys.vercel.app/shopping`,
   });
   //funciona
 

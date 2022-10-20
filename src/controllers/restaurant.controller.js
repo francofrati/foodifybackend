@@ -64,7 +64,7 @@ const registerRestaurant = async (req, res) => {
             })
 
         if (restaurant) {
-            const temporalVerificationLink = `http://localhost:3000/negocios/verifyAccount/${restaurant.id}`
+            const temporalVerificationLink = `https://foodifys.vercel.app/negocios/verifyAccount/${restaurant.id}`
             await sendVerificationEmailtoRestaurant(email, restaurant.name, temporalVerificationLink, code)
             return res.status(200).send({
                 status: true,

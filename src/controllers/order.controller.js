@@ -7,6 +7,8 @@ const postOrder = async(req,res)=>{
 
  const order = await Order.create(req.body)
 
+ console.log('ORDER',order)
+
  return res.status(200).send({
   order
  })

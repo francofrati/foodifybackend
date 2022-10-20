@@ -53,82 +53,83 @@ const payment = async (req, res) => {
 
 
   // const { } = cartItems
-  try{
+  try {
 
 
     const customer = await stripe.customers.create({
       metadata: {
-      userId: req.body.userId.id,
-      restaurant_id_mongo: req.body.userId.restaurant_id_mongo,
-      user_id_mongo: req.body.userId.user_id_mongo
-      // cart: JSON.stringify(req.body.cartItems)
-    },
-  });
-
-  const line_items = req.body.cartItems.map((item) => {
-    
-    return {
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.title,
-          images: [item.image],
-          // description: item.desc,
-          metadata: {
-            id: item.id,
-            restaurant_id_mongo: restaurant_id_mongo,
-            user_id_mongo: user_id_mongo
-          },
-        },
-        unit_amount: item.price * 100,
+        userId: req.body.userId.id,
+        restaurant_id_mongo: req.body.userId.restaurant_id_mongo,
+        user_id_mongo: req.body.userId.user_id_mongo
+        // cart: JSON.stringify(req.body.cartItems)
       },
-      quantity: item.cartQuantity,
-    };
-  });
+    });
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    shipping_address_collection: {
-      allowed_countries: ["US", "CA", "KE"],
-    },
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: {
-            amount: 0,
-            currency: "usd",
-          },
-          display_name: "Free shipping",
-          // Delivers between 5-7 business days
-          delivery_estimate: {
-            minimum: {
-              unit: "business_day",
-              value: 5,
-            },
-            maximum: {
-              unit: "business_day",
-              value: 7,
+    const line_items = req.body.cartItems.map((item) => {
+
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.title,
+            images: [item.image],
+            // description: item.desc,
+            metadata: {
+              id: item.id,
+              restaurant_id_mongo: restaurant_id_mongo,
+              user_id_mongo: user_id_mongo
             },
           },
+          unit_amount: item.price * 100,
         },
+        quantity: item.cartQuantity,
+      };
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      shipping_address_collection: {
+        allowed_countries: ["US", "CA", "KE"],
       },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 0,
+              currency: "usd",
+            },
+            display_name: "Free shipping",
+            // Delivers between 5-7 business days
+            delivery_estimate: {
+              minimum: {
+                unit: "business_day",
+                value: 5,
+              },
+              maximum: {
+                unit: "business_day",
+                value: 7,
+              },
+            },
+          },
+        },
 
-    ],
-    phone_number_collection: {
-      enabled: true,
-    },
-    line_items,
-    mode: "payment",
-    customer: customer.id,
-    success_url: `https://foodifys.vercel.app/checkout-success`,
-    cancel_url: `https://foodifys.vercel.app/shopping`,
-  });
-  //funciona
+      ],
+      phone_number_collection: {
+        enabled: true,
+      },
+      line_items,
+      mode: "payment",
+      customer: customer.id,
+      success_url: `https://foodifys.vercel.app/checkout-success`,
+      cancel_url: `https://foodifys.vercel.app/shopping`,
+    });
+    //funciona
 
-  console.log('session',session)
-  res.status(200).send({ url: session.url });}
-  catch(error){
+    console.log('session', session)
+    res.status(200).send({ url: session.url });
+  }
+  catch (error) {
     console.log(error)
     console.log("CUSTOMER: ")
     console.log(req.body.userId)
@@ -139,17 +140,19 @@ const payment = async (req, res) => {
 
 
 const handleWebHook = async (request, response) => {
-  const sig = request.headers['stripe-signature'];
+  const sig_header = request.headers['stripe-signature'];
+
+  const payload = request.rawBody
 
   console.log('El push ESTA FUNCIONANDODFGHDFG')
-
+  const endpoint_secret = endpointSecret
   let event;
   let data;
   let eventType;
 
   if (endpointSecret) {
     try {
-      event = stripe.webhooks.constructEvent(request.rawBody, sig, endpointSecret);
+      event = stripe.webhooks.constructEvent(payload, sig_header, endpoint_secret);
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error: ${err.message}`)
@@ -185,5 +188,5 @@ const handleWebHook = async (request, response) => {
 
 module.exports = {
   handleWebHook,
-  payment 
+  payment
 }

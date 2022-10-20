@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import axios from 'axios'
@@ -11,7 +11,7 @@ import { fetchAllFoods, fetchAllDiets } from "../../../Redux/thunks/foodsThunks"
 import style from './CreateFood.module.css'
 
 
-const CreateFood = ({ restId, setWhenFoodUpdate }) => {
+const CreateFood = ({ restId }) => {
     const [send, setSend] = useState(false);
     const dispatch = useDispatch()
     let navigate = useNavigate()
@@ -24,6 +24,8 @@ const CreateFood = ({ restId, setWhenFoodUpdate }) => {
     //     }
     // }, [dispatch, diets])
 
+    const params = useParams()
+    const { id } = params
 
 
     return (
@@ -109,7 +111,7 @@ const CreateFood = ({ restId, setWhenFoodUpdate }) => {
                                         dispatch(fetchAllFoods());
                                         // navigate('/')
                                     }
-                                    setWhenFoodUpdate()
+                                    
                                 })
 
                             resetForm();

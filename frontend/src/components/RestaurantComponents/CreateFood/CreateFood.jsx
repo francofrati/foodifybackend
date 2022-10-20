@@ -1,34 +1,36 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import axios from 'axios'
 import swal from 'sweetalert'
 
-import {BsPlusLg} from 'react-icons/bs'
+import { BsPlusLg } from 'react-icons/bs'
 import { fetchAllFoods, fetchAllDiets } from "../../../Redux/thunks/foodsThunks";
 
 import style from './CreateFood.module.css'
 
 
-const CreateFood = ({ restId, setWhenFoodUpdate }) => {
+const CreateFood = ({ restId }) => {
     const [send, setSend] = useState(false);
     const dispatch = useDispatch()
     let navigate = useNavigate()
 
     const { diets } = useSelector((state) => state.foods)
 
-    useEffect(() => {
-        if (diets.length === 0) {
-            dispatch(fetchAllDiets())
-        }
-    }, [dispatch, diets])
+    // useEffect(() => {
+    //     if (diets.length === 0) {
+    //         dispatch(fetchAllDiets())
+    //     }
+    // }, [dispatch, diets])
 
+    const params = useParams()
+    const { id } = params
 
 
     return (
         <div className={style.container}>
-            <h1 style={{color:'#20B5E5'}}>Agregar Productos</h1>
+            <h1 style={{ color: '#20B5E5' }}>Agregar Productos</h1>
             {diets ?
                 <div className={style.formulario}>
 
@@ -92,19 +94,24 @@ const CreateFood = ({ restId, setWhenFoodUpdate }) => {
                                 idRestaurant: restId
                             }
 
-                            axios.post(`/foods/`, body)
-                            swal({
-                                title: 'Se agrego tu producto',
-                                // text:'Food added successfully',
-                                icon: 'success',
-                                button: 'OK'
-                            })
+                            axios.post(`https://server-om6g.onrender.com/foods/`, body)
+                                .then(r => {
+                                    
+                                        swal({
+                                            title: 'Se agrego tu producto',
+                                            // text:'Food added successfully',
+                                            icon: 'success',
+                                            button: 'OK'
+                                        })
+
+                                    
+                                })                                
                                 .then(res => {
                                     if (res) {
                                         dispatch(fetchAllFoods());
                                         // navigate('/')
                                     }
-                                    setWhenFoodUpdate()
+                                    
                                 })
 
                             resetForm();
@@ -118,51 +125,51 @@ const CreateFood = ({ restId, setWhenFoodUpdate }) => {
                     >
                         {({ errors, setFieldValue, values }) => (
                             <Form className={style.form}>
-                                <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start',paddingLeft:50,width:'50%',gap:20}}>
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingLeft: 50, width: '50%', gap: 20 }}>
 
-                                    
 
-                                        
-                                            <div>
-                                                <label htmlFor="title">Elegi el nombre de tu producto: </label>
-                                                <Field
-                                                    type='text'
-                                                    id="title"
-                                                    placeholder="Producto..."
-                                                    name="title"
-                                                />
-                                                <ErrorMessage name="title" component={() => (
-                                                    <div className={style.error}>{errors.title}</div>
-                                                )} />
-                                            </div>
-                                            <div>
-                                                <label htmlFor="prc">Precio: </label>
-                                                <Field
-                                                    type="number"
-                                                    id="prc"
-                                                    placeholder="$9.50"
-                                                    name="price"
-                                                />
-                                                <ErrorMessage name="price" component={() => (
-                                                    <div className={style.error}>{errors.price}</div>
-                                                )} />
-                                            </div>
 
-                                        
-                                        <div className={style.desc_cont}>
-                                            <label htmlFor="description">Descripcion del producto: </label>
-                                            <Field
-                                                as='textarea'
-                                                id="description"
-                                                placeholder="Producto..."
-                                                name="description"
-                                            />
-                                            <ErrorMessage name="description" component={() => (
-                                                <div className={style.error}>{errors.description}</div>
-                                            )} />
-                                        </div>
 
-                                        {/* <div>
+                                    <div>
+                                        <label htmlFor="title">Elegi el nombre de tu producto: </label>
+                                        <Field
+                                            type='text'
+                                            id="title"
+                                            placeholder="Producto..."
+                                            name="title"
+                                        />
+                                        <ErrorMessage name="title" component={() => (
+                                            <div className={style.error}>{errors.title}</div>
+                                        )} />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="prc">Precio: </label>
+                                        <Field
+                                            type="number"
+                                            id="prc"
+                                            placeholder="$9.50"
+                                            name="price"
+                                        />
+                                        <ErrorMessage name="price" component={() => (
+                                            <div className={style.error}>{errors.price}</div>
+                                        )} />
+                                    </div>
+
+
+                                    <div className={style.desc_cont}>
+                                        <label htmlFor="description">Descripcion del producto: </label>
+                                        <Field
+                                            as='textarea'
+                                            id="description"
+                                            placeholder="Producto..."
+                                            name="description"
+                                        />
+                                        <ErrorMessage name="description" component={() => (
+                                            <div className={style.error}>{errors.description}</div>
+                                        )} />
+                                    </div>
+
+                                    {/* <div>
                                         <label htmlFor="diet">Diet: </label>
                                         <Field id="diets" name="diets" as='select' className={style.select}>
                                         <option value='Diet' selected> Diet </option>
@@ -180,48 +187,48 @@ const CreateFood = ({ restId, setWhenFoodUpdate }) => {
                                             </div> */}
 
 
-                                        <div>
-                                            <label htmlFor="img">Image: </label>
-                                            <>
-                                                <Field
-                                                    type="file"
-                                                    id="image"
-                                                    value=""
-                                                    name="image"
-                                                    // onChange ={(event) => setFieldValue("file", event.target.files[0])}
-                                                    onChange={(event) => {
-                                                        const formData = new FormData()
-                                                        // console.log(event)
-                                                        // console.log(event.target.files[0])
-                                                        formData.append("file", event.target.files[0])
-                                                        formData.append("upload_preset", "op9ii2j6")
-                                                        //console.log(formData)
-                                                        axios.post("https://api.cloudinary.com/v1_1/dlx7k9tef/image/upload", formData)
-                                                            .then((response) => {
-                                                                setFieldValue("image", response.data.url)
-                                                                // console.log(response)
-                                                                // console.log(response.data.url)
-                                                            })
+                                    <div>
+                                        <label htmlFor="img">Image: </label>
+                                        <>
+                                            <Field
+                                                type="file"
+                                                id="image"
+                                                value=""
+                                                name="image"
+                                                // onChange ={(event) => setFieldValue("file", event.target.files[0])}
+                                                onChange={(event) => {
+                                                    const formData = new FormData()
+                                                    // console.log(event)
+                                                    // console.log(event.target.files[0])
+                                                    formData.append("file", event.target.files[0])
+                                                    formData.append("upload_preset", "op9ii2j6")
+                                                    //console.log(formData)
+                                                    axios.post("https://api.cloudinary.com/v1_1/dlx7k9tef/image/upload", formData)
+                                                        .then((response) => {
+                                                            setFieldValue("image", response.data.url)
+                                                            // console.log(response)
+                                                            // console.log(response.data.url)
+                                                        })
 
-                                                    }}
-                                                />
-                                                <ErrorMessage name="image" component={() => (
-                                                    <div className={style.error}>{errors.image}</div>
-                                                )} />
-                                            </>
+                                                }}
+                                            />
+                                            <ErrorMessage name="image" component={() => (
+                                                <div className={style.error}>{errors.image}</div>
+                                            )} />
+                                        </>
 
-                                        </div>
-                                    
-
-                                </div>
-
-                                    <div className={style.img_cont}>
-                                        <img src={values.image} alt="food" className={style.preview_img} />
                                     </div>
 
 
-                                <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'25%'}}>
-                                    <button style={{height:'80%',width:'20%'}} type="submit">  <BsPlusLg size={'80%'} color={'#20B5E5'}/> </button>
+                                </div>
+
+                                <div className={style.img_cont}>
+                                    <img src={values.image} alt="food" className={style.preview_img} />
+                                </div>
+
+
+                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '25%' }}>
+                                    <button style={{ height: '80%', width: '20%' }} type="submit">  <BsPlusLg size={'80%'} color={'#20B5E5'} /> </button>
                                     {send && <p>Producto agragado existosamente</p>}
                                 </div>
                             </Form>

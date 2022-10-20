@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getFoods, getDiets, searchFood, getFoodsRestaurant, getFoodById } from '../slices/foodSlice'
 
 const fetchAllFoods = () => (dispatch) => {
-    axios.get("/foods")
+    axios.get("https://server-om6g.onrender.com/foods")
         .then((response) => {
             dispatch(getFoods(response.data.foods))
         })
@@ -10,7 +10,7 @@ const fetchAllFoods = () => (dispatch) => {
 }
 
 const fetchAllDiets = () => (dispatch) => {
-    axios.get("/foods/diets")
+    axios.get("https://server-om6g.onrender.com/foods/diets")
         .then((response) => {
             dispatch(getDiets(response.data.diets))
         })
@@ -18,7 +18,7 @@ const fetchAllDiets = () => (dispatch) => {
 }
 
 const fetchFoodsByTitle = (title) => (dispatch) => {
-    axios.get(`/foods?title=${title}`)
+    axios.get(`https://server-om6g.onrender.com/foods?title=${title}`)
         .then((response) => {
             dispatch(searchFood(response.data.foods))
         })
@@ -27,7 +27,7 @@ const fetchFoodsByTitle = (title) => (dispatch) => {
 
 
 const fetchFoodsRestaurant = (idRestaurant) => (dispatch) => {
-    axios.get(`/foods/foodsRestaurant/${idRestaurant}`)
+    axios.get(`https://server-om6g.onrender.com/foods/foodsRestaurant/${idRestaurant}`)
     .then((response) => {
         dispatch(getFoodsRestaurant(response.data.foods))
     })

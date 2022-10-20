@@ -10,8 +10,9 @@ import Orders from './components/Orders/Orders'
 import Products from './components/Products/Products'
 import Account from './components/Account/Account'
 import { useState } from 'react'
-import {BiLogOut} from 'react-icons/bi'
+import { BiLogOut } from 'react-icons/bi'
 import { getUserCreds } from '../../Redux/slices/userSlice'
+import Reviews from './components/Reviews/Reviews'
 
 const optionsConfig = [
     { name: 'Pedidos' },
@@ -24,7 +25,7 @@ const optionsConfig = [
 const Options = ({ name, changeOption, active }) => {
 
     return (
-        <div onClick={changeOption} className={active===name?`${s.option_cont} ${s.active_option}`:s.option_cont}>
+        <div onClick={changeOption} className={active === name ? `${s.option_cont} ${s.active_option}` : s.option_cont}>
             {name}
         </div>
     )
@@ -39,20 +40,22 @@ const Shop = () => {
         const token = window.localStorage.getItem('token')
         if (token) {
             dispatch(fetchCreds(token))
-        }        
+        }
     }, [])
 
 
-    
+
 
     const handleOptions = (state) => {
         switch (state) {
             case 'Pedidos':
                 return <Orders />
             case 'Cuenta':
-                return <Account name={user&&user.name}/>
+                return <Account name={user && user.name} />
             case 'Productos':
-                return <Products restId={user&&user.id}/>
+                return <Products restId={user && user.id} />
+            case 'Opiniones':
+                return <Reviews />
             default:
                 return <></>
         }
@@ -72,13 +75,13 @@ const Shop = () => {
         if (user && user.type !== 'restaurant') {
             navigate('/')
         }
-        if(!user){
+        if (!user) {
             navigate('/')
         }
-        
+
     }, [user])
 
-    const logOut = ()=>{
+    const logOut = () => {
         window.localStorage.removeItem('token')
         dispatch(getUserCreds(null))
         navigate('/negocios')
@@ -92,16 +95,16 @@ const Shop = () => {
                     <div className={s.panel_cont}>
                         <div className={s.foody_cont}>
                             <img className={s.foodify_logo} src={foodify_logo} alt="foodify" />
-                            
+
                         </div>
                         <div className={s.options_cont}>
                             {optionsConfig.map(e => <Options active={option} changeOption={() => setOption(e.name)} name={e.name} key={e.name} />)}
-                            <button onClick={logOut}><BiLogOut size={'5rem'}/></button>
+                            <button onClick={logOut}><BiLogOut size={'5rem'} /></button>
                         </div>
                     </div>
                     <div className={s.content_cont}>
                         <div className={s.shop_name_cont}>
-                        <img src={user.image} className={s.foodify_logo} alt={s.name} />
+                            <img src={user.image} className={s.foodify_logo} alt={s.name} />
                             {user.name}
 
                         </div>

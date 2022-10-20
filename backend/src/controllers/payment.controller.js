@@ -45,6 +45,7 @@ const createOrder = async (customer, data) => {
 
 
 const payment = async (req, res) => {
+  console.log('El push ESTA FUNCIONANDODFGHDFG')
 
   const restaurant_id_mongo = JSON.stringify(req.body.userId.restaurant_id_mongo)
   const user_id_mongo = JSON.stringify(req.body.userId.user_id_mongo)
@@ -120,11 +121,12 @@ const payment = async (req, res) => {
     line_items,
     mode: "payment",
     customer: customer.id,
-    success_url: `${process.env.CLIENT_URL}/checkout-success`,
-    cancel_url: `${process.env.CLIENT_URL}/shopping`,
+    success_url: `https://foodifyhenry.vercel.app/checkout-success`,
+    cancel_url: `https://foodifyhenry.vercel.app/shopping`,
   });
+  //funciona
 
-  console.log(session)
+  console.log('session',session)
   res.status(200).send({ url: session.url });}
   catch(error){
     console.log(error)
@@ -138,6 +140,8 @@ const payment = async (req, res) => {
 
 const handleWebHook = async (request, response) => {
   const sig = request.headers['stripe-signature'];
+
+  console.log('El push ESTA FUNCIONANDODFGHDFG')
 
   let event;
   let data;

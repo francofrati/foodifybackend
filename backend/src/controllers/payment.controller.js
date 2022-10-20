@@ -45,6 +45,7 @@ const createOrder = async (customer, data) => {
 
 
 const payment = async (req, res) => {
+  console.log('El push ESTA FUNCIONANDODFGHDFG')
 
   const restaurant_id_mongo = JSON.stringify(req.body.userId.restaurant_id_mongo)
   const user_id_mongo = JSON.stringify(req.body.userId.user_id_mongo)

@@ -96,7 +96,7 @@ const CreateFood = ({ restId }) => {
 
                             axios.post(`https://server-om6g.onrender.com/foods/`, body)
                                 .then(r => {
-                                    if (r.data.foodAdded) {
+                                    
                                         swal({
                                             title: 'Se agrego tu producto',
                                             // text:'Food added successfully',
@@ -104,8 +104,8 @@ const CreateFood = ({ restId }) => {
                                             button: 'OK'
                                         })
 
-                                    }
-                                })
+                                    
+                                })                                
                                 .then(res => {
                                     if (res) {
                                         dispatch(fetchAllFoods());

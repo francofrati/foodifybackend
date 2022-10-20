@@ -12,7 +12,7 @@ const store = configureStore({
         shopping: shoppingReducer,
         user: userReducer,
         restaurants: restaurantsReducer,
-        orders: orderSlice
+        orders: orderSlice,
     }
 })
 store.dispatch(getTotals())

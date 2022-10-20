@@ -5,10 +5,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 1200;
 }
 .content_div{
     z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
 .bg{

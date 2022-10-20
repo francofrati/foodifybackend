@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 .container{
     border-radius: 9px;
     background: rgba(255, 255, 255, 0.05);
@@ -16,6 +18,15 @@
 }
 .title{
     font-size: 5rem;
+    font-family: 'Pacifico', cursive;
+    animation: neon2 1.5s ease-in-out infinite alternate;
+    text-align: center;
+  font-size: 5em;
+  margin-bottom: 0;
+  margin-top: 0;
+  line-height: 1;
+  text-decoration: none;
+  color: #fff;
 }
 .logo{
     width: 500px;    
@@ -50,6 +61,22 @@
     display: flex;
     justify-content: space-between;
 }
+
+
+@keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #111, 0 0 40px #228dff,
+      0 0 70px #228dff, 0 0 80px #228dff, 0 0 100px #228dff, 0 0 150px #228dff;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228dff,
+      0 0 35px #228dff, 0 0 40px #228dff, 0 0 50px #228dff, 0 0 75px #228dff;
+  }
+}
+
+
+
+
 
 
 

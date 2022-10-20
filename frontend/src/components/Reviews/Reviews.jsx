@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUserById } from '../../Redux/thunks/userThunks'
 import s from './Reviews.module.scss'
-import jwt_decode from 'jwt-decoce'
+import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 
 const Reviews = () => {
@@ -28,7 +28,9 @@ const Reviews = () => {
 
     return(
         <div>
-
+            <div className={s.container}>
+                <h1>HOLAAA</h1>
+            </div>
         </div>
     )
 }

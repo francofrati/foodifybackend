@@ -33,7 +33,7 @@
     flex-wrap: wrap;
     transform-style: preserve-3d;
     max-width: 500px;
-
+    margin-left: 60px;
 }
 
 .container .box {
@@ -151,6 +151,7 @@
 .container .box:nth-child(1) .circle,
 .container .box:nth-child(1) .buy {
     background: #379bf7;
+    cursor: pointer;
 }
 
 

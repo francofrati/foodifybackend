@@ -12,7 +12,6 @@ const Shopping = () => {
 
     const { id } = useParams()
 
-    console.log('Params: ' + id)
 
     
     const cart = useSelector((state) => state.shopping)
@@ -39,8 +38,6 @@ const Shopping = () => {
         dispatch(fetchCreds(window.localStorage.getItem('token')))
       }
 
-    console.log('Usuario: ' + JSON.parse(JSON.stringify(info)))
-
     }, [])
 
 
@@ -65,6 +62,11 @@ const Shopping = () => {
     const handleClearCart = () => {
         dispatch(clearCart())
     }
+
+    useEffect(() => {
+      return() => localStorage.removeItem('cartItems')
+    }, [])
+    
 
     return(
         // <div>

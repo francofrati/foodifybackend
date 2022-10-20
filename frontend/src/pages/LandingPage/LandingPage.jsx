@@ -3,10 +3,15 @@ import { useNavigate } from "react-router-dom"
 import { jarallax, jarallaxElement } from 'jarallax'
 import Footer from '../Footer/Footer.jsx'
 import restaurant from '../../assets/restaurant.jpg'
+import McDonaldsPromo from '../../assets/McDonaldsPromo.jpg'
+import IndianPromo from '../../assets/IndianPromo.png'
+import FishPromo from '../../assets/FishPromo.jpg'
+import BangusPromo from '../../assets/BangusPromo.jpg'
 import './LandingPage.scss'
 import './Jarallax.css'
 import HeaderLandingPage from "./HeaderLandingPage.jsx"
 import {Slideshow, Slide, TextoSlide} from '../../components/Slider/Slider'
+import Logo from '../../components/Logo/Logo.jsx'
 
 const LandingPage = () => {
 
@@ -28,12 +33,11 @@ const LandingPage = () => {
 
     return (
         <div>
-        < HeaderLandingPage/>
         <div className="slidermargin">
                 <Slideshow controles={true} autoplay={true} velocidad="6000" intervalo="5000">
 				<Slide>
 					
-						<img src={restaurant} alt=""/>
+						<img src={McDonaldsPromo} alt=""/>
 					
 					<TextoSlide>
 					{/* <TextoSlide colorFondo="navy"> */}
@@ -42,7 +46,7 @@ const LandingPage = () => {
 				</Slide>
 				<Slide>
 					
-						<img src={restaurant} alt=""/>
+						<img src={BangusPromo} alt=""/>
 					
 					<TextoSlide>
 						<p>15% descuento</p>
@@ -50,7 +54,7 @@ const LandingPage = () => {
 				</Slide>
                 <Slide>
 					
-						<img src={restaurant} alt=""/>
+						<img src={FishPromo} alt=""/>
 					
 					<TextoSlide>
 						<p>15% descuento</p>
@@ -58,7 +62,7 @@ const LandingPage = () => {
 				</Slide>
                 <Slide>
 					
-						<img src={restaurant} alt=""/>
+						<img src={BangusPromo} alt=""/>
 					
 					<TextoSlide>
 						<p>15% descuento</p>

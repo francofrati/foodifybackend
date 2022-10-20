@@ -71,7 +71,7 @@ const Card = ({ id, title, image, price, rating, food }) => {
 				<div className={s.container}>
 					<div className={s.box}>
 						<h2 className={s.name}>{title}</h2>
-						<a href='#' className={s.buy}>Buy now</a>
+						<a className={s.buy} onClick={() => handleAddToCart(food)}>Buy now</a>
 						{/* <div className={s.circle}></div> */}
 						<img src={image} className={s.product} />
 						<h2 className={s.price}>Price: {price}$</h2>
@@ -79,11 +79,6 @@ const Card = ({ id, title, image, price, rating, food }) => {
 					</div>
 				</div>
 			</Tilt>
-			<figure onClick={() => handleAddToCart(food)} className={s.info2}>
-							<button>
-								ADD
-							</button>
-						</figure>
 		</div>
 
 	)

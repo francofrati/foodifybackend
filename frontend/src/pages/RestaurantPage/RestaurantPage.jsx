@@ -1,16 +1,18 @@
 import React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { fetchOneRestaurant} from '../../Redux/thunks/restaurantsThunks'
 import { cleanRestaurantState } from '../../Redux/slices/restaurantsSlice'
+import Swal from 'sweetalert2'
 
 import s from './RestaurantPage.module.css'
 import { fetchAllFoods, fetchFoodsRestaurant } from '../../Redux/thunks/foodsThunks'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import FoodList from '../../components/FoodList/FoodList'
 import { cleanFoodsState } from '../../Redux/slices/foodSlice'
+
 
 const RestaurantPage = () => {
     const navigate = useNavigate()
@@ -27,7 +29,11 @@ const RestaurantPage = () => {
         }
       }, [dispatch,foods]);
 
+
       
+
+
+
 
     useEffect(()=>{
         dispatch(fetchOneRestaurant(id))
@@ -67,6 +73,13 @@ const RestaurantPage = () => {
         
 
         <div className={s.container}>
+
+
+            
+            
+
+
+
             {restaurant&&<>
             <SearchBar />
             <div className={s.head}>

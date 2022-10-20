@@ -29,7 +29,7 @@ router.get('/user', async (req, res) => {
     const { userId } = req.query
 
     try {
-        const reviews = await Review.find({ user_id: userId })
+        const reviews = await Review.find({ user_id: userId }).populate('restaurant_id')
 
         return res.status(200).send({
             status: true,
@@ -49,7 +49,7 @@ router.get('/restaurant', async (req, res) => {
     const { restId } = req.query
 
     try {
-        const reviews = await Review.find({ restaurant_id: restId })
+        const reviews = await Review.find({ restaurant_id: restId }).populate('user_id')
 
         return res.status(200).send({
             status: true,

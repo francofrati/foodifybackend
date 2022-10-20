@@ -121,8 +121,8 @@ const payment = async (req, res) => {
     line_items,
     mode: "payment",
     customer: customer.id,
-    success_url: `https://server-om6g.onrender.com/checkout-success`,
-    cancel_url: `https://server-om6g.onrender.com/shopping`,
+    success_url: `https://foodifyhenry.vercel.app/checkout-success`,
+    cancel_url: `https://foodifyhenry.vercel.app/shopping`,
   });
 
   console.log('session',session)

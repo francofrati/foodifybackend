@@ -22,3 +22,5 @@ export const getFoodByRestaurantURL = (restId)=>`https://server-om6g.onrender.co
 export const foodUpdateRestaurant = `https://server-om6g.onrender.com/shop/food`
 export const getShopInfoURL = (restId) =>`https://server-om6g.onrender.com/shop/${restId}`
 export const reviewURL = `https://server-om6g.onrender.com/reviews`
+export const reviewRestURL = (restId)=> `https://server-om6g.onrender.com/reviews/restaurant?restId=${restId}`
+export const reviewUserURL = (userId)=> `https://server-om6g.onrender.com/reviews/user?userId=${userId}`

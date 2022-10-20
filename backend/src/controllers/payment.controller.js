@@ -139,7 +139,7 @@ const payment = async (req, res) => {
 const handleWebHook = async (request, response) => {
   const sig = request.headers['stripe-signature'];
 
-  console.log('El push ESTA FUNCIONANDO')
+  console.log('El push ESTA FUNCIONANDODFGHDFG')
 
   let event;
   let data;

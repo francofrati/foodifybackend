@@ -124,7 +124,7 @@ const payment = async (req, res) => {
     cancel_url: `https://server-om6g.onrender.com/shopping`,
   });
 
-  console.log(session)
+  console.log('session',session)
   res.status(200).send({ url: session.url });}
   catch(error){
     console.log(error)

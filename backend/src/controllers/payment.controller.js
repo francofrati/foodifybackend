@@ -124,6 +124,7 @@ const payment = async (req, res) => {
     success_url: `https://foodifyhenry.vercel.app/checkout-success`,
     cancel_url: `https://foodifyhenry.vercel.app/shopping`,
   });
+  //funciona
 
   console.log('session',session)
   res.status(200).send({ url: session.url });}

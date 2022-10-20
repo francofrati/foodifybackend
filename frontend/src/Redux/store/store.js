@@ -14,10 +14,7 @@ const store = configureStore({
         user: userReducer,
         restaurants: restaurantsReducer,
         orders: orderSlice,
-<<<<<<< HEAD
-=======
         shop: shopReducer
->>>>>>> 472ed4acf89b7d6a96cd760a8af9fd29d70f4bf2
     }
 })
 store.dispatch(getTotals())

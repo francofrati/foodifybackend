@@ -45,12 +45,10 @@ const createOrder = async (customer, data) => {
 
 
 const payment = async (req, res) => {
-  console.log('El push ESTA FUNCIONANDODFGHDFG')
+
 
   const restaurant_id_mongo = JSON.stringify(req.body.userId.restaurant_id_mongo)
   const user_id_mongo = JSON.stringify(req.body.userId.user_id_mongo)
-
-
 
   // const { } = cartItems
   try {
@@ -58,10 +56,8 @@ const payment = async (req, res) => {
 
     const customer = await stripe.customers.create({
       metadata: {
-        userId: req.body.userId.id,
         restaurant_id_mongo: req.body.userId.restaurant_id_mongo,
         user_id_mongo: req.body.userId.user_id_mongo
-        // cart: JSON.stringify(req.body.cartItems)
       },
     });
 

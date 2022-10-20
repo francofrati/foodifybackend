@@ -18,11 +18,11 @@ const CreateFood = ({ restId, setWhenFoodUpdate }) => {
 
     const { diets } = useSelector((state) => state.foods)
 
-    useEffect(() => {
-        if (diets.length === 0) {
-            dispatch(fetchAllDiets())
-        }
-    }, [dispatch, diets])
+    // useEffect(() => {
+    //     if (diets.length === 0) {
+    //         dispatch(fetchAllDiets())
+    //     }
+    // }, [dispatch, diets])
 
 
 

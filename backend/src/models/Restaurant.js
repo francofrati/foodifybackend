@@ -86,7 +86,11 @@ const restaurantSchema = new Schema(
         },
         verification_code:{
             type:String
-        }
+        },
+        reviews:[{
+            type: Schema.Types.ObjectId,
+            ref:'Review'
+        }]
     }
 )
 

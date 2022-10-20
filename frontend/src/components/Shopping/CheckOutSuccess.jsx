@@ -32,7 +32,7 @@ const CheckoutSuccess = () => {
       console.log('//////////////////////////////')
       axios({
         method: 'put',
-        url: `/user/${userNow.id}/${food.id}`
+        url: `https://server-om6g.onrender.com/user/${userNow.id}/${food.id}`
       })
     })
     dispatch(clearCart());

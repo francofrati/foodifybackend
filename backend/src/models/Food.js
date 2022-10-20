@@ -40,6 +40,9 @@ const foodSchema = new Schema(
         deleted: {
             type: Boolean,
             default: false
+        },
+        description:{
+            type:String,
         }
     },
     {

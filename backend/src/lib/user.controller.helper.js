@@ -19,15 +19,7 @@ const getByEmail = ({ users, email }) => {
 }
 
 const createToken = (user) => {
-    const { id, name, email, type } = user
-    console.log(id, type)
-    const payload = {
-        id,
-        name,
-        email,
-        type
-    }
-    return jwt.sign(payload, SECRET, { expiresIn: '3d' })
+    return jwt.sign(user, SECRET, { expiresIn: '3d' })
 }
 
 const validateToken = (token) => {

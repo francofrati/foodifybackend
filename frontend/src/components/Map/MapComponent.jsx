@@ -7,10 +7,12 @@ import { Marker, Popup, Map, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
-import {Icon} from 'leaflet'
+import { Icon } from 'leaflet'
+import { useDispatch } from 'react-redux'
+import { getCoordinates } from '../../Redux/slices/shopSlice'
 
 
-const MapComponent = ({markerState,setMarker}) => {
+const MapComponent = ({setCoordinates,coords}) => {
 
     const [position, setPosition] = useState([])
 
@@ -23,16 +25,25 @@ const MapComponent = ({markerState,setMarker}) => {
             })
     }, [])
 
+
+    const [markerPosition, setMarkerPosition] = useState(coords.length?coords:null)
+
+    useEffect(()=>{
+        setCoordinates(markerPosition)
+    },[markerPosition])
+
     const NewMarker = () => {
-        const [markerPosition, setMarkerPosition] = useState(null)
+        const dispatch = useDispatch()
         const map = useMapEvents({
             click(e) {
                 const lnlt = map.mouseEventToLatLng(e.originalEvent)
-                console.log(lnlt)
+                
                 setMarkerPosition([lnlt.lat, lnlt.lng])//setMarker de props
             },
 
         })
+
+        
 
         if (!markerPosition) {
             return null
@@ -51,7 +62,7 @@ const MapComponent = ({markerState,setMarker}) => {
         <div style={{ margin: 'auto', width: '800px', height: '600px' }}>
             {position.length &&
 
-                <MapContainer style={{ height: '100%', width: '100%' }} center={position} zoom={14} scrollWheelZoom={true} >
+                <MapContainer style={{ height: '100%', width: '100%' }} center={coords&&coords.length?coords:position} zoom={14} scrollWheelZoom={true} >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

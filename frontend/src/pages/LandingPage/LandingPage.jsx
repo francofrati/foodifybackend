@@ -11,11 +11,31 @@ import './LandingPage.scss'
 import './Jarallax.css'
 import HeaderLandingPage from "./HeaderLandingPage.jsx"
 import {Slideshow, Slide, TextoSlide} from '../../components/Slider/Slider'
+import { useDispatch, useSelector } from "react-redux"
+import { fetchCreds } from "../../Redux/thunks/userThunks"
 import Logo from '../../components/Logo/Logo.jsx'
 
 const LandingPage = () => {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { user } = useSelector((state) => state.user)
+
+    useEffect(() => {
+
+        if (user) {
+            if (user.type === 'restaurant') navigate('/negocios')
+        } else {
+            const token = window.localStorage.getItem('token')
+            if (token) {
+                dispatch(fetchCreds(token))
+            }
+        }
+    }, [user])
+
+    useEffect(()=>{
+        if(user && user.type==='restaurant')navigate('/negocios')
+    },[user])
 
     useEffect(() => {
 

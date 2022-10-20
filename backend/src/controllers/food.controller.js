@@ -105,8 +105,8 @@ const getFoods = async (req, res) => {
 
         if (diet) foods = getByDiet({ foods, diet });
 
-        
-        
+
+
         return res.status(200).json({ foods })
     } catch (error) {
         return res.status(500).json({ error: error })
@@ -159,36 +159,49 @@ const getFoodById = async (req, res) => {
 
 
 const postFood = async (req, res) => {
-    const food = req.body
-    const { idRestaurant } = req.params
-    if(!idRestaurant){
+    const { food, idRestaurant } = req.body
+    // const { idRestaurant } = req.params
+    console.log(food, idRestaurant)
+    if (!idRestaurant) {
         try {
             await Food.create(food)
 
             return res.status(200).json({ foodAdded: 'Food added successfully' })
         } catch (error) {
-            return res.status(200).json({ error: error})
+            return res.status(200).json({ error: error })
         }
     }
     else {
         try {
+            const restaurant = await Restaurant.findOne({ _id: idRestaurant })
+
+            if (!restaurant) throw Error(`El id: ${idRestaurant} no corresponde a ningun Negocio`)
+
+            console.log(restaurant._id)
+
             const foodAdded = await Food.create(food)
 
-            const foodRelation = await Food.findByIdAndUpdate(
+            await Food.findByIdAndUpdate(
                 foodAdded._id,
-                { $push: { seller: idRestaurant } },
+                { seller: restaurant._id },
                 { new: true, useFindAndModify: false }
             )
 
-            const restaurantUpdated = await Restaurant.findByIdAndUpdate(
+            await Restaurant.findByIdAndUpdate(
                 idRestaurant,
                 { $push: { selling_foods: foodAdded._id } },
                 { new: true, useFindAndModify: false }
             )
-            
-            return res.status(201).json({ foodAdded: "Food added and relationship" })
+
+            return res.status(201).json({ 
+                status:true,
+                msg:`El producto ${foodAdded.title} se agrego al negocio ${restaurant.name}`
+            })
         } catch (error) {
-            return res.status(500).json({ error: error })
+            return res.status(500).json({ 
+                status:false,
+                msg:error.message
+             })
         }
     }
 }
@@ -212,7 +225,7 @@ const putFood = async (req, res) => {
 const deleteFood = async (req, res) => {
     const { idFood } = req.params
     const { idRestaurant } = req.params
-    if(!idRestaurant){
+    if (!idRestaurant) {
         try {
             const foodDeleted = await Food.findByIdAndUpdate(idFood, {
                 deleted: true
@@ -222,10 +235,10 @@ const deleteFood = async (req, res) => {
             return res.status(500).json({ error: error })
         }
     }
-    else{
+    else {
         try {
             const foodDeleteRelation = await Food.findByIdAndUpdate(idFood, {
-                $pull:{
+                $pull: {
                     seller: idRestaurant
                 }
             })

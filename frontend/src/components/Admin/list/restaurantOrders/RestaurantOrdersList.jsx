@@ -8,25 +8,25 @@ import { ordersEdit, ordersFetch } from '../../../../Redux/slices/ordersSlice'
 import { fetchAllOrders } from '../../../../Redux/thunks/ordersThunks'
 import moment from 'moment';
 
-const RestaurantOrdersList = () =>{
-    
+const RestaurantOrdersList = () => {
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const { list } = useSelector((state) => state.orders)
 
-    
-    
+
+
     useEffect(() => {
-        if(list.length === 0){
-        dispatch(fetchAllOrders())
-    }
+        if (list.length === 0) {
+            dispatch(fetchAllOrders())
+        }
     }, [dispatch, list])
-  
 
-    
 
-    
+
+
+
 
     const rows = list && list.map(order => {
         return {
@@ -40,23 +40,23 @@ const RestaurantOrdersList = () =>{
 
     const columns = [
         { field: "id", headerName: "ID", width: 220 },
-        { field: "cName", headerName: "Name", width:120,},
-        { field: "amount", headerName: "Amount($)", width: 100},
-        { 
-            field: "dStatus", 
-            headerName: "Status", 
+        { field: "cName", headerName: "Name", width: 120, },
+        { field: "amount", headerName: "Amount($)", width: 100 },
+        {
+            field: "dStatus",
+            headerName: "Status",
             width: 130,
             renderCell: (params) => {
                 return <div>
                     {params.row.dStatus === "pending" ? <Pending>Pending</Pending> :
-                    params.row.dStatus === "dispatched" ? <Dispatched>Dispatched</Dispatched> : 
-                    params.row.dStatus === "delivered" ? <Delivered>Delivered</Delivered> : 
-                    ("error")
+                        params.row.dStatus === "dispatched" ? <Dispatched>Dispatched</Dispatched> :
+                            params.row.dStatus === "delivered" ? <Delivered>Delivered</Delivered> :
+                                ("error")
                     }
                 </div>
             }
-    },
-        { field: "date", headerName: "Date", width: 120},
+        },
+        { field: "date", headerName: "Date", width: 120 },
         {
             field: "actions",
             headerName: "Actions",
@@ -86,30 +86,30 @@ const RestaurantOrdersList = () =>{
     const handleOrderDispatch = (id) => {
         dispatch(
             ordersEdit({
-            id,
-            delivery_status: "dispatched"
-        }))
+                id,
+                delivery_status: "dispatched"
+            }))
     }
 
     const handleOrderDeliver = (id) => {
         dispatch(
             ordersEdit({
-            id,
-            delivery_status: "delivered"
-        }))
+                id,
+                delivery_status: "delivered"
+            }))
     }
 
     // const handleDelete = (id) => {
-        
+
     //     dispatch(booksDelete(id))
     // }
 
     return (
         <div style={{ height: 400, width: '100%' }}>
-        <br />
-        <br />
-        <br />
-        <br />
+            <br />
+            <br />
+            <br />
+            <br />
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -118,7 +118,7 @@ const RestaurantOrdersList = () =>{
                 checkboxSelection
                 disableSelectionOnClick
             />
-            
+
         </div>
     )
 }

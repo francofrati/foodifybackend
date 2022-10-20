@@ -72,16 +72,16 @@ const Register = ({toggle}) => {
     }
 
     return (
-        <div style={{ 'padding': '3rem' }}>
+        <div className={s.cont}>
             <div className={s.glass}>
                 <div className={s.title}>Registrate</div>
-                <h5 style={{ fontSize: '1rem' }}>Continuar con:</h5>
+                <div style={{ fontSize: '1rem' }}>Continuar con:</div>
 
                 <div className={s.btn_container}>
                     <button className={s.btn_google} style={{ backgroundColor: '#fb4343' }} onClick={googleLogin}><BsGoogle />GOOGLE</button>
                     <button className={s.btn_google} style={{ backgroundColor: '#3b5998' }}><BsFacebook />FACEBOOK</button>
                 </div>
-                <h5 style={{ fontSize: '1rem' }}>o</h5>
+                <div style={{ fontSize: '1rem' }}>o</div>
 
                 <Formik
                     style={{ width: '80%' }}

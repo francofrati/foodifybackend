@@ -2,6 +2,17 @@ const Order = require('../models/Order.js')
 const moment = require('moment')
 
 
+
+const postOrder = async(req,res)=>{
+
+ const order = await Order.create(req.body)
+
+ return res.status(200).send({
+  order
+ })
+
+}
+
 //GET ORDERS
 
 const ordenes = async (req, res) => {
@@ -199,5 +210,6 @@ module.exports = {
   getWeek,
   lastOrders,
   statusOrder,
-  ordersByUserId
+  ordersByUserId,
+  postOrder
 }

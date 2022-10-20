@@ -1,6 +1,6 @@
 const express = require("express")
 const Order = require('../models/Order.js')
-const { getOrders, ordenes, getIncome, getWeek, lastOrders, statusOrder, ordersByUserId } = require("../controllers/order.controller.js")
+const { getOrders, ordenes, getIncome, getWeek, lastOrders, statusOrder, ordersByUserId, postOrder } = require("../controllers/order.controller.js")
 
 const router = express.Router();
 
@@ -12,6 +12,7 @@ router.get("/income/stats", getIncome)
 router.get("/week-sales", getWeek)
 router.put("/:id", statusOrder)
 router.get('/:userId',ordersByUserId)
+router.post('/post',postOrder)
 
 router.get("/findOne/:id", async (req, res) => {
     try {

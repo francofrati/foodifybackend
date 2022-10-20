@@ -19,7 +19,12 @@ app.use(bodyParser.json({
 }))
 app.use(cookieParser())
 app.use(morgan('dev'))
-app.use(cors('*'))
+app.use(cors([
+  {
+      origin: "https://foodifys.vercel.app", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+      credentials: true
+  }
+]))
 app.use((req, res, next) => {
 
 

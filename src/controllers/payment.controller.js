@@ -141,7 +141,7 @@ const payment = async (req, res) => {
 
 const handleWebHook = async (request, response) => {
   const sig_header = request.headers['stripe-signature'];
-
+  const buf = await buffer(request)
   const payload = request.rawBody
 
   console.log('El push ESTA FUNCIONANDODFGHDFG')
@@ -152,7 +152,7 @@ const handleWebHook = async (request, response) => {
 
   if (endpointSecret) {
     try {
-      event = stripe.webhooks.constructEvent(payload, sig_header, endpoint_secret);
+      event = stripe.webhooks.constructEvent(buf, sig_header, endpoint_secret);
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error: ${err.message}`)

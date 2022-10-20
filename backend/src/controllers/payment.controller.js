@@ -120,8 +120,8 @@ const payment = async (req, res) => {
     line_items,
     mode: "payment",
     customer: customer.id,
-    success_url: `${process.env.CLIENT_URL}/checkout-success`,
-    cancel_url: `${process.env.CLIENT_URL}/shopping`,
+    success_url: `https://server-om6g.onrender.com/checkout-success`,
+    cancel_url: `https://server-om6g.onrender.com/shopping`,
   });
 
   console.log(session)

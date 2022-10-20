@@ -92,7 +92,7 @@ const CreateFood = ({ restId, setWhenFoodUpdate }) => {
                                 idRestaurant: restId
                             }
 
-                            axios.post(`https://foodifyhenry.vercel.app/foods/`, body)
+                            axios.post(`https://server-om6g.onrender.com/foods/`, body)
                                 .then(r => {
                                     if (r.data.foodAdded) {
                                         swal({

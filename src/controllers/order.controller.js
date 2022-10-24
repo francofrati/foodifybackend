@@ -204,18 +204,18 @@ const ordersByUserId = async (req, res) => {
   }
 }
 
-const postOrder = async (req, res) => {
-  const newOrder = req.body;
+// const postOrder = async (req, res) => {
+//   const newOrder = req.body;
 
-  try {
-    const order = new Order(newOrder);
-    console.log(order);
-    await order.save();
-    res.status(201).json(order);
-  } catch (err) {
-    next(err);
-  }
-}
+//   try {
+//     const order = new Order(newOrder);
+//     console.log(order);
+//     await order.save();
+//     res.status(201).json(order);
+//   } catch (err) {
+//     next(err);
+//   }
+// }
 
 
 module.exports = {

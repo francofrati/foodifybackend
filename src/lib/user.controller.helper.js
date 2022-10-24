@@ -46,55 +46,55 @@ const randomCode = () => {
     return code.join('')
 }
 //------------------------------------------------CONFIG DE MAILS----
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // upgrade later with STARTTLS
-    auth: {
-        user: "francofraticelli41@gmail.com",
-        pass: "ajnrwmsloiismihj",
-    },
-})
+// const transporter = nodemailer.createTransport({
+//     host: "smtp.gmail.com",
+//     port: 465,
+//     secure: true, // upgrade later with STARTTLS
+//     auth: {
+//         user: "francofraticelli41@gmail.com",
+//         pass: "ajnrwmsloiismihj",
+//     },
+// })
 
 
-transporter.verify()
-    .then(() => {
-        console.log('nodemailer is ready')
-    })
-//---------------------------------------------------FIN CONFIG DE MAILS----
+// transporter.verify()
+//     .then(() => {
+//         console.log('nodemailer is ready')
+//     })
+// //---------------------------------------------------FIN CONFIG DE MAILS----
 
-const sendEmail = async (email, firstName, link, code) => {
+// const sendEmail = async (email, firstName, link, code) => {
 
-    await transporter.sendMail({
-        from: '"😎Foodify😎" <francofraticelli41@gmail.com>', // sender address
-        to: email, // list of receivers
-        subject: "Bienvenido a Foodify", // Subject line
-        html: `<b>Hola ${firstName}👽 Gracias por registrarte. Ingresa este codigo:${code} en el siguiente link para confirmar tu cuenta: ${link} </b>`, // html body
-    })
+//     await transporter.sendMail({
+//         from: '"😎Foodify😎" <francofraticelli41@gmail.com>', // sender address
+//         to: email, // list of receivers
+//         subject: "Bienvenido a Foodify", // Subject line
+//         html: `<b>Hola ${firstName}👽 Gracias por registrarte. Ingresa este codigo:${code} en el siguiente link para confirmar tu cuenta: ${link} </b>`, // html body
+//     })
 
-}
+// }
 
-const sendVerificationEmail = async (email, name, link, code) => {
+// const sendVerificationEmail = async (email, name, link, code) => {
 
-    await transporter.sendMail({
-        from: '"😎Foodify😎" <francofraticelli41@gmail.com>', // sender address
-        to: email, // list of receivers
-        subject: "Verifica tu cuenta de Foodify", // Subject line
-        html: `<b>Hola ${name}👽,Para verificar tu cuenta ingresa este codigo:${code} en siguiente link: ${link} </b>`,
-    })
+//     await transporter.sendMail({
+//         from: '"😎Foodify😎" <francofraticelli41@gmail.com>', // sender address
+//         to: email, // list of receivers
+//         subject: "Verifica tu cuenta de Foodify", // Subject line
+//         html: `<b>Hola ${name}👽,Para verificar tu cuenta ingresa este codigo:${code} en siguiente link: ${link} </b>`,
+//     })
 
-}
+// }
 
-const sendVerificationEmailtoRestaurant = async (email, name, link, code) => {
+// const sendVerificationEmailtoRestaurant = async (email, name, link, code) => {
 
-    await transporter.sendMail({
-        from: '"😎Foodify😎" <francofraticelli41@gmail.com>', // sender address
-        to: email, // list of receivers
-        subject: "Bienvenidos a Foodify", // Subject line
-        html: `<b>Hola ${name}👽,Para verificar la cuenta de tu negocio ingresa este codigo:${code} en siguiente link: ${link} </b>`,
-    })
+//     await transporter.sendMail({
+//         from: '"😎Foodify😎" <francofraticelli41@gmail.com>', // sender address
+//         to: email, // list of receivers
+//         subject: "Bienvenidos a Foodify", // Subject line
+//         html: `<b>Hola ${name}👽,Para verificar la cuenta de tu negocio ingresa este codigo:${code} en siguiente link: ${link} </b>`,
+//     })
 
-}
+// }
 
 
 module.exports = {
@@ -102,8 +102,8 @@ module.exports = {
     validateToken,
     getByName,
     getByEmail,
-    sendEmail,
-    sendVerificationEmail,
+    // sendEmail,
+    // sendVerificationEmail,
     randomCode,
-    sendVerificationEmailtoRestaurant
+    // sendVerificationEmailtoRestaurant
 }

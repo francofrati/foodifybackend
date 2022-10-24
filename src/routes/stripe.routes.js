@@ -1,5 +1,8 @@
 const express = require("express")
 const Order = require('../models/Order.js')
+const { Router } = require('express') 
+
+const router = Router()
 
 router.post("/", async (req, res) => {
     const newOrder = new Order(req.body);

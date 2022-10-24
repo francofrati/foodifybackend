@@ -9,7 +9,7 @@ const {
     getByEmail,
     createToken,
     validateToken,
-    sendEmail,
+    // sendEmail,
     randomCode
 } = require("../lib/user.controller.helper");
 
@@ -151,7 +151,7 @@ const signUp = async (req, res) => {
 
         const temporalVerificationLink = `https://foodifys.vercel.app/verifyAccount/${newUser.id}`
 
-        await sendEmail(newUser.email, newUser.name, temporalVerificationLink, code)
+        // await sendEmail(newUser.email, newUser.name, temporalVerificationLink, code)
 
         return res.status(201).send({
             created_user: newUser,

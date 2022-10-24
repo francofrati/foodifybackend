@@ -2,7 +2,11 @@ const bcrypt = require('bcrypt')
 
 const Restaurant = require('../models/Restaurant')
 
-const { sendEmail, sendVerificationEmailtoRestaurant, randomCode, createToken } = require('../lib/user.controller.helper')
+const { 
+    // sendEmail, 
+    // sendVerificationEmailtoRestaurant, 
+    randomCode, 
+    createToken } = require('../lib/user.controller.helper')
 
 
 const verifyAndPreRegisterRestaurant = async (req, res) => {
@@ -65,7 +69,7 @@ const registerRestaurant = async (req, res) => {
 
         if (restaurant) {
             const temporalVerificationLink = `https://foodifys.vercel.app/negocios/verifyAccount/${restaurant.id}`
-            await sendVerificationEmailtoRestaurant(email, restaurant.name, temporalVerificationLink, code)
+            // await sendVerificationEmailtoRestaurant(email, restaurant.name, temporalVerificationLink, code)
             return res.status(200).send({
                 status: true,
                 path: `/negocios/verifyAccount/${restaurant.id}`,

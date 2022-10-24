@@ -9,8 +9,8 @@ const orderSchema = new Schema({
         type: Schema.Types.ObjectId,
         Ref: "Restaurant"
     },
-    user_id_stripe: { type: String, required: true },
-    user_name: { type: String, required: true },
+    user_id_stripe: { type: String },
+    user_name: { type: String },
     user_email: { type: String },
     user_phone: { type: String },
     // customerId: { type: String },

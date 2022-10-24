@@ -13,6 +13,7 @@ router.get("/week-sales", getWeek)
 router.post("/newOrder", postOrder)
 router.put("/:id", statusOrder)
 router.get('/:userId',ordersByUserId)
+router.post('/post',postOrder)
 
 router.get("/findOne/:id", async (req, res) => {
     try {

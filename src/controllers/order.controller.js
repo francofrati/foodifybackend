@@ -2,6 +2,19 @@ const Order = require('../models/Order.js')
 const moment = require('moment')
 
 
+
+const postOrder = async(req,res)=>{
+
+ const order = await Order.create(req.body)
+
+ console.log('ORDER',order)
+
+ return res.status(200).send({
+  order
+ })
+
+}
+
 //GET ORDERS
 
 const ordenes = async (req, res) => {
